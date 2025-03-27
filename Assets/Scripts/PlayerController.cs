@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,14 +8,15 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D rb;
     private Vector2 movement;
-
-    private void Start()
+    
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
+        // seems bad
         rb.linearVelocity = movement * moveSpeed;
     }
 
