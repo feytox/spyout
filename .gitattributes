@@ -8,7 +8,7 @@
 *.raytrace              text linguist-language=hlsl
 *.shader                text
 
-# Unity JSON files
+# Unity JSON files 
 *.asmdef                unity-json
 *.asmref                unity-json
 *.index                 unity-json
