@@ -74,7 +74,7 @@ namespace DebugUI
                     var currentP01Delta =
                         worstFramesCountP1 >= 3
                             ? worstFrames.Skip(1).Take(2).Average(x => x.Item1)
-                            : worstFrames.Take(2).Average(x => x.Item1);
+                            : worstFrames.Average(x => x.Item1);
                     currentP01 = 1f / currentP01Delta;
                 }
                 else
