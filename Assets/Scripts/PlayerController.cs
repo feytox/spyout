@@ -1,22 +1,20 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 1;
+    public float moveSpeed = 4;
     
     private Rigidbody2D rb;
     private Vector2 movement;
-    
-    void Start()
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        // seems bad
         rb.linearVelocity = movement * moveSpeed;
     }
 
