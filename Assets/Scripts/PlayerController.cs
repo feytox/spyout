@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // seems bad
         rb.linearVelocity = movement * moveSpeed;
     }
 
