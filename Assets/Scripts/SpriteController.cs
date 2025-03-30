@@ -1,11 +1,11 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class PentaSpriteController : MonoBehaviour
+public class SpriteController : MonoBehaviour
 {
-    private float offsetY = 0.35f;
+    public float offsetY = 0.35f;
     private Transform spriteTransform;
-    private PentaPlayerController playerController;
+    private PlayerController playerController;
     private Transform bodyTransform;
 
     void Awake()
@@ -15,7 +15,7 @@ public class PentaSpriteController : MonoBehaviour
 
     void Start()
     {
-        var playerManager = GetComponentInParent<PentaPlayerManager>();
+        var playerManager = GetComponentInParent<PlayerManager>();
         Debug.Assert(playerManager != null);
 
         playerController = playerManager.PlayerController;

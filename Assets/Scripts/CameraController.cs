@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class PentaCameraController : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     private float offsetY = 0.35f;
     private Transform cameraTransform;
@@ -14,7 +14,7 @@ public class PentaCameraController : MonoBehaviour
 
     void Start()
     {
-        var playerManager = GetComponentInParent<PentaPlayerManager>();
+        var playerManager = GetComponentInParent<PlayerManager>();
         Debug.Assert(playerManager != null);
 
         bodyTransform = playerManager.PlayerController.BodyTransform;

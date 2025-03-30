@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 using Utils;
 using Random = UnityEngine.Random;
 
-public class NPCController : MonoBehaviour
+public class DeprecatedNPCController : MonoBehaviour
 {
     public float moveSpeed = 4;
     public float moveMaxCooldown = 5; // in seconds // TODO: remove when obsolete

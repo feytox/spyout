@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8914362433756022087}
   - component: {fileID: 4783258684606870058}
   m_Layer: 0
-  m_Name: NPC
+  m_Name: DeprecatedNPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
