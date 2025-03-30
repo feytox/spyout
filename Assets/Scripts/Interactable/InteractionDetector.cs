@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Collider2D))]
 public class InteractionDetector : MonoBehaviour
 {
     private HashSet<IInteractable> interactablesInRange;
 
     void Start()
     {
+        var playerManager = GetComponentInParent<PlayerManager>();
+        Debug.Assert(playerManager != null);
+
+        playerManager.InteractAction.started += _ => OnInteract();
+        transform.SetParent(playerManager.PlayerController.transform, false);
         interactablesInRange = new HashSet<IInteractable>();
-    }
-    
-    public void HandleInteractInput(InputAction.CallbackContext ctx)
-    {
-        if (ctx.started)
-            OnInteract();
     }
 
     private void OnInteract()
@@ -28,7 +26,7 @@ public class InteractionDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out IInteractable interactable) && interactable.CanInteract()) 
+        if (other.TryGetComponent(out IInteractable interactable) && interactable.CanInteract())
             interactablesInRange.Add(interactable);
     }
 

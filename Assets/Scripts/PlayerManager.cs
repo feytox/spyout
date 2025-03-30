@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     public CameraController CameraController { get; private set; }
 
     public InputAction MoveAction { get; private set; }
+    public InputAction InteractAction { get; private set; }
 
     // default actions names should be reviewed
     // just move is enough for now
@@ -22,9 +23,11 @@ public class PlayerManager : MonoBehaviour
 
         var playerInput = GetComponent<PlayerInput>(); // not really need to assign anywhere else
         MoveAction = playerInput.actions["Move"];
+        InteractAction = playerInput.actions["Interact"];
 
         Debug.Assert(PlayerController != null);
         Debug.Assert(CameraController != null);
         Debug.Assert(MoveAction != null);
+        Debug.Assert(InteractAction != null);
     }
 }
