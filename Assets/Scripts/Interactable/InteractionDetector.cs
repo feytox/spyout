@@ -23,7 +23,7 @@ public class InteractionDetector : MonoBehaviour
     {
         var pos = transform.position;
         var interactable = interactablesInRange.MinBy(interactable => (interactable.Position - pos).sqrMagnitude);
-        interactable.Interact();
+        interactable?.Interact();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
