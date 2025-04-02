@@ -18,7 +18,7 @@ public class TileGrid
         this.tilesData = tilesData;
         Min = min;
         Max = max;
-        MaxTileCount = (max.x - min.x) * (max.y - min.y);
+        MaxTileCount = (max.x - min.x + 1) * (max.y - min.y + 1);
     }
 
     // maybe use 8 neighbours for diagonal movement

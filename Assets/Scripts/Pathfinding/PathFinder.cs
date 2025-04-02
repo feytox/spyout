@@ -43,7 +43,7 @@ public static class PathFinder
 
     private static int Heuristic(Vector3Int pos1, Vector3Int pos2)
     {
-        return Mathf.Abs(pos2.x - pos1.x) + Mathf.Abs(pos2.y - pos2.y);
+        return Mathf.Abs(pos2.x - pos1.x) + Mathf.Abs(pos2.y - pos1.y);
     }
 
     private class Location : FastPriorityQueueNode
