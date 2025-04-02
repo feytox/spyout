@@ -1,33 +1,45 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(Grid))]
 public class GridController : MonoBehaviour
 {
-    public Tilemap[] ObstacleTilemaps;
-    public GameObject TestStart;
-    public GameObject TestEnd;
+    private static GridController singleton;
     
+    public Tilemap[] obstacleTilemaps;
+
+    private Grid grid;
     private TileGrid tileGrid;
 
-    void Start()
+    private void Awake()
     {
+        Debug.Assert(singleton == null, $"{gameObject.name} tried to awake {nameof(GridController)} second time.");
+        singleton = this;
+        
+        grid = GetComponent<Grid>();
         RefreshGrid();
-        Debug.Log(tileGrid);
-        
-        Debug.Log(TestStart.transform.position);
-        
-        var start = ObstacleTilemaps[0].WorldToCell(TestStart.transform.position);
-        var end = ObstacleTilemaps[0].WorldToCell(TestEnd.transform.position);
-        
-        foreach (var pos in PathFinder.FindAStarPath(tileGrid, start, end))
-        {
-            Debug.Log(pos);
-        }    
     }
 
     private void RefreshGrid() // maybe add refreshing after tile change
     {
-        tileGrid = TileGrid.Parse(ObstacleTilemaps);
+        Debug.Assert(obstacleTilemaps.Length != 0);
+        tileGrid = TileGrid.Parse(obstacleTilemaps);
+    }
+
+    public static IEnumerable<Vector3Int> FindPath(Vector3 startPos, Vector3 endPos)
+    {
+        var instance = GetInstance();
+        var start = instance.grid.WorldToCell(startPos);
+        var end = instance.grid.WorldToCell(endPos);
+        return PathFinder.FindAStarPath(instance.tileGrid, start, end);
+    }
+
+    private static GridController GetInstance()
+    {
+        Debug.Assert(singleton != null, $"Tried to access {nameof(GridController)} before it was initialized.");
+        return singleton;
     }
 }

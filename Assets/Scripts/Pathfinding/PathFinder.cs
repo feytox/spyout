@@ -8,16 +8,16 @@ public static class PathFinder
     public static IEnumerable<Vector3Int> FindAStarPath(TileGrid grid, Vector3Int start, Vector3Int end)
     {
         var frontier = new FastPriorityQueue<Location>(grid.MaxTileCount);
-        frontier.Enqueue(new Location(start), 0);
-        var cameFrom = new Dictionary<Vector3Int, Vector3Int>();
-        var costSoFar = new Dictionary<Vector3Int, int> { {start, 0}};
+        frontier.Enqueue(new Location(end), 0); // no need to reverse if we start at the end
+        var cameFrom = new Dictionary<Vector3Int, Vector3Int?> {{end, null}};
+        var costSoFar = new Dictionary<Vector3Int, int> { {end, 0}};
 
         while (frontier.Count != 0)
         {
             var current = frontier.Dequeue().Pos;
             var currentCost = costSoFar[current];
             
-            if (current == end)
+            if (current == start)
                 break;
             
             foreach (var next in grid.Get4Neighbours(current))
@@ -26,18 +26,18 @@ public static class PathFinder
                 if (costSoFar.TryGetValue(next, out var cost) && newCost >= cost)
                     continue;
 
-                var priority = newCost + Heuristic(end, next);
+                var priority = newCost + Heuristic(start, next);
                 frontier.Enqueue(new Location(next), priority);
                 cameFrom[next] = current;
                 costSoFar[next] = newCost;
             }
         }
 
-        var pos = end;
-        while (pos != start)
+        Vector3Int? pos = start;
+        while (pos is not null)
         {
-            yield return pos;
-            pos = cameFrom[pos];
+            yield return pos.Value;
+            pos = cameFrom[pos.Value];
         }
     }
 
