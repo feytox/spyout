@@ -1,0 +1,12 @@
+using UnityEngine;
+
+public class CLASSNAME : MonoBehaviour
+{
+    // void Awake() { }
+    // void OnEnable() { }
+    // void OnDisable() { }
+    // void Start() { }
+    // void FixedUpdate() { }
+    // void Update() { }
+    // void LateUpdate() { }
+}
