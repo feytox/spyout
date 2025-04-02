@@ -11,4 +11,9 @@ public static class Vector3IntExtensions
     {
         return new Vector3Int(Mathf.Max(vec.x, other.x), Mathf.Max(vec.y, other.y), Mathf.Max(vec.z, other.z));
     }
+
+    public static Vector2 ToCenterPos(this Vector3Int pos)
+    {
+        return new Vector2(pos.x + 0.5f, pos.y + 0.5f);
+    }
 }
