@@ -4,7 +4,7 @@ using UnityEngine;
 public class CLASSNAME : MonoBehaviour
 {
     private int _field = 1000;
-    public static int _Field
+    public static int Field
     {
         get => GetInstance()._field;
         set => GetInstance()._field = value;
