@@ -5,19 +5,50 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Grid
+public class TileGrid
 {
     // maybe use Vector2Int, idk
     public Vector3Int Min { get; }
     public Vector3Int Max { get; }
+    public int MaxTileCount { get; }
 
     private readonly Dictionary<Vector3Int, ITileInfo> tilesData;
 
-    private Grid(Dictionary<Vector3Int, ITileInfo> tilesData, Vector3Int min, Vector3Int max)
+    private TileGrid(Dictionary<Vector3Int, ITileInfo> tilesData, Vector3Int min, Vector3Int max)
     {
         this.tilesData = tilesData;
         Min = min;
         Max = max;
+        MaxTileCount = (max.x - min.x) * (max.y - min.y);
+    }
+
+    // maybe use 8 neighbours for diagonal movement
+    public IEnumerable<Vector3Int> Get4Neighbours(Vector3Int pos)
+    {
+        for (var dx = -1; dx <= 1; dx++)
+        for (var dy = -1; dy <= 1; dy++)
+        {
+            if (!(dx == 0 ^ dy == 0))
+                continue;
+            
+            var neighbourPos = new Vector3Int(pos.x + dx, pos.y + dy, pos.z);
+            if (IsWalkable(neighbourPos))
+                yield return neighbourPos;
+        }
+    }
+
+    private bool IsWalkable(Vector3Int pos)
+    {
+        if (tilesData.TryGetValue(pos, out var info))
+            return info.Walkable;
+
+        return pos.x >= Min.x && pos.y >= Min.y && pos.x <= Max.x && pos.y <= Max.y;
+    }
+
+    // maybe deprecate costs, idk
+    public int GetCost(Vector3Int pos)
+    {
+        return tilesData.TryGetValue(pos, out var info) ? info.Cost : 1;
     }
 
     // for tests
@@ -28,7 +59,7 @@ public class Grid
         return $"min: {Min} max: {Max} count: {count} non-walkable: {nonWalkable}";
     }
 
-    public static Grid Parse(Tilemap[] tilemaps)
+    public static TileGrid Parse(Tilemap[] tilemaps)
     {
         var tilesData = new Dictionary<Vector3Int, ITileInfo>();
         var min = new Vector3Int(int.MaxValue, int.MaxValue, int.MaxValue);
@@ -42,22 +73,22 @@ public class Grid
             ParseTilemap(tilesData, tilemap);
         }
 
-        return new Grid(tilesData, min, max);
+        return new TileGrid(tilesData, min, max);
     }
 
     private static void ParseTilemap(Dictionary<Vector3Int, ITileInfo> tilesData, Tilemap tilemap)
     {
-        var forceNotWalkable = !CanWalkThrough(tilemap.gameObject);
+        var tilemapWalkable = CanWalkThrough(tilemap.gameObject);
 
         var bounds = tilemap.cellBounds;
-        foreach (var pos in bounds.allPositionsWithin) // maybe use tilemap.GetTilesBlock(), but it hasn't poses
+        foreach (var pos in bounds.allPositionsWithin) // TODO: maybe use tilemap.GetTilesBlock()
         {
             var tile = tilemap.GetTile(pos);
             if (tile == null)
                 continue;
 
-            var walkable = !forceNotWalkable && CanWalkThrough(tilemap.GetInstantiatedObject(pos));
-            tilesData[pos] = new SimpleTileInfo(walkable, 1); // STOPSHIP: fix double poses duplication problem
+            var walkable = tilemapWalkable && CanWalkThrough(tilemap.GetInstantiatedObject(pos));
+            tilesData[pos] = new SimpleTileInfo(walkable, 1);
         }
     }
 
