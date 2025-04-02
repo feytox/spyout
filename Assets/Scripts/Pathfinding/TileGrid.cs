@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -30,7 +29,7 @@ public class TileGrid
         {
             if (!(dx == 0 ^ dy == 0))
                 continue;
-            
+
             var neighbourPos = new Vector3Int(pos.x + dx, pos.y + dy, pos.z);
             if (IsWalkable(neighbourPos))
                 yield return neighbourPos;

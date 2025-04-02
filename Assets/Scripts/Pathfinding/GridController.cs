@@ -1,14 +1,12 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Grid))]
 public class GridController : MonoBehaviour
 {
     private static GridController singleton;
-    
+
     public Tilemap[] obstacleTilemaps;
 
     private Grid grid;
@@ -18,7 +16,7 @@ public class GridController : MonoBehaviour
     {
         Debug.Assert(singleton == null, $"{gameObject.name} tried to awake {nameof(GridController)} second time.");
         singleton = this;
-        
+
         grid = GetComponent<Grid>();
         RefreshGrid();
     }

@@ -9,17 +9,17 @@ public static class PathFinder
     {
         var frontier = new FastPriorityQueue<Location>(grid.MaxTileCount);
         frontier.Enqueue(new Location(end), 0); // no need to reverse if we start at the end
-        var cameFrom = new Dictionary<Vector3Int, Vector3Int?> {{end, null}};
-        var costSoFar = new Dictionary<Vector3Int, int> { {end, 0}};
+        var cameFrom = new Dictionary<Vector3Int, Vector3Int?> { { end, null } };
+        var costSoFar = new Dictionary<Vector3Int, int> { { end, 0 } };
 
         while (frontier.Count != 0)
         {
             var current = frontier.Dequeue().Pos;
             var currentCost = costSoFar[current];
-            
+
             if (current == start)
                 break;
-            
+
             foreach (var next in grid.Get4Neighbours(current))
             {
                 var newCost = currentCost + grid.GetCost(next);
@@ -45,7 +45,7 @@ public static class PathFinder
     {
         return Mathf.Abs(pos2.x - pos1.x) + Mathf.Abs(pos2.y - pos2.y);
     }
-    
+
     private class Location : FastPriorityQueueNode
     {
         public Vector3Int Pos { get; }
