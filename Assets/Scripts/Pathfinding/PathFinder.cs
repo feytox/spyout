@@ -9,35 +9,39 @@ public static class PathFinder
     {
         var frontier = new FastPriorityQueue<Location>(grid.MaxTileCount);
         frontier.Enqueue(new Location(end), 0); // no need to reverse if we start at the end
-        var cameFrom = new Dictionary<Vector3Int, Vector3Int?> { { end, null } };
-        var costSoFar = new Dictionary<Vector3Int, int> { { end, 0 } };
+        var track = new Dictionary<Vector3Int, PointData> { { end, new PointData(null, 0) } };
 
         while (frontier.Count != 0)
         {
             var current = frontier.Dequeue().Pos;
-            var currentCost = costSoFar[current];
+            var currentCost = track[current].CostSoFar;
 
             if (current == start)
                 break;
 
-            foreach (var next in grid.Get4Neighbours(current))
-            {
-                var newCost = currentCost + grid.GetCost(next);
-                if (costSoFar.TryGetValue(next, out var cost) && newCost >= cost)
-                    continue;
-
-                var priority = newCost + Heuristic(start, next);
-                frontier.Enqueue(new Location(next), priority);
-                cameFrom[next] = current;
-                costSoFar[next] = newCost;
-            }
+            ProcessNeighbours(current, currentCost, start, frontier, grid, track);
         }
 
         Vector3Int? pos = start;
         while (pos is not null)
         {
             yield return pos.Value;
-            pos = cameFrom[pos.Value];
+            pos = track[pos.Value].CameFrom;
+        }
+    }
+
+    private static void ProcessNeighbours(Vector3Int current, int currentCost, Vector3Int start,
+        FastPriorityQueue<Location> frontier, TileGrid grid, Dictionary<Vector3Int, PointData> track)
+    {
+        foreach (var next in grid.Get4Neighbours(current))
+        {
+            var newCost = currentCost + grid.GetCost(next);
+            if (track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
+                continue;
+
+            var priority = newCost + Heuristic(start, next);
+            frontier.Enqueue(new Location(next), priority);
+            track[next] = new PointData(current, newCost);
         }
     }
 
@@ -51,5 +55,17 @@ public static class PathFinder
         public Vector3Int Pos { get; }
 
         public Location(Vector3Int pos) => Pos = pos;
+    }
+
+    private struct PointData
+    {
+        public Vector3Int? CameFrom { get; }
+        public int CostSoFar { get; }
+
+        public PointData(Vector3Int? cameFrom, int costSoFar)
+        {
+            CameFrom = cameFrom;
+            CostSoFar = costSoFar;
+        }
     }
 }

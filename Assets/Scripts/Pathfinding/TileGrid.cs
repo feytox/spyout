@@ -86,8 +86,9 @@ public class TileGrid
             if (tile == null)
                 continue;
 
-            var walkable = tilemapWalkable && CanWalkThrough(tilemap.GetInstantiatedObject(pos));
-            tilesData[pos] = new SimpleTileInfo(walkable, 1);
+            tilesData[pos] = tilemapWalkable
+                ? new TileInfo(1, () => CanWalkThrough(tilemap.GetInstantiatedObject(pos)))
+                : new SimpleTileInfo(1, false);
         }
     }
 
