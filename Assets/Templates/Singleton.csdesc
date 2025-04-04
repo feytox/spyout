@@ -1,0 +1,65 @@
+using UnityEngine;
+
+// Template with highly described all inner logic and decisions in comments
+// Replace all occurrences of "CLASSNAME" with your class name
+
+// disallows accidental multiple components in one object
+[DisallowMultipleComponent]
+public class CLASSNAME : MonoBehaviour
+{
+    /* Fields */
+    private int _field = 1000; // private
+
+    // no static privates, cuz its just unnecessary
+
+    // no public non-static, cuz singleton is static itself
+
+    private int _field = 1000; // public static
+    public static int Field // Note: inlined by default in release
+    {
+        get => GetInstance()._field;
+        set => GetInstance()._field = value;
+    }
+
+    /* Methods */
+
+    private void Method() { } // private
+
+    // no static privates, cuz its just unnecessary
+
+    // no public non-static, cuz singleton is static itself
+
+    public static void Method() // public static
+    {
+        var instance = GetInstance(); // recommended for readability
+        // Your code goes here
+    }
+
+    void Awake()
+    {
+        Debug.Assert(
+            _singleton == null,
+            $"{gameObject.name} tried to awake {nameof(CLASSNAME)} second time!"
+        );
+        _singleton = this;
+        // DontDestroyOnLoad(gameObject); // Optional
+
+        // Your code goes here
+    }
+
+    /* Singleton logic */
+
+    // turns null when destroyed
+    // compatible with domain reload disabled
+    // so replacing with bool in any case just harmful
+    private static CLASSNAME _singleton;
+
+    private static CLASSNAME GetInstance() // optimized out in release
+    {
+        Debug.Assert(
+            _singleton != null,
+            $"Tried to access {nameof(CLASSNAME)} before it was initialized!"
+        );
+        return _singleton;
+    }
+}

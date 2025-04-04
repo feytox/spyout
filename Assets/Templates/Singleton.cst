@@ -1,0 +1,41 @@
+using UnityEngine;
+
+[DisallowMultipleComponent]
+public class CLASSNAME : MonoBehaviour
+{
+    private int _field = 1000;
+    public static int Field
+    {
+        get => GetInstance()._field;
+        set => GetInstance()._field = value;
+    }
+
+    public static void Method()
+    {
+        var instance = GetInstance();
+        // Your code goes here
+    }
+
+    void Awake()
+    {
+        Debug.Assert(
+            _singleton == null,
+            $"{gameObject.name} tried to awake {nameof(CLASSNAME)} second time!"
+        );
+        _singleton = this;
+        // DontDestroyOnLoad(gameObject);
+
+        // Your code goes here
+    }
+
+    private static CLASSNAME _singleton;
+
+    private static CLASSNAME GetInstance()
+    {
+        Debug.Assert(
+            _singleton != null,
+            $"Tried to access {nameof(CLASSNAME)} before it was initialized!"
+        );
+        return _singleton;
+    }
+}
