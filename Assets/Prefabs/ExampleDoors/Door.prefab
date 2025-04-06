@@ -285,8 +285,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorType: 0
-  DoorSprite: {fileID: 4185874576750595480}
+  DoorRenderer: {fileID: 4185874576750595480}
   DoorBody: {fileID: 2986664655590539460}
+  OpenedSprite: {fileID: -2869115396899081085, guid: 73d3879cbd6583f4cab12131a8240e72, type: 3}
 --- !u!1 &5795821955115155162
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -5,54 +6,59 @@ using UnityEngine;
 public class DoorDetector : MonoBehaviour
 {
     public DoorType DoorType;
-    public SpriteRenderer DoorSprite;
+    public SpriteRenderer DoorRenderer;
     public Rigidbody2D DoorBody;
-
-    private int _openedTimes;
+    public Sprite OpenedSprite;
+    
+    private Sprite _closedSprite;
+    private HashSet<int> _visitors;
     
     void Start()
     {
-        Debug.Assert(DoorSprite != null);
+        Debug.Assert(DoorRenderer != null);
         Debug.Assert(DoorBody != null);
+        Debug.Assert(OpenedSprite != null);
+        
+        _closedSprite = DoorRenderer.sprite;
+        _visitors = new HashSet<int>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"enter");
         if (!other.TryGetComponent(out IPermission permission))
             return;
-        
+
+        Debug.Log(DoorType); // TODO: remove logging
         if (permission.CanOpenDoor(DoorType))
-            Open();
+            Open(other);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log($"exit");
         if (!other.TryGetComponent(out IPermission permission))
             return;
-        
+
         if (permission.CanOpenDoor(DoorType))
-            Close();
+            Close(other);
     }
 
-    private void Open()
+    private void Open(Collider2D obj)
     {
-        Debug.Log($"open {_openedTimes + 1} {transform.position}");
-        if (++_openedTimes != 1) 
+        var added = _visitors.Add(obj.GetInstanceID());
+        if (_visitors.Count != 1 || !added)
             return;
-        
-        DoorSprite.enabled = false;
+
         DoorBody.simulated = false;
+        DoorRenderer.sprite = OpenedSprite;
     }
 
-    private void Close()
+    private void Close(Collider2D obj)
     {
-        Debug.Log($"close {_openedTimes - 1} {transform.position}");
-        if (--_openedTimes != 0) 
+        var removed = _visitors.Remove(obj.GetInstanceID());
+        if (_visitors.Count != 0 || !removed)
             return;
-        
-        DoorSprite.enabled = true;
+
         DoorBody.simulated = true;
+        DoorRenderer.sprite = _closedSprite;
     }
 }
