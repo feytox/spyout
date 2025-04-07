@@ -25,7 +25,7 @@ public class DoorDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out IPermission permission))
+        if (!other.TryGetComponent(out IDoorPermission permission))
             return;
 
         Debug.Log(DoorType); // TODO: remove logging
@@ -35,7 +35,7 @@ public class DoorDetector : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out IPermission permission))
+        if (!other.TryGetComponent(out IDoorPermission permission))
             return;
 
         if (permission.CanOpenDoor(DoorType))
