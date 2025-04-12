@@ -37,4 +37,24 @@ public interface IInventory
     /// Предыдущий предмет, находившийся в указанном слоте, или <c>null</c>, если слот был пуст.
     /// </returns>
     public ItemStack? PopStack(int slot) => SetStack(null, slot);
+    
+    /// <summary>
+    /// Пытается вставить предмет в первый доступный слот.
+    /// </summary>
+    /// <param name="stack">Предмет, который нужно вставить.</param>
+    /// <returns>
+    /// <c>true</c>, если предмет был успешно вставлен; иначе <c>false</c>.
+    /// </returns>
+    public bool TryAppendStack(ItemStack stack);
+    
+    /// <summary>
+    /// Пытается вставить предмет в первый доступный слот в указанном диапазоне.
+    /// </summary>
+    /// <param name="stack">Предмет, который нужно вставить.</param>
+    /// <param name="inclusiveStart">Начальный индекс диапазона (включительно).</param>
+    /// <param name="exclusiveEnd">Конечный индекс диапазона (исключительно).</param>
+    /// <returns>
+    /// <c>true</c>, если предмет был успешно вставлен; иначе <c>false</c>.
+    /// </returns>
+    public bool TryInsertStack(ItemStack stack, int inclusiveStart, int exclusiveEnd);
 }
