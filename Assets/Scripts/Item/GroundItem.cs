@@ -8,7 +8,12 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public abstract class GroundItem : CustomSpriteComponent, ISingletonInventory
 {
-    public virtual ItemStack? Item { get; }
+    public abstract ItemStack? Item { get; set; }
     
     protected override Sprite? Sprite => Item?.Item.Sprite;
+
+    public bool TryPickup(IInventory inventory)
+    {
+        return Item is not null && inventory.TryAppendStack(Item);
+    }
 }

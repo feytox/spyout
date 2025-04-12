@@ -20,26 +20,24 @@ public interface IImplementedInventory : IInventory
         return prevStack;
     }
     
-    /// <summary>
-    /// Пытается вставить предмет в первый доступный слот в указанном диапазоне.
-    /// </summary>
-    /// <param name="stack">Предмет, который нужно вставить.</param>
-    /// <param name="inclusiveStart">Начальный индекс диапазона (включительно).</param>
-    /// <param name="exclusiveEnd">Конечный индекс диапазона (исключительно).</param>
-    /// <returns>
-    /// <c>true</c>, если предмет был успешно вставлен; иначе <c>false</c>.
-    /// </returns>
+    /// <inheritdoc />
     /// <exception cref="IndexOutOfRangeException">
     /// Выбрасывается, если указанный диапазон выходит за пределы допустимых значений.
     /// </exception>
-    public bool TryInsertStack(ItemStack? stack, int inclusiveStart, int exclusiveEnd)
+    bool IInventory.TryAppendStack(ItemStack stack) => TryInsertStack(stack, 0, Size);
+
+    /// <inheritdoc />
+    /// <exception cref="IndexOutOfRangeException">
+    /// Выбрасывается, если указанный диапазон выходит за пределы допустимых значений.
+    /// </exception>
+    bool IInventory.TryInsertStack(ItemStack stack, int inclusiveStart, int exclusiveEnd)
     {
         if (inclusiveStart < 0 || inclusiveStart >= exclusiveEnd || exclusiveEnd > Size)
             throw new IndexOutOfRangeException();
         
         for (var i = inclusiveStart; i < exclusiveEnd; i++)
         {
-            if (Items[i] is not null)
+            if (this[i] is not null)
                 continue;
 
             SetStack(stack, i);
