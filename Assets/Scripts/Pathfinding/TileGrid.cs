@@ -6,19 +6,18 @@ using UnityEngine.Tilemaps;
 
 public class TileGrid
 {
+    // maybe deprecate
+    private readonly Vector3Int _min;
+    private readonly Vector3Int _max; 
+    
     // maybe use Vector2Int, idk
-    public Vector3Int Min { get; }
-    public Vector3Int Max { get; }
-    public int MaxTileCount { get; }
-
-    private readonly Dictionary<Vector3Int, ITileInfo> tilesData;
+    private readonly Dictionary<Vector3Int, ITileInfo> _tilesData;
 
     private TileGrid(Dictionary<Vector3Int, ITileInfo> tilesData, Vector3Int min, Vector3Int max)
     {
-        this.tilesData = tilesData;
-        Min = min;
-        Max = max;
-        MaxTileCount = (max.x - min.x + 1) * (max.y - min.y + 1);
+        _tilesData = tilesData;
+        _min = min;
+        _max = max;
     }
 
     // maybe use 8 neighbours for diagonal movement
@@ -38,24 +37,24 @@ public class TileGrid
 
     private bool IsWalkable(Vector3Int pos)
     {
-        if (tilesData.TryGetValue(pos, out var info))
+        if (_tilesData.TryGetValue(pos, out var info))
             return info.Walkable;
 
-        return pos.x >= Min.x && pos.y >= Min.y && pos.x <= Max.x && pos.y <= Max.y;
+        return pos.x >= _min.x && pos.y >= _min.y && pos.x <= _max.x && pos.y <= _max.y;
     }
 
     // maybe deprecate costs, idk
     public int GetCost(Vector3Int pos)
     {
-        return tilesData.TryGetValue(pos, out var info) ? info.Cost : 1;
+        return _tilesData.TryGetValue(pos, out var info) ? info.Cost : 1;
     }
 
     // for tests
     public override string ToString()
     {
-        var count = tilesData.Count;
-        var nonWalkable = tilesData.Values.Count(info => !info.Walkable);
-        return $"min: {Min} max: {Max} count: {count} non-walkable: {nonWalkable}";
+        var count = _tilesData.Count;
+        var nonWalkable = _tilesData.Values.Count(info => !info.Walkable);
+        return $"min: {_min} max: {_max} count: {count} non-walkable: {nonWalkable}";
     }
 
     public static TileGrid Parse(Tilemap[] tilemaps)

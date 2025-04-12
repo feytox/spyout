@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Priority_Queue;
 using UnityEngine;
 
 public static class PathFinder
@@ -7,13 +6,13 @@ public static class PathFinder
     // https://www.redblobgames.com/pathfinding/a-star/introduction.html
     public static IEnumerable<Vector3Int> FindAStarPath(TileGrid grid, Vector3Int start, Vector3Int end)
     {
-        var frontier = new FastPriorityQueue<Location>(grid.MaxTileCount);
-        frontier.Enqueue(new Location(end), 0); // no need to reverse if we start at the end
+        var frontier = new PriorityQueue<Vector3Int, int>();
+        frontier.Enqueue(end, 0); // no need to reverse if we start at the end
         var track = new Dictionary<Vector3Int, PointData> { { end, new PointData(null, 0) } };
 
         while (frontier.Count != 0)
         {
-            var current = frontier.Dequeue().Pos;
+            var current = frontier.Dequeue();
             var currentCost = track[current].CostSoFar;
 
             if (current == start)
@@ -31,7 +30,7 @@ public static class PathFinder
     }
 
     private static void ProcessNeighbours(Vector3Int current, int currentCost, Vector3Int start,
-        FastPriorityQueue<Location> frontier, TileGrid grid, Dictionary<Vector3Int, PointData> track)
+        PriorityQueue<Vector3Int, int> frontier, TileGrid grid, Dictionary<Vector3Int, PointData> track)
     {
         foreach (var next in grid.Get4Neighbours(current))
         {
@@ -40,7 +39,7 @@ public static class PathFinder
                 continue;
 
             var priority = newCost + Heuristic(start, next);
-            frontier.Enqueue(new Location(next), priority);
+            frontier.Enqueue(next, priority);
             track[next] = new PointData(current, newCost);
         }
     }
@@ -50,12 +49,6 @@ public static class PathFinder
         return Mathf.Abs(pos2.x - pos1.x) + Mathf.Abs(pos2.y - pos1.y);
     }
 
-    private class Location : FastPriorityQueueNode
-    {
-        public Vector3Int Pos { get; }
-
-        public Location(Vector3Int pos) => Pos = pos;
-    }
 
     private struct PointData
     {
