@@ -1,6 +1,6 @@
+#nullable enable
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -92,9 +92,9 @@ public class TileGrid
         }
     }
 
-    private static bool CanWalkThrough([CanBeNull] GameObject gameObject)
+    private static bool CanWalkThrough(GameObject? gameObject)
     {
-        // TODO: maybe change
+        // TODO: change after merging with doors
         return gameObject == null || !gameObject.TryGetComponent(out Rigidbody2D rigidbody) || !rigidbody.simulated;
     }
 }
