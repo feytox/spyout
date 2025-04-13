@@ -7,28 +7,25 @@ public class DoorDetector : MonoBehaviour
 {
     public DoorType DoorType;
     public SpriteRenderer DoorRenderer;
-    public Rigidbody2D DoorBody;
+    public Collider2D DoorCollider;
     public Sprite OpenedSprite;
     
+    private readonly HashSet<int> _visitors = new();
     private Sprite _closedSprite;
-    private HashSet<int> _visitors;
     
     void Start()
     {
         Debug.Assert(DoorRenderer != null);
-        Debug.Assert(DoorBody != null);
         Debug.Assert(OpenedSprite != null);
         
         _closedSprite = DoorRenderer.sprite;
-        _visitors = new HashSet<int>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.TryGetComponent(out IDoorPermission permission))
             return;
-
-        Debug.Log(DoorType); // TODO: remove logging
+        
         if (permission.CanOpenDoor(DoorType))
             Open(other);
     }
@@ -48,7 +45,7 @@ public class DoorDetector : MonoBehaviour
         if (_visitors.Count != 1 || !added)
             return;
 
-        DoorBody.simulated = false;
+        DoorCollider.enabled = false;
         DoorRenderer.sprite = OpenedSprite;
     }
 
@@ -58,7 +55,7 @@ public class DoorDetector : MonoBehaviour
         if (_visitors.Count != 0 || !removed)
             return;
 
-        DoorBody.simulated = true;
+        DoorCollider.enabled = true;
         DoorRenderer.sprite = _closedSprite;
     }
 }

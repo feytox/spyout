@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Синхронизирует положение объекта с родителем.
+/// </summary>
 [DisallowMultipleComponent]
 public class ParentPositionSync : MonoBehaviour
 {
