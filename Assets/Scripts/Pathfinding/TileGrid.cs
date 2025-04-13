@@ -6,7 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class TileGrid
 {
-    // maybe deprecate
+    private static readonly (int, int)[] CellNeighbours = { (0, 1), (0, -1), (1, 0), (-1, 0) };
+    
     private readonly Vector3Int _min;
     private readonly Vector3Int _max; 
     
@@ -23,12 +24,8 @@ public class TileGrid
     // maybe use 8 neighbours for diagonal movement
     public IEnumerable<Vector3Int> Get4Neighbours(Vector3Int pos)
     {
-        for (var dx = -1; dx <= 1; dx++)
-        for (var dy = -1; dy <= 1; dy++)
+        foreach (var (dx, dy) in CellNeighbours)
         {
-            if (!(dx == 0 ^ dy == 0))
-                continue;
-
             var neighbourPos = new Vector3Int(pos.x + dx, pos.y + dy, pos.z);
             if (IsWalkable(neighbourPos))
                 yield return neighbourPos;
@@ -38,7 +35,7 @@ public class TileGrid
     private bool IsWalkable(Vector3Int pos)
     {
         if (_tilesData.TryGetValue(pos, out var info))
-            return info.Walkable;
+            return info.IsWalkable;
 
         return pos.x >= _min.x && pos.y >= _min.y && pos.x <= _max.x && pos.y <= _max.y;
     }
@@ -53,7 +50,7 @@ public class TileGrid
     public override string ToString()
     {
         var count = _tilesData.Count;
-        var nonWalkable = _tilesData.Values.Count(info => !info.Walkable);
+        var nonWalkable = _tilesData.Values.Count(info => !info.IsWalkable);
         return $"min: {_min} max: {_max} count: {count} non-walkable: {nonWalkable}";
     }
 
@@ -66,8 +63,8 @@ public class TileGrid
         foreach (var tilemap in tilemaps)
         {
             tilemap.CompressBounds();
-            min = min.Min(tilemap.cellBounds.min);
-            max = max.Max(tilemap.cellBounds.max);
+            min = min.MinXYZ(tilemap.cellBounds.min);
+            max = max.MaxXYZ(tilemap.cellBounds.max);
             ParseTilemap(tilesData, tilemap);
         }
 
