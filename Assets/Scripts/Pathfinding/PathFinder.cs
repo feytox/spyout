@@ -52,8 +52,8 @@ public static class PathFinder
 
     private struct PointData
     {
-        public Vector3Int? CameFrom { get; }
-        public int CostSoFar { get; }
+        public readonly Vector3Int? CameFrom;
+        public readonly int CostSoFar;
 
         public PointData(Vector3Int? cameFrom, int costSoFar)
         {

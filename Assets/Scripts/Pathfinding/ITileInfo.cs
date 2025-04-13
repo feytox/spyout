@@ -2,25 +2,25 @@ using System;
 
 public interface ITileInfo
 {
-    public bool Walkable { get; }
+    public bool IsWalkable { get; }
     public int Cost { get; }
 }
 
 public struct SimpleTileInfo : ITileInfo
 {
-    public bool Walkable { get; }
+    public bool IsWalkable { get; }
     public int Cost { get; }
 
-    public SimpleTileInfo(int cost, bool walkable)
+    public SimpleTileInfo(int cost, bool isWalkable)
     {
         Cost = cost;
-        Walkable = walkable;
+        IsWalkable = isWalkable;
     }
 }
 
 public class TileInfo : ITileInfo
 {
-    public bool Walkable => _walkable();
+    public bool IsWalkable => _walkable();
     public int Cost { get; }
 
     private readonly Func<bool> _walkable;
