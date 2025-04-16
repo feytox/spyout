@@ -4,7 +4,8 @@ using UnityEngine;
 public static class PathFinder
 {
     // https://www.redblobgames.com/pathfinding/a-star/introduction.html
-    public static IEnumerable<Vector3Int> FindAStarPath(TileGrid grid, Vector3Int start, Vector3Int end)
+    public static IEnumerable<Vector3Int> FindAStarPath(GameObject walker, TileGrid grid, 
+        Vector3Int start, Vector3Int end)
     {
         var frontier = new PriorityQueue<Vector3Int, int>();
         frontier.Enqueue(end, 0); // no need to reverse if we start at the end
@@ -18,7 +19,7 @@ public static class PathFinder
             if (current == start)
                 break;
 
-            ProcessNeighbours(current, currentCost, start, frontier, grid, track);
+            ProcessNeighbours(walker, current, currentCost, start, frontier, grid, track);
         }
 
         Vector3Int? pos = start;
@@ -28,11 +29,12 @@ public static class PathFinder
             pos = track[pos.Value].CameFrom;
         }
     }
-
-    private static void ProcessNeighbours(Vector3Int current, int currentCost, Vector3Int start,
+    
+    // TODO: less arguments count
+    private static void ProcessNeighbours(GameObject walker, Vector3Int current, int currentCost, Vector3Int start,
         PriorityQueue<Vector3Int, int> frontier, TileGrid grid, Dictionary<Vector3Int, PointData> track)
     {
-        foreach (var next in grid.Get4Neighbours(current))
+        foreach (var next in grid.Get4Neighbours(walker, current))
         {
             var newCost = currentCost + grid.GetCost(next);
             if (track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)

@@ -1,6 +1,5 @@
 #nullable enable
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -22,20 +21,20 @@ public class TileGrid
     }
 
     // maybe use 8 neighbours for diagonal movement
-    public IEnumerable<Vector3Int> Get4Neighbours(Vector3Int pos)
+    public IEnumerable<Vector3Int> Get4Neighbours(GameObject walker, Vector3Int pos)
     {
         foreach (var (dx, dy) in CellNeighbours)
         {
             var neighbourPos = new Vector3Int(pos.x + dx, pos.y + dy, pos.z);
-            if (IsWalkable(neighbourPos))
+            if (IsWalkable(walker, neighbourPos))
                 yield return neighbourPos;
         }
     }
 
-    private bool IsWalkable(Vector3Int pos)
+    private bool IsWalkable(GameObject walker, Vector3Int pos)
     {
         if (_tilesData.TryGetValue(pos, out var info))
-            return info.IsWalkable;
+            return info.CanWalkThrough(walker);
 
         return pos.x >= _min.x && pos.y >= _min.y && pos.x <= _max.x && pos.y <= _max.y;
     }
@@ -44,14 +43,6 @@ public class TileGrid
     public int GetCost(Vector3Int pos)
     {
         return _tilesData.TryGetValue(pos, out var info) ? info.Cost : 1;
-    }
-
-    // for tests
-    public override string ToString()
-    {
-        var count = _tilesData.Count;
-        var nonWalkable = _tilesData.Values.Count(info => !info.IsWalkable);
-        return $"min: {_min} max: {_max} count: {count} non-walkable: {nonWalkable}";
     }
 
     public static TileGrid Parse(Tilemap[] tilemaps)
@@ -73,8 +64,14 @@ public class TileGrid
 
     private static void ParseTilemap(Dictionary<Vector3Int, ITileInfo> tilesData, Tilemap tilemap)
     {
-        var tilemapWalkable = CanWalkThrough(tilemap.gameObject);
+        if (tilemap.TryGetComponent(out TilemapCollider2D _))
+            ParseStaticTiles(tilesData, tilemap);
+        
+        ParseDynamicTiles(tilesData, tilemap);
+    }
 
+    private static void ParseStaticTiles(Dictionary<Vector3Int, ITileInfo> tilesData, Tilemap tilemap)
+    {
         var bounds = tilemap.cellBounds;
         foreach (var pos in bounds.allPositionsWithin) // TODO: maybe use tilemap.GetTilesBlock()
         {
@@ -82,15 +79,21 @@ public class TileGrid
             if (tile == null)
                 continue;
 
-            tilesData[pos] = tilemapWalkable
-                ? new TileInfo(1, () => CanWalkThrough(tilemap.GetInstantiatedObject(pos)))
-                : new SimpleTileInfo(1, false);
+            tilesData[pos] = new SimpleTileInfo(1, false);
         }
     }
 
-    private static bool CanWalkThrough(GameObject? gameObject)
+    private static void ParseDynamicTiles(Dictionary<Vector3Int, ITileInfo> tilesData, Tilemap tilemap)
     {
-        // TODO: change after merging with doors
-        return gameObject == null || !gameObject.TryGetComponent(out Rigidbody2D rigidbody) || !rigidbody.simulated;
+        var dynamicTiles = tilemap.GetComponentsInChildren<IWalkable>();
+        foreach (var tile in dynamicTiles)
+        {
+            if (tile is null)
+                continue;
+
+            var pos = tilemap.WorldToCell(tile.Position);
+            tilesData[pos] = new TileInfo(1, tile.CanWalkThrough);
+            Debug.Log(pos);
+        }
     }
 }

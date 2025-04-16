@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class Vector3IntExtensions
+public static class VectorsExtensions
 {
     public static Vector3Int MinXYZ(this Vector3Int vec, Vector3Int other)
     {
@@ -15,5 +15,11 @@ public static class Vector3IntExtensions
     public static Vector2 ToCenterPos(this Vector3Int pos)
     {
         return new Vector2(pos.x + 0.5f, pos.y + 0.5f);
+    }
+
+    public static Vector3Int ToCellPos(this Vector3 pos)
+    {
+        
+        return new Vector3Int((int)pos.x, Mathf.CeilToInt(pos.y), (int)pos.z);
     }
 }

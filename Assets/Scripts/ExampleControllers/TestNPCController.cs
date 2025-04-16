@@ -16,7 +16,7 @@ public class TestNPCController : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        pathToTarget = GridController.FindPath(rigidbody.transform.position, target.transform.position)
+        pathToTarget = GridController.FindPath(gameObject, rigidbody.transform.position, target.transform.position)
             .Select(cellPos => cellPos.ToCenterPos())
             .ToArray();
     }

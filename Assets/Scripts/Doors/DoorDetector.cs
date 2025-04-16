@@ -3,7 +3,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
-public class DoorDetector : MonoBehaviour
+public class DoorDetector : MonoBehaviour, IWalkable
 {
     public DoorType DoorType;
     public SpriteRenderer DoorRenderer;
@@ -57,5 +57,12 @@ public class DoorDetector : MonoBehaviour
 
         DoorCollider.enabled = true;
         DoorRenderer.sprite = _closedSprite;
+    }
+
+    public Vector3 Position => transform.position;
+    
+    public bool CanWalkThrough(GameObject walker)
+    {
+        return walker.TryGetComponent(out IDoorPermission permission) && permission.CanOpenDoor(DoorType);
     }
 }
