@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Classes;
 using TMPro;
 using UnityEngine;
 using Utils;
 
 [DisallowMultipleComponent]
-public class DebugUI : MonoBehaviour
+public class DebugUI : Singleton<DebugUI>
 {
     private TextMeshProUGUI _informationGui;
     private readonly Dictionary<string, string> _extraInfo = new();
@@ -27,13 +28,8 @@ public class DebugUI : MonoBehaviour
         instance._extraInfoChanged = true;
     }
 
-    void Awake()
+    protected override void Init()
     {
-        Debug.Assert(
-            _singleton == null,
-            $"{gameObject.name} tried to awake {nameof(DebugUI)} second time!"
-        );
-        _singleton = this;
         DontDestroyOnLoad(gameObject);
 
         _informationGui = transform.Find("Information").GetComponent<TextMeshProUGUI>();
@@ -99,16 +95,5 @@ public class DebugUI : MonoBehaviour
 
         _informationGui.text = text.ToString();
         _extraInfoChanged = false;
-    }
-
-    private static DebugUI _singleton;
-
-    private static DebugUI GetInstance()
-    {
-        Debug.Assert(
-            _singleton != null,
-            $"Tried to access {nameof(DebugUI)} before it was initialized!"
-        );
-        return _singleton;
     }
 }
