@@ -28,11 +28,11 @@ public class GridController : MonoBehaviour
         _tileGrid = TileGrid.Parse(obstacleTilemaps);
     }
 
-    public static IEnumerable<Vector3Int> FindPath(GameObject walker, Vector3 startPos, Vector3 endPos)
+    public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector3 startPos, Vector3 endPos)
     {
         var instance = GetInstance();
-        var start = instance._grid.WorldToCell(startPos);
-        var end = instance._grid.WorldToCell(endPos);
+        var start = instance._grid.WorldToCell(startPos).ToXY();
+        var end = instance._grid.WorldToCell(endPos).ToXY();
         return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
     }
 

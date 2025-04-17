@@ -4,12 +4,12 @@ using UnityEngine;
 public static class PathFinder
 {
     // https://www.redblobgames.com/pathfinding/a-star/introduction.html
-    public static IEnumerable<Vector3Int> FindAStarPath(GameObject walker, TileGrid grid, 
-        Vector3Int start, Vector3Int end)
+    public static IEnumerable<Vector2Int> FindAStarPath(GameObject walker, TileGrid grid, 
+        Vector2Int start, Vector2Int end)
     {
-        var frontier = new PriorityQueue<Vector3Int, int>();
+        var frontier = new PriorityQueue<Vector2Int, int>();
         frontier.Enqueue(end, 0); // no need to reverse if we start at the end
-        var track = new Dictionary<Vector3Int, PointData> { { end, new PointData(null, 0) } };
+        var track = new Dictionary<Vector2Int, PointData> { { end, new PointData(null, 0) } };
 
         while (frontier.Count != 0)
         {
@@ -22,7 +22,7 @@ public static class PathFinder
             ProcessNeighbours(walker, current, currentCost, start, frontier, grid, track);
         }
 
-        Vector3Int? pos = start;
+        Vector2Int? pos = start;
         while (pos is not null)
         {
             yield return pos.Value;
@@ -31,8 +31,8 @@ public static class PathFinder
     }
     
     // TODO: less arguments count
-    private static void ProcessNeighbours(GameObject walker, Vector3Int current, int currentCost, Vector3Int start,
-        PriorityQueue<Vector3Int, int> frontier, TileGrid grid, Dictionary<Vector3Int, PointData> track)
+    private static void ProcessNeighbours(GameObject walker, Vector2Int current, int currentCost, Vector2Int start,
+        PriorityQueue<Vector2Int, int> frontier, TileGrid grid, Dictionary<Vector2Int, PointData> track)
     {
         foreach (var next in grid.Get4Neighbours(walker, current))
         {
@@ -46,7 +46,7 @@ public static class PathFinder
         }
     }
 
-    private static int Heuristic(Vector3Int pos1, Vector3Int pos2)
+    private static int Heuristic(Vector2Int pos1, Vector2Int pos2)
     {
         return Mathf.Abs(pos2.x - pos1.x) + Mathf.Abs(pos2.y - pos1.y);
     }
@@ -54,10 +54,10 @@ public static class PathFinder
 
     private struct PointData
     {
-        public readonly Vector3Int? CameFrom;
+        public readonly Vector2Int? CameFrom;
         public readonly int CostSoFar;
 
-        public PointData(Vector3Int? cameFrom, int costSoFar)
+        public PointData(Vector2Int? cameFrom, int costSoFar)
         {
             CameFrom = cameFrom;
             CostSoFar = costSoFar;
