@@ -6,9 +6,12 @@ using UnityEngine;
 
 namespace Classes.Character
 {
+    [DisallowMultipleComponent]
     public class Inventory : MonoBehaviour
     {
-        public int Capacity { get; private set; } = 8; // default
+        [SerializeField]
+        private int _capacity = 8; // default
+        public int Capacity => _capacity;
         private readonly Dictionary<int, Item> slots = new(); // no need to init
 
         // Note: inventory slots must be used as equipment slots
@@ -21,13 +24,13 @@ namespace Classes.Character
         {
             get
             {
-                Debug.Assert(index >= 0 && index < Capacity, "Index out of range");
+                Debug.Assert(index >= 0 && index < _capacity, "Index out of range");
                 slots.TryGetValue(index, out var item);
                 return item;
             }
             set
             {
-                Debug.Assert(index >= 0 && index < Capacity, "Index out of range");
+                Debug.Assert(index >= 0 && index < _capacity, "Index out of range");
                 slots.TryGetValue(index, out var oldItem);
                 slots.Remove(index);
                 if (oldItem != null)
@@ -49,7 +52,7 @@ namespace Classes.Character
         /// <returns>Index of the inserted slot, -1 if failed</returns>
         public int TryInsert(Item item, int min_slot = 0)
         {
-            for (var i = min_slot; i < Capacity; i++)
+            for (var i = min_slot; i < _capacity; i++)
             {
                 if (this[i] == null)
                 {
@@ -111,16 +114,16 @@ namespace Classes.Character
         }
 
         /// <summary>
-        /// Resize inventory to new capacity <br />
+        /// Resize inventory to new _capacity <br />
         /// All items with index >= newCapacity will be removed
         /// </summary>
         /// <param name="newCapacity"></param>
         public void Resize(int newCapacity)
         {
-            Debug.Assert(newCapacity > 0, "Capacity must be greater than 0");
-            for (var i = newCapacity; i < Capacity; i++)
+            Debug.Assert(newCapacity > 0, "_capacity must be greater than 0");
+            for (var i = newCapacity; i < _capacity; i++)
                 this[i] = null;
-            Capacity = newCapacity;
+            _capacity = newCapacity;
         }
     }
 }
