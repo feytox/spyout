@@ -13,7 +13,7 @@ namespace Utils
             endTime = Time.time;
         }
 
-        public bool IsExpired => Time.time > endTime;
+        public bool IsExpired => Time.time >= endTime;
 
         public bool ResetIfExpired()
         {
@@ -25,6 +25,8 @@ namespace Utils
             return false;
         }
 
+        public void SetExpired() => endTime = Time.time;
+
         public void Reset() => endTime = Time.time + duration;
 
         /// <summary>
@@ -32,6 +34,6 @@ namespace Utils
         /// </summary>
         public void SetDuration(float duration) => this.duration = duration;
 
-        public float GetRemainingTime() => endTime - Time.time;
+        public float GetRemainingTime() => Mathf.Max(endTime - Time.time, 0);
     }
 }

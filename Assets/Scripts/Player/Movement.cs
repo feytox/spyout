@@ -8,13 +8,14 @@ namespace Player
     {
         [SerializeField]
         private Manager _playerManager;
+        public static Manager PlayerManager => GetInstance()._playerManager;
 
         protected override void Init() { }
 
         void Start()
         {
-            Debug.Assert(_playerManager != null, "CameraController must have player manager");
-            Debug.Assert(_playerManager.Movement != null, "Player manager must have appearance");
+            Debug.Assert(_playerManager != null, "Movement must have player manager");
+            Debug.Assert(_playerManager.Movement != null, "Player manager must have movement");
             Debug.Assert(Input.MoveAction != null, "Input must have MoveAction");
 
             var movement = _playerManager.Movement;

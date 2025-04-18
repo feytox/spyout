@@ -11,7 +11,7 @@ namespace Classes.Character
     public class Movement : MonoBehaviour
     {
         public const float PointReachedHeuristic = 0.1f;
-        public float MoveSpeed = 2.5f;
+        public float MoveSpeed = 170f;
 
         private Vector2 _moveDirection = Vector2.zero;
         public Vector2 MoveDirection
@@ -43,6 +43,8 @@ namespace Classes.Character
 
             Debug.Assert(_rigidbody != null, "Movement must have Rigidbody2D component");
             Debug.Assert(_collider != null, "Movement must have Collider2D component");
+
+            _rigidbody!.linearDamping = 30f;
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace Classes.Character
             }
             _currentPath = null;
             _currentGoal = null;
-            _currentMovingDirection = direction;
+            _currentMovingDirection = direction.normalized;
         }
 
         /// <summary>
@@ -141,9 +143,9 @@ namespace Classes.Character
         }
 
         private bool IsPointReached(Vector2 point) =>
-            Vector2Ext.Heuristic(transform.localPosition, point) < PointReachedHeuristic;
+            Vector2Ext.Heuristic(transform.position, point) < PointReachedHeuristic;
 
         private void SetMoveDirectionToPoint(Vector2 point) =>
-            MoveDirection = (point - (Vector2)transform.localPosition).normalized;
+            MoveDirection = (point - (Vector2)transform.position).normalized;
     }
 }
