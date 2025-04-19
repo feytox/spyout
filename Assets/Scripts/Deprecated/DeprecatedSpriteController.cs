@@ -1,13 +1,15 @@
+using System;
 using UnityEngine;
 
+[Obsolete]
 [RequireComponent(typeof(SpriteRenderer))]
-public class SpriteController : MonoBehaviour
+public class DeprecatedSpriteController : MonoBehaviour
 {
-    private PlayerController playerController;
+    private DeprecatedPlayerController playerController;
 
     void Start()
     {
-        var playerManager = GetComponentInParent<PlayerManager>();
+        var playerManager = GetComponentInParent<DeprecatedPlayerManager>();
         Debug.Assert(playerManager != null);
 
         playerController = playerManager.PlayerController;

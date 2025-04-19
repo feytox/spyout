@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
 using Random = UnityEngine.Random;
 
+[Obsolete]
 public class DeprecatedNPCController : MonoBehaviour
 {
     public float moveSpeed = 4;
