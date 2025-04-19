@@ -1,38 +1,39 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(ParentPositionSync))]
 public class InteractionDetector : MonoBehaviour
 {
-    private HashSet<IInteractable> interactablesInRange;
+    private HashSet<IInteractable> _interactablesInRange;
 
     void Start()
     {
-        var playerManager = GetComponentInParent<PlayerManager>();
-        Debug.Assert(playerManager != null);
-
-        playerManager.InteractAction.started += _ => OnInteract();
-        transform.SetParent(playerManager.PlayerController.transform, false);
-        interactablesInRange = new HashSet<IInteractable>();
+        PlayerController.Inputs.InteractStarted.Subscribe(0, _ => OnInteract());
+        _interactablesInRange = new HashSet<IInteractable>();
     }
 
-    private void OnInteract()
+    private bool OnInteract()
     {
         var pos = transform.position;
-        var interactable = interactablesInRange.MinBy(interactable => (interactable.Position - pos).sqrMagnitude);
-        interactable?.Interact();
+        var interactable = _interactablesInRange.MinBy(interactable => (interactable.Position - pos).sqrMagnitude);
+        if (interactable is null)
+            return true;
+
+        interactable.Interact();
+        return false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out IInteractable interactable) && interactable.CanInteract())
-            interactablesInRange.Add(interactable);
+            _interactablesInRange.Add(interactable);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.TryGetComponent(out IInteractable interactable))
-            interactablesInRange.Remove(interactable);
+            _interactablesInRange.Remove(interactable);
     }
 }

@@ -1,14 +1,16 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
 /// Convenient way to modify player, bind input actions, etc
 /// </summary>
+[Obsolete]
 [RequireComponent(typeof(PlayerInput))]
-public class PlayerManager : MonoBehaviour
+public class DeprecatedPlayerManager : MonoBehaviour
 {
-    public PlayerController PlayerController { get; private set; }
-    public CameraController CameraController { get; private set; }
+    public DeprecatedPlayerController PlayerController { get; private set; }
+    public DeprecatedCameraController CameraController { get; private set; }
 
     public InputAction MoveAction { get; private set; }
     public InputAction InteractAction { get; private set; }
@@ -18,8 +20,8 @@ public class PlayerManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerController = GetComponentInChildren<PlayerController>();
-        CameraController = GetComponentInChildren<CameraController>();
+        PlayerController = GetComponentInChildren<DeprecatedPlayerController>();
+        CameraController = GetComponentInChildren<DeprecatedCameraController>();
 
         var playerInput = GetComponent<PlayerInput>(); // not really need to assign anywhere else
         MoveAction = playerInput.actions["Move"];
