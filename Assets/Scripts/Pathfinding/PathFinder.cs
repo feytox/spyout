@@ -22,7 +22,7 @@ public static class PathFinder
             ProcessNeighbours(walker, current, currentCost, start, frontier, grid, track);
         }
 
-        Vector2Int? pos = start;
+        var pos = track[start].CameFrom;
         while (pos is not null)
         {
             yield return pos.Value;

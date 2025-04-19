@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using Utils;
 
 [Obsolete]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -12,6 +13,7 @@ public class TestNPCController : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private int currentTarget;
     private Vector2[] pathToTarget;
+    private Cooldown walkCooldown;
 
     void Start()
     {
@@ -19,10 +21,14 @@ public class TestNPCController : MonoBehaviour
         pathToTarget = GridController.FindPath(gameObject, rigidbody.transform.position, target.transform.position)
             .Select(cellPos => cellPos.ToCellCenter())
             .ToArray();
+        walkCooldown = new Cooldown(5);
     }
 
     private void FixedUpdate()
     {
+        if (!walkCooldown.IsExpired)
+            return;
+        
         if (currentTarget >= pathToTarget.Length)
         {
             rigidbody.linearVelocity = Vector2.zero;
