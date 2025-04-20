@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 120f;
 
+    private PlayerAnimController _animController;
     private PlayerInputController _inputs;
     private Rigidbody2D _body;
 
@@ -23,11 +24,13 @@ public class PlayerController : MonoBehaviour
 
         _inputs = GetComponent<PlayerInputController>();
         _body = GetComponent<Rigidbody2D>();
+        _animController = transform.GetChild(0).GetComponent<PlayerAnimController>();
     }
 
     private void FixedUpdate()
     {
         _body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
+        _animController.UpdateMovementAnimation(_inputs.Movement);
     }
 
     #region Singleton
