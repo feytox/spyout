@@ -18,9 +18,9 @@ namespace Player
             Debug.Assert(_playerManager.Movement != null, "Player manager must have movement");
             Debug.Assert(Input.MoveAction != null, "Input must have MoveAction");
 
-            var movement = _playerManager.Movement;
-            Input.MoveAction.performed += ctx => movement.MoveInDirection(ctx.ReadValue<Vector2>());
-            Input.MoveAction.canceled += ctx => movement.Stop();
+            Input.MoveAction.performed += ctx =>
+                _playerManager.Movement.MoveInDirection(ctx.ReadValue<Vector2>());
+            Input.MoveAction.canceled += ctx => _playerManager.Movement.Stop();
         }
     }
 }

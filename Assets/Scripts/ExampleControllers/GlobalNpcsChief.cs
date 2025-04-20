@@ -33,6 +33,9 @@ public class GlobalNpcsChief : MonoBehaviour
 
     void Update()
     {
+        if (npcs.Contains(Player.Movement.PlayerManager))
+            npcs.Remove(Player.Movement.PlayerManager);
+
         if (_nextCommandCooldown.ResetIfExpired())
         {
             string newCommandName;
