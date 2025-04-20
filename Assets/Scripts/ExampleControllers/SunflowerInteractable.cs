@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SunflowerInteractable : MonoBehaviour, IInteractable
+public class SunflowerInteractable : MonoBehaviour, IPlayerInteractable
 {
     private int clickedCount;
     

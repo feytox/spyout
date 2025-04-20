@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utils;
@@ -8,6 +9,9 @@ public class PlayerInputController : MonoBehaviour
     private Inputs _inputs;
 
     public PriorityEvent<InputAction.CallbackContext> InteractStarted { get; } = new();
+
+    public event Action<InputAction.CallbackContext> PrevItem;
+    public event Action<InputAction.CallbackContext> NextItem; 
 
     public Vector2 Movement { get; private set; }
 
@@ -20,6 +24,8 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Player.Move.canceled += OnMoveCancel;
 
         _inputs.Player.Interact.started += InteractStarted.ExecuteEvents;
+        _inputs.Player.PreviousItem.started += OnPrevItem;
+        _inputs.Player.NextItem.started += OnNextItem;
     }
 
     private void OnDisable()
@@ -28,17 +34,17 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Player.Move.canceled -= OnMoveCancel;
 
         _inputs.Player.Interact.started -= InteractStarted.ExecuteEvents;
+        _inputs.Player.PreviousItem.started -= OnPrevItem;
+        _inputs.Player.NextItem.started -= OnNextItem;
 
         _inputs.Disable();
     }
 
-    private void SetMovement(InputAction.CallbackContext ctx)
-    {
-        Movement = ctx.ReadValue<Vector2>();
-    }
+    private void SetMovement(InputAction.CallbackContext ctx) => Movement = ctx.ReadValue<Vector2>();
 
-    private void OnMoveCancel(InputAction.CallbackContext ctx)
-    {
-        Movement = Vector2.zero;
-    }
+    private void OnMoveCancel(InputAction.CallbackContext ctx) => Movement = Vector2.zero;
+
+    private void OnPrevItem(InputAction.CallbackContext ctx) => PrevItem?.Invoke(ctx);
+    
+    private void OnNextItem(InputAction.CallbackContext ctx) => NextItem?.Invoke(ctx);
 }

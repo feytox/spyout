@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerInputController))]
+[RequireComponent(typeof(PlayerInventoryController))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 120f;
@@ -11,8 +12,11 @@ public class PlayerController : MonoBehaviour
     private PlayerAnimController _animController;
     private PlayerInputController _inputs;
     private Rigidbody2D _body;
+    private PlayerInventoryController _playerInventory;
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
+
+    public static Inventory Inventory => GetInstance()._playerInventory.Inventory;
 
     void Awake()
     {
@@ -24,7 +28,8 @@ public class PlayerController : MonoBehaviour
 
         _inputs = GetComponent<PlayerInputController>();
         _body = GetComponent<Rigidbody2D>();
-        _animController = transform.GetChild(0).GetComponent<PlayerAnimController>();
+        _playerInventory = GetComponent<PlayerInventoryController>();
+        _animController = transform.GetChild(0).GetComponent<PlayerAnimController>(); // TODO: refactor
     }
 
     private void FixedUpdate()

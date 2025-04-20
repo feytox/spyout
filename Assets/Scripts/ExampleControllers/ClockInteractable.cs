@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ClockInteractable : MonoBehaviour, IInteractable
+public class ClockInteractable : MonoBehaviour, IPlayerInteractable
 {
     private int clickedCount;
     

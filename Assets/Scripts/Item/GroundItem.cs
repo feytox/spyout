@@ -1,0 +1,34 @@
+#nullable enable
+using UnityEngine;
+
+/// <summary>
+/// Контроллер предмета, лежащего на земле.
+/// </summary>
+[DisallowMultipleComponent]
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
+{
+    public abstract ItemStack? Stack { get; set; }
+    
+    protected override Sprite? Sprite => Stack?.Item.Sprite;
+
+    public void Interact()
+    {
+        var playerInventory = PlayerController.Inventory;
+        if (!TryPickup(playerInventory)) 
+            return;
+        
+        Debug.Log(playerInventory);
+        Destroy(gameObject);
+    }
+
+    private bool TryPickup(Inventory inventory)
+    {
+        return Stack is not null && inventory.TryAppendStack(Stack);
+    }
+
+    public bool CanInteract() => true;
+
+    public Vector3 Position => transform.position;
+}
