@@ -6,5 +6,11 @@ public class InventoryController : MonoBehaviour
     
     public Inventory Inventory { get; private set; }
 
-    private void Start() => Inventory = new Inventory(InventorySize);
+    void Start()
+    {
+        Inventory = new Inventory(InventorySize);
+        OnStart();
+    }
+
+    protected virtual void OnStart() {}
 }

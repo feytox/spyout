@@ -8,13 +8,13 @@ public class DefaultGroundItem : GroundItem
 {
     public Item DefaultItem;
 
-    [Range(1, ItemStack.MaxCount)] public int Count = 1;
+    [Range(1, Item.DefaultMaxCount)] public int Count = 1;
 
-    private ItemStack _item;
+    private ItemStack _stack;
 
-    public override ItemStack Item
+    public override ItemStack Stack
     {
-        get => _item;
+        get => _stack;
         set => throw new InvalidOperationException("Cannot set stack to Ground Item");
     }
 
@@ -25,6 +25,6 @@ public class DefaultGroundItem : GroundItem
     private void UpdateItem()
     {
         Debug.Assert(DefaultItem != null);
-        _item = new ItemStack(DefaultItem, Count);
+        _stack = new ItemStack(DefaultItem, Count);
     }
 }

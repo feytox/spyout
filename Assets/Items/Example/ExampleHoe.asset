@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\u041C\u043E\u0442\u044B\u0433\u0430"
   Sprite: {fileID: 5827638716017627413, guid: 59e873a4568ade94697daaf9cf00d1ec, type: 3}
+  MaxCount: 1

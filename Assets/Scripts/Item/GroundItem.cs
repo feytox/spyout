@@ -5,15 +5,30 @@ using UnityEngine;
 /// Контроллер предмета, лежащего на земле.
 /// </summary>
 [DisallowMultipleComponent]
+[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-public abstract class GroundItem : CustomSpriteComponent
+public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
 {
-    public abstract ItemStack? Item { get; set; }
+    public abstract ItemStack? Stack { get; set; }
     
-    protected override Sprite? Sprite => Item?.Item.Sprite;
+    protected override Sprite? Sprite => Stack?.Item.Sprite;
 
-    public bool TryPickup(Inventory inventory)
+    public void Interact()
     {
-        return Item is not null && inventory.TryAppendStack(Item);
+        var playerInventory = PlayerController.Inventory;
+        if (!TryPickup(playerInventory)) 
+            return;
+        
+        Debug.Log(playerInventory);
+        Destroy(gameObject);
     }
+
+    private bool TryPickup(Inventory inventory)
+    {
+        return Stack is not null && inventory.TryAppendStack(Stack);
+    }
+
+    public bool CanInteract() => true;
+
+    public Vector3 Position => transform.position;
 }

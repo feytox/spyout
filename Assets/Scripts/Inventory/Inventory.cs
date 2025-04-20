@@ -1,7 +1,10 @@
 #nullable enable
+using System.Linq;
+
 public class Inventory
 {
-    public ItemStack?[] Items { get; }
+    private ItemStack?[] Items { get; }
+    public int Size => Items.Length;
 
     public Inventory(int capacity)
     {
@@ -23,13 +26,30 @@ public class Inventory
     {
         for (var i = 0; i < Items.Length; i++)
         {
-            if (Items[i] is not null)
-                continue;
+            var currentStack = Items[i];
+            if (currentStack is null)
+            {
+                Items[i] = stack;
+                return true;
+            }
 
-            Items[i] = stack;
-            return true;
+            if (!currentStack.CanCombine(stack))
+                continue;
+            
+            currentStack.CombineWith(stack);
+            if (stack.IsEmpty)
+                return true;
         }
 
         return false;
+    }
+
+    public override string ToString()
+    {
+        var itemsStr = Items.Select((stack, i) => (stack, i))
+            .Where(tuple => tuple.stack is not null)
+            .Select(tuple => $"{tuple.i}: {tuple.stack}");
+
+        return $"[{string.Join(", ", itemsStr)}]";
     }
 }

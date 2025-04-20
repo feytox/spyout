@@ -3,14 +3,14 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
-public class InteractionDetector : MonoBehaviour
+public class PlayerInteractionDetector : MonoBehaviour
 {
-    private HashSet<IInteractable> _interactablesInRange;
+    private HashSet<IPlayerInteractable> _interactablesInRange;
 
     void Start()
     {
         PlayerController.Inputs.InteractStarted.Subscribe(0, _ => OnInteract());
-        _interactablesInRange = new HashSet<IInteractable>();
+        _interactablesInRange = new HashSet<IPlayerInteractable>();
     }
 
     private bool OnInteract()
@@ -26,13 +26,13 @@ public class InteractionDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out IInteractable interactable) && interactable.CanInteract())
+        if (other.TryGetComponent(out IPlayerInteractable interactable) && interactable.CanInteract())
             _interactablesInRange.Add(interactable);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out IInteractable interactable))
+        if (other.TryGetComponent(out IPlayerInteractable interactable))
             _interactablesInRange.Remove(interactable);
     }
 }
