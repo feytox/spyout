@@ -3,7 +3,6 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(ParentPositionSync))]
 public class InteractionDetector : MonoBehaviour
 {
     private HashSet<IInteractable> _interactablesInRange;
