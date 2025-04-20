@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TestPlayerPermission : MonoBehaviour, IDoorPermission
+public class TestDoorPermission : MonoBehaviour, IDoorPermission
 {
     public bool CanOpenRestricted;
     
