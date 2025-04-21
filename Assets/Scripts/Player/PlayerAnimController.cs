@@ -1,19 +1,25 @@
 using UnityEngine;
 
 // TODO улучшить переход анимаций
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimController : MonoBehaviour
 {
-    private Animator _animator;
+    private static readonly int walk = Animator.StringToHash(WalkParam);
     private const string WalkParam = "walk";
-    
-    void Awake()
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     
     public void UpdateMovementAnimation(Vector2 movementInput)
     {
-        var walkValue = (movementInput == Vector2.zero) ? 0f : 1f;
-        _animator.SetFloat(WalkParam, walkValue);
+        spriteRenderer.flipX = movementInput.x < 0.0f;
+        var walkValue = movementInput == Vector2.zero ? 0f : 1f;
+        animator.SetFloat(walk, walkValue);
     }
 }
