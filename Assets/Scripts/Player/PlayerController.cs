@@ -29,13 +29,13 @@ public class PlayerController : MonoBehaviour
         _inputs = GetComponent<PlayerInputController>();
         _body = GetComponent<Rigidbody2D>();
         _playerInventory = GetComponent<PlayerInventoryController>();
-        _animController = transform.GetChild(0).GetComponent<PlayerAnimController>(); // TODO: refactor
+        _animController = GetComponentInChildren<PlayerAnimController>();
     }
 
     private void FixedUpdate()
     {
         _body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
-        _animController.UpdateMovementAnimation(_inputs.Movement);
+        _animController?.UpdateMovementAnimation(_inputs.Movement); // TODO: refactor
     }
 
     #region Singleton
