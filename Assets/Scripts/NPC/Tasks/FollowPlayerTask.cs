@@ -5,7 +5,7 @@ using Utils;
 public class FollowPlayerTask : NPCTask
 {
     private const float TargetMinimumSqrDistance = 0.2f;
-    private const int LockedPathPoints = 2;
+    private const int LockedPathPoints = 1;
 
     private readonly Cooldown _targetUpdateCooldown = new(0.2f);
     private readonly OverflowBuffer<Vector2Int> _currentPath = new();
