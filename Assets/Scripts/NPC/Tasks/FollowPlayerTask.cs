@@ -8,7 +8,7 @@ public class FollowPlayerTask : NPCTask
     private const int LockedPathPoints = 1;
 
     private readonly Cooldown _targetUpdateCooldown = new(0.2f);
-    private readonly OverflowBuffer<Vector2Int> _currentPath = new();
+    private readonly OverflowBuffer<Vector2> _currentPath = new();
     private Vector2Int? _targetPos;
 
     public FollowPlayerTask(TaskData taskData) : base(taskData)
@@ -38,17 +38,21 @@ public class FollowPlayerTask : NPCTask
         _currentPath.Trim(LockedPathPoints);
 
         var start = _currentPath.TryPeekLast(out var lastPathPoint)
-            ? lastPathPoint
+            ? GridController.WorldToGridCell(lastPathPoint)
             : GridController.WorldToGridCell(NPC.transform.position);
+
+        var deltaPath = GridController.FindPath(NPC.gameObject, start, newTargetPos)
+            .Select(GridController.CellToWorld)
+            .Select(VectorsExtensions.ToCellCenter)
+            .ToArray();
         
-        var deltaPath = GridController.FindPath(NPC.gameObject, start, newTargetPos).ToArray();
         if (deltaPath.Length == 0)
         {
             _currentPath.Trim(0);
             _targetPos = null;
             return;
         }
-        
+
         _currentPath.EnqueueRange(deltaPath);
     }
 
@@ -56,11 +60,9 @@ public class FollowPlayerTask : NPCTask
     {
         while (true)
         {
-            if (!_currentPath.TryPeek(out var currentTargetCell))
+            if (!_currentPath.TryPeek(out var currentTarget))
                 return;
 
-            var currentTarget = GridController.CellToWorld(currentTargetCell).ToCellCenter();
-            
             var moveVec = currentTarget - (Vector2)NPC.transform.position;
             if (moveVec.sqrMagnitude <= TargetMinimumSqrDistance)
             {
