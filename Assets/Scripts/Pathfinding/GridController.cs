@@ -27,14 +27,26 @@ public class GridController : MonoBehaviour
         Debug.Assert(obstacleTilemaps.Length != 0);
         _tileGrid = TileGrid.Parse(obstacleTilemaps);
     }
-
+    
     public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector3 startPos, Vector3 endPos)
     {
         var instance = GetInstance();
-        var start = instance._grid.WorldToCell(startPos).ToXY();
-        var end = instance._grid.WorldToCell(endPos).ToXY();
+        var start = instance.WorldToCell(startPos);
+        var end = instance.WorldToCell(endPos);
         return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
     }
+
+    public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector2Int start, Vector2Int end)
+    {
+        var instance = GetInstance();
+        return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
+    }
+
+    public static Vector2Int WorldToGridCell(Vector3 position) => GetInstance().WorldToCell(position);
+    
+    public static Vector2 CellToWorld(Vector2Int cellPos) => GetInstance()._grid.CellToWorld((Vector3Int)cellPos);
+
+    private Vector2Int WorldToCell(Vector3 position) => (Vector2Int)_grid.WorldToCell(position);
 
     private static GridController _singleton;
 

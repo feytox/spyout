@@ -21,8 +21,11 @@ public static class PathFinder
 
             ProcessNeighbours(walker, current, currentCost, start, frontier, grid, track);
         }
-
-        var pos = track[start].CameFrom;
+        
+        if (!track.TryGetValue(start, out var pointData))
+            yield break;
+        
+        var pos = pointData.CameFrom;
         while (pos is not null)
         {
             yield return pos.Value;

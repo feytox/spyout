@@ -2,11 +2,10 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(NPCTaskManager))]
 public class NPCController : MonoBehaviour
 {   
     [SerializeField] private float _movementSpeed = 120f;
-
-    private const float TargetMinimumSqrDistance = 0.25f;
     
     public Vector2? CurrentTarget { get; set; }
     
@@ -17,18 +16,9 @@ public class NPCController : MonoBehaviour
         _body = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
+    public void MoveInDirection(Vector2 moveVec)
     {
-        if (CurrentTarget is null)
-            return;
-
-        var moveDirection = CurrentTarget.Value - (Vector2)transform.position;
-        if (moveDirection.sqrMagnitude < TargetMinimumSqrDistance)
-        {
-            CurrentTarget = null;
-            return;
-        }
-        
-        _body.AddForce(moveDirection.normalized * _movementSpeed, ForceMode2D.Force);
+        // _body.AddForce(moveVec * _movementSpeed, ForceMode2D.Force);
+        _body.linearVelocity = moveVec * (_movementSpeed * Time.fixedDeltaTime);
     }
 }

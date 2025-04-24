@@ -15,8 +15,9 @@ public class PlayerController : MonoBehaviour
     private PlayerInventoryController _playerInventory;
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
-
     public static Inventory Inventory => GetInstance()._playerInventory.Inventory;
+    public static Vector3 Position => GetInstance().transform.position;
+    public static GameObject GameObject => GetInstance().gameObject;
 
     void Awake()
     {

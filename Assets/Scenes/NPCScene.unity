@@ -5943,9 +5943,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 952894299653781164, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _npcBehavior
+      value: 42
+      objectReference: {fileID: 0}
     - target: {fileID: 1016959381881582479, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Name
       value: NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _movementSpeed
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5985,6 +5993,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7293858143179834344, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: CanOpenRestricted
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807972107194334269, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6043,6 +6059,10 @@ PrefabInstance:
     - target: {fileID: 6800839527177258664, guid: bc9fbfd78598cb0438f62a90226eed41, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6853410581871152216, guid: bc9fbfd78598cb0438f62a90226eed41, type: 3}
+      propertyPath: CanOpenRestricted
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
