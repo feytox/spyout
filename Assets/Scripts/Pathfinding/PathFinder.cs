@@ -4,9 +4,10 @@ using UnityEngine;
 public static class PathFinder
 {
     // https://www.redblobgames.com/pathfinding/a-star/introduction.html
-    public static IEnumerable<Vector2Int> FindAStarPath(GameObject walker, TileGrid grid, 
+    public static IEnumerable<Vector2Int> FindAStarPath(GameObject walker, TileGrid grid,
         Vector2Int start, Vector2Int end)
     {
+        var pointBuffer = new List<Vector2Int>();
         var frontier = new PriorityQueue<Vector2Int, int>();
         frontier.Enqueue(end, 0); // no need to reverse if we start at the end
         var track = new Dictionary<Vector2Int, PointData> { { end, new PointData(null, 0) } };
@@ -19,12 +20,12 @@ public static class PathFinder
             if (current == start)
                 break;
 
-            ProcessNeighbours(walker, current, currentCost, start, frontier, grid, track);
+            ProcessNeighbours(walker, current, currentCost, start, frontier, grid, track, pointBuffer);
         }
-        
+
         if (!track.TryGetValue(start, out var pointData))
             yield break;
-        
+
         var pos = pointData.CameFrom;
         while (pos is not null)
         {
@@ -32,12 +33,14 @@ public static class PathFinder
             pos = track[pos.Value].CameFrom;
         }
     }
-    
-    // TODO: less arguments count
+
+    // TODO: LESS arguments count
     private static void ProcessNeighbours(GameObject walker, Vector2Int current, int currentCost, Vector2Int start,
-        PriorityQueue<Vector2Int, int> frontier, TileGrid grid, Dictionary<Vector2Int, PointData> track)
+        PriorityQueue<Vector2Int, int> frontier, TileGrid grid, Dictionary<Vector2Int, PointData> track,
+        List<Vector2Int> pointBuffer)
     {
-        foreach (var next in grid.Get4Neighbours(walker, current))
+        grid.Get8Neighbours(walker, current, pointBuffer);
+        foreach (var next in pointBuffer)
         {
             var newCost = currentCost + grid.GetCost(next);
             if (track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
