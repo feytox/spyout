@@ -3,61 +3,70 @@ using UnityEngine;
 
 public static class PathFinder
 {
-    // https://www.redblobgames.com/pathfinding/a-star/introduction.html
     public static IEnumerable<Vector2Int> FindAStarPath(GameObject walker, TileGrid grid,
         Vector2Int start, Vector2Int end)
     {
-        var pointBuffer = new List<Vector2Int>();
-        var frontier = new PriorityQueue<Vector2Int, int>();
-        frontier.Enqueue(end, 0); // no need to reverse if we start at the end
-        var track = new Dictionary<Vector2Int, PointData> { { end, new PointData(null, 0) } };
+        var ctx = new AStarContext(walker, grid, start, end);
 
-        while (frontier.Count != 0)
+        while (ctx.Frontier.Count > 0)
         {
-            var current = frontier.Dequeue();
-            var currentCost = track[current].CostSoFar;
-
-            if (current == start)
+            var current = ctx.Frontier.Dequeue();
+            if (current == start) 
                 break;
-
-            ProcessNeighbours(walker, current, currentCost, start, frontier, grid, track, pointBuffer);
+            
+            ctx.ProcessNeighbours(current);
         }
 
-        if (!track.TryGetValue(start, out var pointData))
+        if (!ctx.Track.TryGetValue(start, out var pointData)) 
             yield break;
 
         var pos = pointData.CameFrom;
         while (pos is not null)
         {
             yield return pos.Value;
-            pos = track[pos.Value].CameFrom;
+            pos = ctx.Track[pos.Value].CameFrom;
         }
     }
 
-    // TODO: LESS arguments count
-    private static void ProcessNeighbours(GameObject walker, Vector2Int current, int currentCost, Vector2Int start,
-        PriorityQueue<Vector2Int, int> frontier, TileGrid grid, Dictionary<Vector2Int, PointData> track,
-        List<Vector2Int> pointBuffer)
+    private static int Heuristic(Vector2Int a, Vector2Int b) => Mathf.Abs(b.x - a.x) + Mathf.Abs(b.y - a.y);
+    
+    private class AStarContext
     {
-        grid.Get8Neighbours(walker, current, pointBuffer);
-        foreach (var next in pointBuffer)
+        private readonly GameObject _walker;
+        private readonly TileGrid _grid;
+        private readonly Vector2Int _start;
+        private readonly List<Vector2Int> _buffer;
+        public readonly PriorityQueue<Vector2Int, int> Frontier;
+        public readonly Dictionary<Vector2Int, PointData> Track;
+
+        public AStarContext(GameObject walker, TileGrid grid, Vector2Int start, Vector2Int end)
         {
-            var newCost = currentCost + grid.GetCost(next);
-            if (track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
-                continue;
+            _walker = walker;
+            _grid = grid;
+            _start = start;
+            Frontier = new PriorityQueue<Vector2Int, int>();
+            Frontier.Enqueue(end, 0);
+            Track = new Dictionary<Vector2Int, PointData> { { end, new PointData(null, 0) } };
+            _buffer = new List<Vector2Int>();
+        }
 
-            var priority = newCost + Heuristic(start, next);
-            frontier.Enqueue(next, priority);
-            track[next] = new PointData(current, newCost);
+        public void ProcessNeighbours(Vector2Int current)
+        {
+            var currentCost = Track[current].CostSoFar;
+            _grid.Get8Neighbours(_walker, current, _buffer);
+            foreach (var next in _buffer)
+            {
+                var newCost = currentCost + _grid.GetCost(next);
+                if (Track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
+                    continue;
+
+                var priority = newCost + Heuristic(_start, next);
+                Frontier.Enqueue(next, priority);
+                Track[next] = new PointData(current, newCost);
+            }
         }
     }
-
-    private static int Heuristic(Vector2Int pos1, Vector2Int pos2)
-    {
-        return Mathf.Abs(pos2.x - pos1.x) + Mathf.Abs(pos2.y - pos1.y);
-    }
-
-
+    
     private struct PointData
     {
         public readonly Vector2Int? CameFrom;
