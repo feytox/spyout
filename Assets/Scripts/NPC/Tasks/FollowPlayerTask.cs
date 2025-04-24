@@ -24,36 +24,43 @@ public class FollowPlayerTask : NPCTask
 
     private void UpdatePath()
     {
-        if (_targetPos is not null && !_targetUpdateCooldown.ResetIfExpired())
+        if (RefreshTargetPosition()) 
             return;
+
+        var start = _currentPath.TryPeekLast(out var lastPathPoint)
+            ? GridController.WorldToGridCell(lastPathPoint)
+            : GridController.WorldToGridCell(NPC.transform.position);
+
+        var deltaPath = GridController.FindPath(NPC.gameObject, start, _targetPos!.Value)
+            .Select(GridController.CellToWorld)
+            .Select(VectorsExtensions.ToCellCenter)
+            .ToArray();
+
+        if (deltaPath.Length != 0)
+        {
+            _currentPath.EnqueueRange(deltaPath);
+            return;
+        }
+
+        _currentPath.Trim(0);
+        _targetPos = null;
+    }
+
+    private bool RefreshTargetPosition()
+    {
+        if (_targetPos is not null && !_targetUpdateCooldown.ResetIfExpired())
+            return true;
 
         if (_targetPos is null)
             _targetUpdateCooldown.Reset();
 
         var newTargetPos = GridController.WorldToGridCell(PlayerController.Position);
         if (newTargetPos == _targetPos)
-            return;
+            return true;
 
         _targetPos = newTargetPos;
         _currentPath.Trim(LockedPathPoints);
-
-        var start = _currentPath.TryPeekLast(out var lastPathPoint)
-            ? GridController.WorldToGridCell(lastPathPoint)
-            : GridController.WorldToGridCell(NPC.transform.position);
-
-        var deltaPath = GridController.FindPath(NPC.gameObject, start, newTargetPos)
-            .Select(GridController.CellToWorld)
-            .Select(VectorsExtensions.ToCellCenter)
-            .ToArray();
-        
-        if (deltaPath.Length == 0)
-        {
-            _currentPath.Trim(0);
-            _targetPos = null;
-            return;
-        }
-
-        _currentPath.EnqueueRange(deltaPath);
+        return false;
     }
 
     private void MoveByPath()
@@ -63,15 +70,8 @@ public class FollowPlayerTask : NPCTask
             if (!_currentPath.TryPeek(out var currentTarget))
                 return;
 
-            var moveVec = currentTarget - (Vector2)NPC.transform.position;
-            if (moveVec.sqrMagnitude <= TargetMinimumSqrDistance)
-            {
-                _currentPath.Dequeue();
-                continue;
-            }
-
-            NPC.MoveInDirection(moveVec.normalized);
-            break;
+            if (!NPC.MoveToTarget(currentTarget, TargetMinimumSqrDistance))
+                break;
         }
     }
 
