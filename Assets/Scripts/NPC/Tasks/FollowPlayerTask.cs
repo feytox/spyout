@@ -1,14 +1,14 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Utils;
 
 public class FollowPlayerTask : NPCTask
 {
-    private const float TargetMinimumSqrDistance = 0.25f;
-    
-    private readonly Cooldown _targetUpdateCooldown = new(0.25f);
-    private Queue<Vector2> _currentPath = new();
+    private const float TargetMinimumSqrDistance = 0.2f;
+    private const int LockedPathPoints = 2;
+
+    private readonly Cooldown _targetUpdateCooldown = new(0.2f);
+    private readonly OverflowBuffer<Vector2Int> _currentPath = new();
     private Vector2Int? _targetPos;
 
     public FollowPlayerTask(TaskData taskData) : base(taskData)
@@ -33,24 +33,34 @@ public class FollowPlayerTask : NPCTask
         var newTargetPos = GridController.WorldToGridCell(PlayerController.Position);
         if (newTargetPos == _targetPos)
             return;
-        
-        _targetPos = newTargetPos;
-        var start = GridController.WorldToGridCell(NPC.transform.position); 
-        var deltaPath = GridController
-            .FindPath(NPC.gameObject, start, newTargetPos)
-            .Select(GridController.CellToWorld)
-            .Select(pos => pos + new Vector2(0.5f, 0.5f));
 
-        _currentPath = new Queue<Vector2>(deltaPath);
+        _targetPos = newTargetPos;
+        _currentPath.Trim(LockedPathPoints);
+
+        var start = _currentPath.TryPeekLast(out var lastPathPoint)
+            ? lastPathPoint
+            : GridController.WorldToGridCell(NPC.transform.position);
+        
+        var deltaPath = GridController.FindPath(NPC.gameObject, start, newTargetPos).ToArray();
+        if (deltaPath.Length == 0)
+        {
+            _currentPath.Trim(0);
+            _targetPos = null;
+            return;
+        }
+        
+        _currentPath.EnqueueRange(deltaPath);
     }
 
     private void MoveByPath()
     {
         while (true)
         {
-            if (!_currentPath.TryPeek(out var currentTarget)) 
+            if (!_currentPath.TryPeek(out var currentTargetCell))
                 return;
 
+            var currentTarget = GridController.CellToWorld(currentTargetCell).ToCellCenter();
+            
             var moveVec = currentTarget - (Vector2)NPC.transform.position;
             if (moveVec.sqrMagnitude <= TargetMinimumSqrDistance)
             {

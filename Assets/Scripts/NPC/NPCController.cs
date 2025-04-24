@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(NPCTaskManager))]
 public class NPCController : MonoBehaviour
 {   
-    [SerializeField] private float _movementSpeed = 120f;
+    [SerializeField] private float _movementSpeed = 4f;
     
     public Vector2? CurrentTarget { get; set; }
     
@@ -16,9 +16,5 @@ public class NPCController : MonoBehaviour
         _body = GetComponent<Rigidbody2D>();
     }
 
-    public void MoveInDirection(Vector2 moveVec)
-    {
-        // _body.AddForce(moveVec * _movementSpeed, ForceMode2D.Force);
-        _body.linearVelocity = moveVec * (_movementSpeed * Time.fixedDeltaTime);
-    }
+    public void MoveInDirection(Vector2 moveVec) => _body.linearVelocity = moveVec * _movementSpeed;
 }
