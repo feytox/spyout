@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 3199959508139441150}
   - component: {fileID: 1946943941329450711}
   - component: {fileID: 952894299653781164}
-  - component: {fileID: 7807972107194334269}
   - component: {fileID: 7293858143179834344}
   - component: {fileID: 420472507575524631}
   - component: {fileID: 3579183541001247209}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016959381881582479}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.603048, y: -0.17865002, z: 0.033284534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c9f0915b2e3784487429bb28df6073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 120
+  _movementSpeed: 6
 --- !u!114 &952894299653781164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,20 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a5b6037f78426abb1e27606ede89c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _npcBehavior: 0
---- !u!114 &7807972107194334269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016959381881582479}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a1a7d9c56ee4eb4ac6487f40465041c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _movementCooldown: 1.5
+  _npcBehavior: 42
 --- !u!114 &7293858143179834344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7b42f34407420bb1bfa0ee88b01ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanOpenRestricted: 1
+  CanOpenRestricted: 0
 --- !u!50 &420472507575524631
 Rigidbody2D:
   serializedVersion: 5
