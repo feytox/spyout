@@ -46,6 +46,8 @@ public class GridController : MonoBehaviour
     
     public static Vector2 CellToWorld(Vector2Int cellPos) => GetInstance()._grid.CellToWorld((Vector3Int)cellPos);
 
+    public static Vector2 CellToNormalWorld(Vector2Int cellPos) => CellToWorld(cellPos).ToCellCenter();
+
     private Vector2Int WorldToCell(Vector3 position) => (Vector2Int)_grid.WorldToCell(position);
 
     private static GridController _singleton;

@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(NPCTaskManager))]
 public class NPCController : MonoBehaviour
 {   
+    private const float TargetMinimumSqrDistance = 0.2f;
+    
     [SerializeField] private float _movementSpeed = 4f;
     
     private Rigidbody2D _body;
@@ -18,12 +20,11 @@ public class NPCController : MonoBehaviour
     /// Перемещает NPC к указанной цели с заданной точностью.
     /// </summary>
     /// <param name="target">Целевая позиция.</param>
-    /// <param name="targetSqrAccuracy">Точность в квадрате, с которой NPC должен достичь цели.</param>
     /// <returns>Возвращает true, если цель достигнута, иначе false.</returns>
-    public bool MoveToTarget(Vector2 target, float targetSqrAccuracy)
+    public bool MoveToTarget(Vector2 target)
     {
         var moveVec = target - (Vector2)transform.position;
-        if (moveVec.sqrMagnitude <= targetSqrAccuracy)
+        if (moveVec.sqrMagnitude <= TargetMinimumSqrDistance)
             return true;
         
         MoveInDirection(moveVec);

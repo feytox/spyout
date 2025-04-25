@@ -4,7 +4,6 @@ using Utils;
 
 public class FollowPlayerTask : NPCTask
 {
-    private const float TargetMinimumSqrDistance = 0.2f;
     private const int LockedPathPoints = 1;
 
     private readonly Cooldown _targetUpdateCooldown = new(0.2f);
@@ -32,8 +31,7 @@ public class FollowPlayerTask : NPCTask
             : GridController.WorldToGridCell(NPC.transform.position);
 
         var deltaPath = GridController.FindPath(NPC.gameObject, start, _targetPos!.Value)
-            .Select(GridController.CellToWorld)
-            .Select(VectorsExtensions.ToCellCenter)
+            .Select(GridController.CellToNormalWorld)
             .ToArray();
 
         if (deltaPath.Length != 0)
@@ -70,7 +68,7 @@ public class FollowPlayerTask : NPCTask
             if (!_currentPath.TryPeek(out var currentTarget))
                 return;
 
-            if (!NPC.MoveToTarget(currentTarget, TargetMinimumSqrDistance))
+            if (!NPC.MoveToTarget(currentTarget))
                 break;
         }
     }
