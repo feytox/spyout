@@ -42,7 +42,9 @@ public class GridController : MonoBehaviour
         var end = instance.WorldToCell(endPos);
         return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
     }
-    
+
+    #region Position Converters
+
     public Vector2Int WorldToCell(Vector3 position) => (Vector2Int)_grid.WorldToCell(position);
 
     public Vector2Int WorldToCell(Vector2 position) => (Vector2Int)_grid.WorldToCell(position);
@@ -51,6 +53,10 @@ public class GridController : MonoBehaviour
     
     private Vector2 CellToWorld(Vector2Int cellPos) => _grid.CellToWorld((Vector3Int)cellPos);
 
+    #endregion
+    
+    #region Singleton
+    
     private static GridController _singleton;
 
     public static GridController GetInstance()
@@ -60,4 +66,6 @@ public class GridController : MonoBehaviour
         );
         return _singleton;
     }
+    
+    #endregion
 }

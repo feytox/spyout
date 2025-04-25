@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerInputController))]
 [RequireComponent(typeof(PlayerInventoryController))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable, IPositionProvider
 {
     [SerializeField] private float _movementSpeed = 120f;
 
@@ -16,8 +16,9 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
     public static Inventory Inventory => GetInstance()._playerInventory.Inventory;
-    public static Vector3 Position => GetInstance().transform.position;
     public static GameObject GameObject => GetInstance().gameObject;
+    
+    public Vector2 Position => transform.position;
 
     void Awake()
     {
@@ -38,12 +39,19 @@ public class PlayerController : MonoBehaviour
         _body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
         _animController?.UpdateMovementAnimation(_inputs.Movement); // TODO: refactor
     }
+    
+    public void Damage(float amount)
+    {
+        Debug.Log($"Player taken {amount} damage");
+    }
+
+    public bool CanTakeDamage(IDamageable attacker) => true;
 
     #region Singleton
 
     private static PlayerController _singleton;
 
-    private static PlayerController GetInstance()
+    public static PlayerController GetInstance()
     {
         Debug.Assert(
             _singleton != null,

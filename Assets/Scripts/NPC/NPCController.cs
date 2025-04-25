@@ -2,11 +2,13 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
-public class NPCController : MonoBehaviour
+public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
 {   
     private const float TargetMinimumSqrDistance = 0.2f;
     
     [SerializeField] private float _movementSpeed = 4f;
+
+    public Vector2 Position => transform.position;
     
     private Rigidbody2D _body;
 
@@ -14,6 +16,19 @@ public class NPCController : MonoBehaviour
     {
         _body = GetComponent<Rigidbody2D>();
     }
+
+    #region IDamageable
+
+    public void Damage(float amount)
+    {
+        Debug.Log($"Taken {amount} damage");
+    }
+    
+    public bool CanTakeDamage(IDamageable attacker) => true;
+
+    #endregion
+    
+    #region Movement
 
     /// <summary>
     /// Перемещает NPC к указанной цели с заданной точностью.
@@ -35,4 +50,6 @@ public class NPCController : MonoBehaviour
     /// </summary>
     /// <param name="moveVec">Вектор направления движения.</param>
     private void MoveInDirection(Vector2 moveVec) => _body.linearVelocity = moveVec * _movementSpeed;
+
+    #endregion
 }

@@ -9,7 +9,9 @@ public class FollowPlayerTask : NPCTask
 
     private readonly Cooldown _targetUpdateCooldown = new(0.2f);
     private readonly OverflowBuffer<Vector2> _currentPath = new();
+    
     private GridController? _grid;
+    private PlayerController? _player;
     private Vector2Int? _targetPos;
 
     public FollowPlayerTask(TaskData taskData) : base(taskData)
@@ -19,6 +21,7 @@ public class FollowPlayerTask : NPCTask
     protected override void OnTaskStart()
     {
         _grid = GridController.GetInstance();
+        _player = PlayerController.GetInstance();
     }
 
     public override bool Step()
@@ -61,7 +64,7 @@ public class FollowPlayerTask : NPCTask
         if (_targetPos is null)
             _targetUpdateCooldown.Reset();
 
-        var newTargetPos = _grid!.WorldToCell(PlayerController.Position);
+        var newTargetPos = _grid!.WorldToCell(_player!.Position);
         if (newTargetPos == _targetPos)
             return true;
 

@@ -21,7 +21,7 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
             $"You need to add {nameof(NPCBehaviorController)} to this NPC (at least {nameof(BasicBehaviorController)})");
         if (npcBehavior == null)
             return;
-        
+
         foreach (var task in npcBehavior.CreateTasks(_taskData).Reverse())
             PushTask(task);
     }
@@ -42,4 +42,9 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
     }
 
     public void PushTask(NPCTask task) => _taskStack.Push(task);
+}
+
+public interface INPCTaskScheduler
+{
+    public void PushTask(NPCTask task);
 }
