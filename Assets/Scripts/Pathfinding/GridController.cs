@@ -42,8 +42,10 @@ public class GridController : MonoBehaviour
         var end = instance.WorldToCell(endPos);
         return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
     }
-
+    
     public Vector2Int WorldToCell(Vector3 position) => (Vector2Int)_grid.WorldToCell(position);
+
+    public Vector2Int WorldToCell(Vector2 position) => (Vector2Int)_grid.WorldToCell(position);
 
     public Vector2 CellToNormalWorld(Vector2Int cellPos) => CellToWorld(cellPos).ToCellCenter();
     

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class WaypointWalkTask : NPCTask
+public class WaypointWalkTask : NPCTask
 {
-    private readonly HashSet<Vector2Int> _waypoints;
+    private readonly Queue<Vector2Int> _waypoints;
     private readonly Queue<Vector2> _path = new();
     private GridController? _grid;
 
     protected WaypointWalkTask(TaskData taskData, Vector2Int[] waypoints) : base(taskData)
     {
-        _waypoints = waypoints.ToHashSet();
+        _waypoints = new Queue<Vector2Int>(waypoints);
     }
 
     protected override void OnTaskStart()
@@ -36,7 +36,7 @@ public abstract class WaypointWalkTask : NPCTask
             return false;
 
         var currentPos = _grid!.WorldToCell(NPC.transform.position);
-        if (!TryGetNextWaypoint(currentPos, out var target))
+        if (!TryGetNextWaypoint(out var target))
             return true;
 
         var targetPath = _grid.FindPath(NPC.gameObject, currentPos, target)
@@ -48,7 +48,7 @@ public abstract class WaypointWalkTask : NPCTask
         return false;
     }
 
-    private bool TryGetNextWaypoint(Vector2Int currentPos, out Vector2Int nextWaypoint)
+    private bool TryGetNextWaypoint(out Vector2Int nextWaypoint)
     {
         if (_waypoints.Count == 0)
         {
@@ -56,8 +56,7 @@ public abstract class WaypointWalkTask : NPCTask
             return false;
         }
 
-        nextWaypoint = _waypoints.MinBy(waypoint => (waypoint - currentPos).sqrMagnitude);
-        _waypoints.Remove(nextWaypoint);
+        nextWaypoint = _waypoints.Dequeue();
         return true;
     }
 
@@ -74,4 +73,6 @@ public abstract class WaypointWalkTask : NPCTask
             _path.Dequeue();
         }
     }
+    
+    public override NPCTask? CreateNextTask(TaskData taskData) => null;
 }

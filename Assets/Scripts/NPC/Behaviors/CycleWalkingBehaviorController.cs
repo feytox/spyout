@@ -1,0 +1,14 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class CycleWalkingBehaviorController : NPCBehaviorController
+{
+    [SerializeField] private WaypointsController _waypoints;
+
+    public override IEnumerable<NPCTask> CreateTasks(TaskData taskData)
+    {
+        var points = _waypoints.Points.Select(GridController.GetInstance().WorldToCell).ToArray();
+        return new[] { new CycleWaypointWalkTask(taskData, points) };
+    }
+}
