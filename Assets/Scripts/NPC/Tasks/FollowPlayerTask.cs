@@ -1,3 +1,4 @@
+#nullable enable
 using System.Linq;
 using UnityEngine;
 using Utils;
@@ -8,10 +9,16 @@ public class FollowPlayerTask : NPCTask
 
     private readonly Cooldown _targetUpdateCooldown = new(0.2f);
     private readonly OverflowBuffer<Vector2> _currentPath = new();
+    private GridController? _grid;
     private Vector2Int? _targetPos;
 
     public FollowPlayerTask(TaskData taskData) : base(taskData)
     {
+    }
+
+    protected override void OnTaskStart()
+    {
+        _grid = GridController.GetInstance();
     }
 
     public override bool Step()
@@ -20,18 +27,20 @@ public class FollowPlayerTask : NPCTask
         MoveByPath();
         return false;
     }
-
+    
+    // TODO: это стоит закинуть в async
+    // ReSharper disable Unity.PerformanceAnalysis
     private void UpdatePath()
     {
         if (RefreshTargetPosition()) 
             return;
 
         var start = _currentPath.TryPeekLast(out var lastPathPoint)
-            ? GridController.WorldToGridCell(lastPathPoint)
-            : GridController.WorldToGridCell(NPC.transform.position);
+            ? _grid!.WorldToCell(lastPathPoint)
+            : _grid!.WorldToCell(NPC.transform.position);
 
-        var deltaPath = GridController.FindPath(NPC.gameObject, start, _targetPos!.Value)
-            .Select(GridController.CellToNormalWorld)
+        var deltaPath = _grid.FindPath(NPC.gameObject, start, _targetPos!.Value)
+            .Select(_grid.CellToNormalWorld)
             .ToArray();
 
         if (deltaPath.Length != 0)
@@ -52,7 +61,7 @@ public class FollowPlayerTask : NPCTask
         if (_targetPos is null)
             _targetUpdateCooldown.Reset();
 
-        var newTargetPos = GridController.WorldToGridCell(PlayerController.Position);
+        var newTargetPos = _grid!.WorldToCell(PlayerController.Position);
         if (newTargetPos == _targetPos)
             return true;
 
@@ -70,8 +79,10 @@ public class FollowPlayerTask : NPCTask
 
             if (!NPC.MoveToTarget(currentTarget))
                 break;
+            
+            _currentPath.Dequeue();
         }
     }
 
-    public override NPCTask CreateNextTask(TaskData taskData) => null;
+    public override NPCTask? CreateNextTask(TaskData taskData) => null;
 }

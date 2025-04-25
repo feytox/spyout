@@ -20,7 +20,8 @@ public class TileGrid
         _min = min;
         _max = max;
     }
-
+    
+    // TODO: ускорить???
     public void Get8Neighbours(GameObject walker, Vector2Int pos, List<Vector2Int> result)
     {
         result.Clear();
@@ -36,7 +37,7 @@ public class TileGrid
         {
             var firstNeighbour = new Vector2Int(pos.x + delta.x, pos.y);
             var secondNeighbour = new Vector2Int(pos.x, pos.y + delta.y);
-            if (!result.Contains(firstNeighbour) || !result.Contains(secondNeighbour)) // <8 elements, so it is fast
+            if (!result.Contains(firstNeighbour) || !result.Contains(secondNeighbour)) // < 8 elements, so it is fast
                 return;
             
             var diagonalPos = pos + delta;

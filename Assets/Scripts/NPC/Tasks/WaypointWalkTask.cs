@@ -1,16 +1,22 @@
+#nullable enable
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public abstract class WaypointWalkTask : NPCTask
 {
     private readonly HashSet<Vector2Int> _waypoints;
-    private readonly Queue<Vector2> _path;
+    private readonly Queue<Vector2> _path = new();
+    private GridController? _grid;
 
-    protected WaypointWalkTask([NotNull] TaskData taskData, Vector2Int[] waypoints) : base(taskData)
+    protected WaypointWalkTask(TaskData taskData, Vector2Int[] waypoints) : base(taskData)
     {
         _waypoints = waypoints.ToHashSet();
+    }
+
+    protected override void OnTaskStart()
+    {
+        _grid = GridController.GetInstance();
     }
 
     public override bool Step()
@@ -22,17 +28,19 @@ public abstract class WaypointWalkTask : NPCTask
         return false;
     }
 
+    // TODO: это стоит закинуть в async
+    // ReSharper disable Unity.PerformanceAnalysis
     private bool UpdatePath()
     {
         if (_path.Count > 0)
             return false;
 
-        var currentPos = GridController.WorldToGridCell(NPC.transform.position);
+        var currentPos = _grid!.WorldToCell(NPC.transform.position);
         if (!TryGetNextWaypoint(currentPos, out var target))
             return true;
 
-        var targetPath = GridController.FindPath(NPC.gameObject, currentPos, target)
-            .Select(GridController.CellToNormalWorld);
+        var targetPath = _grid.FindPath(NPC.gameObject, currentPos, target)
+            .Select(_grid.CellToNormalWorld);
 
         foreach (var pos in targetPath)
             _path.Enqueue(pos);
@@ -62,6 +70,8 @@ public abstract class WaypointWalkTask : NPCTask
 
             if (!NPC.MoveToTarget(currentTarget))
                 break;
+            
+            _path.Dequeue();
         }
     }
 }

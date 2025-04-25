@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -27,7 +28,13 @@ public class GridController : MonoBehaviour
         Debug.Assert(obstacleTilemaps.Length != 0);
         _tileGrid = TileGrid.Parse(obstacleTilemaps);
     }
+
+    public IEnumerable<Vector2Int> FindPath(GameObject walker, Vector2Int start, Vector2Int end)
+    {
+        return PathFinder.FindAStarPath(walker, _tileGrid, start, end);
+    }
     
+    [Obsolete]
     public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector3 startPos, Vector3 endPos)
     {
         var instance = GetInstance();
@@ -36,23 +43,15 @@ public class GridController : MonoBehaviour
         return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
     }
 
-    public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector2Int start, Vector2Int end)
-    {
-        var instance = GetInstance();
-        return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
-    }
+    public Vector2Int WorldToCell(Vector3 position) => (Vector2Int)_grid.WorldToCell(position);
 
-    public static Vector2Int WorldToGridCell(Vector3 position) => GetInstance().WorldToCell(position);
+    public Vector2 CellToNormalWorld(Vector2Int cellPos) => CellToWorld(cellPos).ToCellCenter();
     
-    public static Vector2 CellToWorld(Vector2Int cellPos) => GetInstance()._grid.CellToWorld((Vector3Int)cellPos);
-
-    public static Vector2 CellToNormalWorld(Vector2Int cellPos) => CellToWorld(cellPos).ToCellCenter();
-
-    private Vector2Int WorldToCell(Vector3 position) => (Vector2Int)_grid.WorldToCell(position);
+    private Vector2 CellToWorld(Vector2Int cellPos) => _grid.CellToWorld((Vector3Int)cellPos);
 
     private static GridController _singleton;
 
-    private static GridController GetInstance()
+    public static GridController GetInstance()
     {
         Debug.Assert(
             _singleton != null, $"Tried to access {nameof(GridController)} before it was initialized!"

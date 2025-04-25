@@ -2,7 +2,6 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(NPCTaskManager))]
 public class NPCController : MonoBehaviour
 {   
     private const float TargetMinimumSqrDistance = 0.2f;
@@ -27,7 +26,7 @@ public class NPCController : MonoBehaviour
         if (moveVec.sqrMagnitude <= TargetMinimumSqrDistance)
             return true;
         
-        MoveInDirection(moveVec);
+        MoveInDirection(moveVec.normalized);
         return false;
     }
     
@@ -35,5 +34,5 @@ public class NPCController : MonoBehaviour
     /// Перемещает NPC в указанном направлении.
     /// </summary>
     /// <param name="moveVec">Вектор направления движения.</param>
-    public void MoveInDirection(Vector2 moveVec) => _body.linearVelocity = moveVec * _movementSpeed;
+    private void MoveInDirection(Vector2 moveVec) => _body.linearVelocity = moveVec * _movementSpeed;
 }

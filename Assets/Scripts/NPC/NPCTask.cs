@@ -2,13 +2,13 @@
 public abstract class NPCTask
 {
     protected readonly NPCController NPC;
-    protected readonly INPCTaskScheduler TaskScheduler;
+    private readonly INPCTaskScheduler _taskScheduler;
     private bool _isStarted;
     
     protected NPCTask(TaskData taskData)
     {
         NPC = taskData.NPC;
-        TaskScheduler = taskData.TaskScheduler;
+        _taskScheduler = taskData.TaskScheduler;
     }
     
     /// <summary>
@@ -36,7 +36,7 @@ public abstract class NPCTask
     /// <returns>false для правильной обработки <see cref="Step"/></returns>
     protected bool OnInterrupted(NPCTask interrupter)
     {
-        TaskScheduler.PushTask(interrupter);
+        _taskScheduler.PushTask(interrupter);
         _isStarted = false;
         return false;
     }

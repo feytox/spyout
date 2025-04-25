@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 [RequireComponent(typeof(NPCController))]
 public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
 {
-    [SerializeField] private NPCBehavior _npcBehavior = NPCBehavior.None;
-
     private readonly Stack<NPCTask> _taskStack = new();
     private NPCController? _npc;
     private TaskData? _taskData;
@@ -17,7 +16,13 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
         _npc = GetComponent<NPCController>();
         _taskData = new TaskData(this, _npc);
 
-        foreach (var task in _npcBehavior.CreateTasks(_taskData).Reverse())
+        var npcBehavior = GetComponent<NPCBehaviorController>();
+        Debug.Assert(npcBehavior != null,
+            $"You need to add {nameof(NPCBehaviorController)} to this NPC (at least {nameof(BasicBehaviorController)})");
+        if (npcBehavior == null)
+            return;
+        
+        foreach (var task in npcBehavior.CreateTasks(_taskData).Reverse())
             PushTask(task);
     }
 
