@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Задача перемещения по заданному порядку точек (waypoints) с использованием поиска пути.
+/// </summary>
 public class WaypointWalkTask : NPCTask
 {
     private readonly Queue<Vector2Int> _waypoints;

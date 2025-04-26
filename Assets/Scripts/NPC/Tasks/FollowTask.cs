@@ -3,6 +3,9 @@ using System.Linq;
 using UnityEngine;
 using Utils;
 
+/// <summary>
+/// Задача следования за целью с поиском пути
+/// </summary>
 public class FollowTask : NPCTask
 {
     private const int LockedPathPoints = 1;

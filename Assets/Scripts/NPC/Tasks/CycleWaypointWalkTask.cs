@@ -1,6 +1,8 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
+/// <inheritdoc cref="WaypointWalkTask"/>
+/// <remarks>Перемещается по точкам циклично</remarks>
 public class CycleWaypointWalkTask : WaypointWalkTask
 {
     private readonly Vector2Int[] _waypoints;

@@ -27,10 +27,10 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
     {
         if (_npcBehavior is null)
             return;
-        
+
         if (!force && !_npcBehavior.Reloadable)
             return;
-        
+
         foreach (var task in _npcBehavior.CreateTasks(_taskData).Reverse())
             PushTask(task);
     }
@@ -58,5 +58,9 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
 
 public interface INPCTaskScheduler
 {
+    /// <summary>
+    /// Добавляет задачу в стек задач NPC.
+    /// </summary>
+    /// <param name="task">Задача для добавления.</param>
     public void PushTask(NPCTask task);
 }

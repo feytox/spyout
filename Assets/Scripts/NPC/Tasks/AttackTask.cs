@@ -1,6 +1,10 @@
 using JetBrains.Annotations;
 using Utils;
 
+/// <summary>
+/// Задача атаки цели до тех пор, пока цель в зоне поражения
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class AttackTask<T> : NPCTask where T : IDamageable, IPositionProvider
 {
     // TODO: move from const to somewhere else

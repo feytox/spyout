@@ -1,5 +1,6 @@
 using System;
 
+// TODO: maybe use something else
 /// <summary>
 /// Самописный зацикленный буфер c расширенным функционалом.
 /// Для простоты при удалении объекты остаются в буфере, поэтому и должны быть структурой.
@@ -150,7 +151,10 @@ public class OverflowBuffer<T> where T : struct
 
         return _array[(_head + _size - 1) % _capacity];
     }
-
+    
+    /// <summary>
+    /// Очищает буфер, устанавливая его размер в 0.
+    /// </summary>
     public void Clear() => Trim(0);
 
     private void ResizeIfNeeded(int newSize)
