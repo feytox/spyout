@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1285772312313485047
+--- !u!1001 &4428094412361831153
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,33 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 952894299653781164, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-      propertyPath: _npcBehavior
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1016959381881582479, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Name
-      value: Black NPC
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924686492294443246, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924686492294443246, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924686492294443246, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-      propertyPath: m_Color.r
-      value: 0
+      value: Attack NPC
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.44
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -46,15 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -68,36 +52,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7807972107194334269, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-      propertyPath: _movementCooldown
-      value: 0.5
+    - target: {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _npcBehavior
+      value: 43
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7807972107194334269, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-    - {fileID: 6424512621335612473, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-    - {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1016959381881582479, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 653826930888857508}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
---- !u!1 &2290938237448299896 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1016959381881582479, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-  m_PrefabInstance: {fileID: 1285772312313485047}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &653826930888857508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2290938237448299896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0c843d2412b47f2b1df8e6ac130f65d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _waypoints: {fileID: 0}

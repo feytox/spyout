@@ -5,11 +5,12 @@ using UnityEngine.Tilemaps;
 
 public class TileGrid
 {
-    private static readonly (int, int)[] CellNeighbours = { (0, 1), (0, -1), (1, 0), (-1, 0) };
-    
+    private static readonly Vector2Int[] CellNeighbours = { new(0, 1), new(0, -1), new(1, 0), new(-1, 0) };
+    private static readonly Vector2Int[] DiagonalNeighbours = { new(1, 1), new(-1, 1), new(1, -1), new(-1, -1) };
+
     private readonly Vector2Int _min;
-    private readonly Vector2Int _max; 
-    
+    private readonly Vector2Int _max;
+
     // maybe use Vector2Int, idk
     private readonly Dictionary<Vector2Int, ITileInfo> _tilesData;
 
@@ -19,15 +20,29 @@ public class TileGrid
         _min = min;
         _max = max;
     }
-
-    // maybe use 8 neighbours for diagonal movement
-    public IEnumerable<Vector2Int> Get4Neighbours(GameObject walker, Vector2Int pos)
+    
+    // TODO: ускорить???
+    public void Get8Neighbours(GameObject walker, Vector2Int pos, List<Vector2Int> result)
     {
-        foreach (var (dx, dy) in CellNeighbours)
+        result.Clear();
+        
+        foreach (var delta in CellNeighbours)
         {
-            var neighbourPos = new Vector2Int(pos.x + dx, pos.y + dy);
+            var neighbourPos = pos + delta;
             if (IsWalkable(walker, neighbourPos))
-                yield return neighbourPos;
+                result.Add(neighbourPos);
+        }
+        
+        foreach (var delta in DiagonalNeighbours)
+        {
+            var firstNeighbour = new Vector2Int(pos.x + delta.x, pos.y);
+            var secondNeighbour = new Vector2Int(pos.x, pos.y + delta.y);
+            if (!result.Contains(firstNeighbour) || !result.Contains(secondNeighbour)) // < 8 elements, so it is fast
+                return;
+            
+            var diagonalPos = pos + delta;
+            if (IsWalkable(walker, diagonalPos))
+                result.Add(diagonalPos);
         }
     }
 
@@ -66,7 +81,7 @@ public class TileGrid
     {
         if (tilemap.TryGetComponent(out TilemapCollider2D _))
             ParseStaticTiles(tilesData, tilemap);
-        
+
         ParseDynamicTiles(tilesData, tilemap);
     }
 
@@ -78,7 +93,7 @@ public class TileGrid
             var tile = tilemap.GetTile(pos);
             if (tile == null)
                 continue;
-            
+
             tilesData[pos.ToXY()] = new SimpleTileInfo(1, false);
         }
     }

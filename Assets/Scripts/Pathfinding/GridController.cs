@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -28,21 +29,43 @@ public class GridController : MonoBehaviour
         _tileGrid = TileGrid.Parse(obstacleTilemaps);
     }
 
+    public IEnumerable<Vector2Int> FindPath(GameObject walker, Vector2Int start, Vector2Int end)
+    {
+        return PathFinder.FindAStarPath(walker, _tileGrid, start, end);
+    }
+    
+    [Obsolete]
     public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector3 startPos, Vector3 endPos)
     {
         var instance = GetInstance();
-        var start = instance._grid.WorldToCell(startPos).ToXY();
-        var end = instance._grid.WorldToCell(endPos).ToXY();
+        var start = instance.WorldToCell(startPos);
+        var end = instance.WorldToCell(endPos);
         return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
     }
 
+    #region Position Converters
+
+    public Vector2Int WorldToCell(Vector3 position) => (Vector2Int)_grid.WorldToCell(position);
+
+    public Vector2Int WorldToCell(Vector2 position) => (Vector2Int)_grid.WorldToCell(position);
+
+    public Vector2 CellToNormalWorld(Vector2Int cellPos) => CellToWorld(cellPos).ToCellCenter();
+    
+    private Vector2 CellToWorld(Vector2Int cellPos) => _grid.CellToWorld((Vector3Int)cellPos);
+
+    #endregion
+    
+    #region Singleton
+    
     private static GridController _singleton;
 
-    private static GridController GetInstance()
+    public static GridController GetInstance()
     {
         Debug.Assert(
             _singleton != null, $"Tried to access {nameof(GridController)} before it was initialized!"
         );
         return _singleton;
     }
+    
+    #endregion
 }

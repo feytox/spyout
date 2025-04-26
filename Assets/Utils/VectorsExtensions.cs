@@ -14,8 +14,7 @@ public static class VectorsExtensions
 
     public static Vector2Int ToXY(this Vector3Int vec) => new(vec.x, vec.y);
 
-    public static Vector2 ToCellCenter(this Vector2Int pos)
-    {
-        return new Vector2(pos.x + 0.5f, pos.y + 0.5f);
-    }
+    public static Vector2 ToCellCenter(this Vector2Int pos) => new(pos.x + 0.5f, pos.y + 0.5f);
+
+    public static Vector2 ToCellCenter(this Vector2 pos) => new(pos.x + 0.5f, pos.y + 0.5f);
 }
