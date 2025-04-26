@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
 {   
-    private const float TargetMinimumSqrDistance = 0.2f;
+    public const float TargetMinimumSqrDistance = 0.2f;
     
     [SerializeField] private float _movementSpeed = 4f;
 

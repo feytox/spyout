@@ -9,27 +9,39 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
 {
     private readonly Stack<NPCTask> _taskStack = new();
     private NPCController? _npc;
+    private NPCBehaviorController? _npcBehavior;
     private TaskData? _taskData;
 
     void Start()
     {
         _npc = GetComponent<NPCController>();
         _taskData = new TaskData(this, _npc);
-
-        var npcBehavior = GetComponent<NPCBehaviorController>();
-        Debug.Assert(npcBehavior != null,
+        _npcBehavior = GetComponent<NPCBehaviorController>();
+        Debug.Assert(_npcBehavior != null,
             $"You need to add {nameof(NPCBehaviorController)} to this NPC (at least {nameof(BasicBehaviorController)})");
-        if (npcBehavior == null)
-            return;
 
-        foreach (var task in npcBehavior.CreateTasks(_taskData).Reverse())
+        LoadTasks(true);
+    }
+
+    private void LoadTasks(bool force = false)
+    {
+        if (_npcBehavior is null)
+            return;
+        
+        if (!force && !_npcBehavior.Reloadable)
+            return;
+        
+        foreach (var task in _npcBehavior.CreateTasks(_taskData).Reverse())
             PushTask(task);
     }
 
     private void FixedUpdate()
     {
         if (!_taskStack.TryPeek(out var currentTask))
+        {
+            LoadTasks();
             return;
+        }
 
         currentTask.TryStartTask();
         if (!currentTask.Step())

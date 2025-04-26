@@ -5,5 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(NPCTaskManager))]
 public abstract class NPCBehaviorController : MonoBehaviour
 {
+    public abstract bool Reloadable { get; }
+    
     public abstract IEnumerable<NPCTask> CreateTasks(TaskData taskData);
 }

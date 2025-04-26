@@ -6,6 +6,8 @@ public class CycleWalkingBehaviorController : NPCBehaviorController
 {
     [SerializeField] private WaypointsController _waypoints;
 
+    public override bool Reloadable => false;
+
     public override IEnumerable<NPCTask> CreateTasks(TaskData taskData)
     {
         var points = _waypoints.Points.Select(GridController.GetInstance().WorldToCell).ToArray();

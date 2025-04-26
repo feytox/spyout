@@ -151,6 +151,8 @@ public class OverflowBuffer<T> where T : struct
         return _array[(_head + _size - 1) % _capacity];
     }
 
+    public void Clear() => Trim(0);
+
     private void ResizeIfNeeded(int newSize)
     {
         if (newSize < _capacity)
