@@ -1,17 +1,15 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PatrolBehavior : NPCBehavior
+public class PassiveWalkingBehavior : NPCBehavior
 {
     [SerializeField] private WaypointsController _waypoints;
-
+    
     public override bool Reloadable => true;
-
+    
     public override IEnumerable<NPCTask> CreateTasks(TaskData taskData)
     {
-        return new NPCTask[] { 
-            PatrolTask<PlayerController>.OfPlayer(taskData, _waypoints.Points.Value), 
-            AttackTask<PlayerController>.OfPlayer(taskData) 
-        };
+        return new PassiveWalkTask(taskData, _waypoints.Points.Value).Yield();
     }
 }

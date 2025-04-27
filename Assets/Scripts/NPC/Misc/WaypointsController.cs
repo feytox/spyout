@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Linq;
 using UnityEngine;
@@ -5,11 +6,20 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class WaypointsController : MonoBehaviour
 {
-    [NonSerialized] public Vector2[] Points;
+    public Lazy<Vector2Int[]> Points => new(ConvertPoints);
+
+    private Vector2[]? _points;
 
     void Awake()
     {
         var waypoints = GetComponentsInChildren<Waypoint>(true);
-        Points = waypoints.Select(waypoint => waypoint.Position).ToArray();
+        _points = waypoints.Select(waypoint => waypoint.Position).ToArray();
+    }
+
+    private Vector2Int[] ConvertPoints()
+    {
+        Debug.Assert(_points is not null,
+            $"Точки запрошены слишком рано, ещё до Awake в {nameof(WaypointsController)}");
+        return _points!.Select(GridController.GetInstance().WorldToCell).ToArray();
     }
 }
