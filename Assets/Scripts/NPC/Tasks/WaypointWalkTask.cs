@@ -31,11 +31,13 @@ public class WaypointWalkTask : NPCTask
         return false;
     }
 
+    protected virtual bool CanWalkNext() => true;
+
     // TODO: это стоит закинуть в async
     // ReSharper disable Unity.PerformanceAnalysis
     private bool UpdatePath()
     {
-        if (_path.Count > 0)
+        if (_path.Count > 0 || !CanWalkNext())
             return false;
 
         var currentPos = _grid!.WorldToCell(NPC.transform.position);
@@ -72,10 +74,10 @@ public class WaypointWalkTask : NPCTask
 
             if (!NPC.MoveToTarget(currentTarget))
                 break;
-            
+
             _path.Dequeue();
         }
     }
-    
+
     public override NPCTask? CreateNextTask(TaskData taskData) => null;
 }

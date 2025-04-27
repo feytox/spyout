@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NPCTaskManager))]
-public abstract class NPCBehaviorController : MonoBehaviour
+public abstract class NPCBehavior : MonoBehaviour
 {
     /// <summary>
     /// Определяет, следует ли периодически пересоздавать задачи после обработки всех задач.

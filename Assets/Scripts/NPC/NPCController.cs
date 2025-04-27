@@ -17,6 +17,11 @@ public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
         _body = GetComponent<Rigidbody2D>();
     }
 
+    public bool IsTargetReached(IPositionProvider target, float sqrPrecision = TargetMinimumSqrDistance)
+    {
+        return (target.Position - Position).sqrMagnitude <= sqrPrecision;
+    }
+
     #region IDamageable
 
     public void Damage(float amount)

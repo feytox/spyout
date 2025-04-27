@@ -4,7 +4,7 @@ using UnityEngine;
 public static class PathFinder
 {
     public static IEnumerable<Vector2Int> FindAStarPath(GameObject walker, TileGrid grid,
-        Vector2Int start, Vector2Int end)
+        Vector2Int start, Vector2Int end, int maxPathLength)
     {
         var ctx = new AStarContext(walker, grid, start, end);
 
@@ -14,7 +14,7 @@ public static class PathFinder
             if (current == start) 
                 break;
             
-            ctx.ProcessNeighbours(current);
+            ctx.ProcessNeighbours(current, maxPathLength);
         }
 
         if (!ctx.Track.TryGetValue(start, out var pointData)) 
@@ -50,13 +50,16 @@ public static class PathFinder
             _buffer = new List<Vector2Int>();
         }
 
-        public void ProcessNeighbours(Vector2Int current)
+        public void ProcessNeighbours(Vector2Int current, int maxPathLength)
         {
             var currentCost = Track[current].CostSoFar;
             _grid.Get8Neighbours(_walker, current, _buffer);
             foreach (var next in _buffer)
             {
                 var newCost = currentCost + _grid.GetCost(next);
+                if (newCost > maxPathLength)
+                    continue;
+                
                 if (Track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
                     continue;
 
