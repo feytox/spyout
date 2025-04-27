@@ -8,6 +8,8 @@ using Utils;
 /// </summary>
 public class FollowTask : NPCTask
 {
+    // TODO: move const to somewhere else
+    private const int MaxPathLength = 15;
     private const int LockedPathPoints = 1;
     private const float TargetUpdateCooldown = 0.2f;
 
@@ -52,43 +54,37 @@ public class FollowTask : NPCTask
         else if (!_targetUpdateCooldown.ResetIfExpired())
             return false;
         
-        var currentPos = _grid!.WorldToCell(NPC.transform.position);
-        var newTargetPos = _grid!.WorldToCell(_target.Position);
-        if (IsTargetReached(currentPos, newTargetPos))
+        if (NPC.IsTargetReached(_target))
             return true;
-
+        
+        var newTargetPos = _grid!.WorldToCell(_target.Position);
         if (newTargetPos == _targetPos)
             return false;
         
         _targetPos = newTargetPos;
         _currentPath.Trim(LockedPathPoints);
-        RefreshPath(currentPos);
-        return false;
+        return RefreshPath(_grid!.WorldToCell(NPC.transform.position));
     }
 
-    private void RefreshPath(Vector2Int currentPos)
+    private bool RefreshPath(Vector2Int currentPos)
     {
         var start = _currentPath.TryPeekLast(out var lastPathPoint)
             ? _grid!.WorldToCell(lastPathPoint)
             : currentPos;
 
-        var deltaPath = _grid!.FindPath(NPC.gameObject, start, _targetPos!.Value)
+        var deltaPath = _grid!.FindPath(NPC.gameObject, start, _targetPos!.Value, MaxPathLength)
             .Select(_grid.CellToNormalWorld)
             .ToArray();
 
         if (deltaPath.Length != 0)
         {
             _currentPath.EnqueueRange(deltaPath);
-            return;
+            return false;
         }
 
         _currentPath.Clear();
         _targetPos = null;
-    }
-
-    private static bool IsTargetReached(Vector2Int currentPos, Vector2Int targetPos)
-    {
-        return (currentPos - targetPos).sqrMagnitude <= NPCController.TargetMinimumSqrDistance;
+        return true;
     }
 
     private void MoveByPath()

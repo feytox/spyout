@@ -29,18 +29,19 @@ public class GridController : MonoBehaviour
         _tileGrid = TileGrid.Parse(obstacleTilemaps);
     }
 
-    public IEnumerable<Vector2Int> FindPath(GameObject walker, Vector2Int start, Vector2Int end)
+    public IEnumerable<Vector2Int> FindPath(GameObject walker, Vector2Int start, Vector2Int end,
+        int maxPathLength = 5000)
     {
-        return PathFinder.FindAStarPath(walker, _tileGrid, start, end);
+        return PathFinder.FindAStarPath(walker, _tileGrid, start, end, maxPathLength);
     }
-    
+
     [Obsolete]
     public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector3 startPos, Vector3 endPos)
     {
         var instance = GetInstance();
         var start = instance.WorldToCell(startPos);
         var end = instance.WorldToCell(endPos);
-        return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end);
+        return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end, 5000);
     }
 
     #region Position Converters
@@ -50,13 +51,13 @@ public class GridController : MonoBehaviour
     public Vector2Int WorldToCell(Vector2 position) => (Vector2Int)_grid.WorldToCell(position);
 
     public Vector2 CellToNormalWorld(Vector2Int cellPos) => CellToWorld(cellPos).ToCellCenter();
-    
+
     private Vector2 CellToWorld(Vector2Int cellPos) => _grid.CellToWorld((Vector3Int)cellPos);
 
     #endregion
-    
+
     #region Singleton
-    
+
     private static GridController _singleton;
 
     public static GridController GetInstance()
@@ -66,6 +67,6 @@ public class GridController : MonoBehaviour
         );
         return _singleton;
     }
-    
+
     #endregion
 }
