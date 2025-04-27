@@ -1,3 +1,4 @@
+#nullable enable
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -10,11 +11,13 @@ public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
 
     public Vector2 Position => transform.position;
     
-    private Rigidbody2D _body;
+    private Rigidbody2D? _body;
+    private NPCAnimController? _animController;
 
     void Start()
     {
         _body = GetComponent<Rigidbody2D>();
+        _animController = GetComponentInChildren<NPCAnimController>();
     }
 
     public bool IsTargetReached(IPositionProvider target, float sqrPrecision = TargetMinimumSqrDistance)
@@ -28,7 +31,12 @@ public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
     {
         Debug.Log($"Taken {amount} damage");
     }
-    
+
+    public void OnTargetAttacked()
+    {
+        _animController?.TriggerAttack();
+    }
+
     public bool CanTakeDamage(IDamageable attacker) => true;
 
     #endregion
@@ -54,7 +62,11 @@ public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
     /// Перемещает NPC в указанном направлении.
     /// </summary>
     /// <param name="moveVec">Вектор направления движения.</param>
-    private void MoveInDirection(Vector2 moveVec) => _body.linearVelocity = moveVec * _movementSpeed;
+    private void MoveInDirection(Vector2 moveVec)
+    {
+        _body!.linearVelocity = moveVec * _movementSpeed;
+        _animController?.UpdateMovementAnimation(moveVec);
+    }
 
     #endregion
 }

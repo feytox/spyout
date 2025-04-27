@@ -11,7 +11,8 @@ public class PlayerInputController : MonoBehaviour
     public PriorityEvent<InputAction.CallbackContext> InteractStarted { get; } = new();
 
     public event Action<InputAction.CallbackContext> PrevItem;
-    public event Action<InputAction.CallbackContext> NextItem; 
+    public event Action<InputAction.CallbackContext> NextItem;
+    public event Action<Vector2> MovementUpdate;
 
     public Vector2 Movement { get; private set; }
 
@@ -40,9 +41,17 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Disable();
     }
 
-    private void SetMovement(InputAction.CallbackContext ctx) => Movement = ctx.ReadValue<Vector2>();
+    private void SetMovement(InputAction.CallbackContext ctx)
+    {
+        Movement = ctx.ReadValue<Vector2>();
+        MovementUpdate?.Invoke(Movement);
+    }
 
-    private void OnMoveCancel(InputAction.CallbackContext ctx) => Movement = Vector2.zero;
+    private void OnMoveCancel(InputAction.CallbackContext ctx)
+    {
+        Movement = Vector2.zero;
+        MovementUpdate?.Invoke(Movement);
+    }
 
     private void OnPrevItem(InputAction.CallbackContext ctx) => PrevItem?.Invoke(ctx);
     

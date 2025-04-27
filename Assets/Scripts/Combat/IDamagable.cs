@@ -3,9 +3,15 @@ public interface IDamageable
     /// <summary>
     /// Наносит урон объекту.
     /// </summary>
+    /// <remarks>Лучше использовать <see cref="DamageableExtensions.TryAttack"/></remarks>
     /// <param name="amount">Величина урона.</param>
     public void Damage(float amount);
-
+    
+    /// <summary>
+    /// Вызывается после совершения атаки по цели
+    /// </summary>
+    public void OnTargetAttacked();
+    
     /// <summary>
     /// Проверяет, может ли объект получить урон от указанного атакующего без учёта расстояния.
     /// </summary>
@@ -38,6 +44,7 @@ public static class DamageableExtensions
             return false;
 
         target.Damage(amount);
+        attacker.OnTargetAttacked();
         return true;
     }
 

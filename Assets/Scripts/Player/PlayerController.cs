@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour, IDamageable, IPositionProvider
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
     public static Inventory Inventory => GetInstance()._playerInventory.Inventory;
-    public static GameObject GameObject => GetInstance().gameObject;
     
     public Vector2 Position => transform.position;
 
@@ -32,17 +31,24 @@ public class PlayerController : MonoBehaviour, IDamageable, IPositionProvider
         _body = GetComponent<Rigidbody2D>();
         _playerInventory = GetComponent<PlayerInventoryController>();
         _animController = GetComponentInChildren<PlayerAnimController>();
+
+        if (_animController is not null)
+            _inputs.MovementUpdate += _animController.UpdateMovementAnimation;
     }
 
     private void FixedUpdate()
     {
         _body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
-        _animController?.UpdateMovementAnimation(_inputs.Movement); // TODO: refactor
     }
     
     public void Damage(float amount)
     {
         Debug.Log($"Player taken {amount} damage");
+    }
+
+    public void OnTargetAttacked()
+    {
+        Debug.Log($"Target attacked by player!");
     }
 
     public bool CanTakeDamage(IDamageable attacker) => true;

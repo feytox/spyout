@@ -2,9 +2,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
-public class PlayerAnimController : MonoBehaviour
+public class NPCAnimController : MonoBehaviour
 {
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
+    private static readonly int Attack = Animator.StringToHash("attack");
     
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -20,5 +21,10 @@ public class PlayerAnimController : MonoBehaviour
         _spriteRenderer.flipX = movementInput.x < 0.0f;
         var isWalking = movementInput != Vector2.zero;
         _animator.SetBool(IsWalking, isWalking);
+    }
+
+    public void TriggerAttack()
+    {
+        _animator.SetTrigger(Attack);
     }
 }
