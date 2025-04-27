@@ -1,9 +1,8 @@
 using UnityEngine;
 
-// TODO улучшить переход анимаций
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
-public class PlayerAnimController : MonoBehaviour
+public class NPCAnimController : MonoBehaviour
 {
     private static readonly int walk = Animator.StringToHash(WalkParam);
     private const string WalkParam = "walk";
@@ -19,7 +18,7 @@ public class PlayerAnimController : MonoBehaviour
     public void UpdateMovementAnimation(Vector2 movementInput)
     {
         spriteRenderer.flipX = movementInput.x < 0.0f;
-        var walkValue = movementInput != Vector2.zero;
+        var walkValue = !Mathf.Approximately(movementInput.sqrMagnitude, 0.0f);
         animator.SetBool(walk, walkValue);
     }
 }
