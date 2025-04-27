@@ -5,14 +5,14 @@ using UnityEngine;
 
 /// <summary>
 /// Контроллер, реализующий базовые шаблоны поведения NPC.
-/// Использует перечисление <see cref="BasicBehavior"/> для выбора конкретного поведения.
+/// Использует перечисление <see cref="BasicBehaviorType"/> для выбора конкретного поведения.
 /// </summary>
-public class BasicBehaviorController : NPCBehaviorController
+public class BasicBehavior : NPCBehavior
 {
     /// <summary>
     /// Выбранный базовый шаблон поведения для NPC.
     /// </summary>
-    [SerializeField] private BasicBehavior _npcBehavior = BasicBehavior.None;
+    [SerializeField] private BasicBehaviorType _npcBehavior = BasicBehaviorType.None;
 
     /// <summary>
     /// Определяет, следует ли перезагружать задачи для текущего поведения.
@@ -20,8 +20,8 @@ public class BasicBehaviorController : NPCBehaviorController
     /// </summary>
     public override bool Reloadable => _npcBehavior switch
     {
-        BasicBehavior.FollowPlayer => true,
-        BasicBehavior.FollowAndAttack => true,
+        BasicBehaviorType.FollowPlayer => true,
+        BasicBehaviorType.FollowAndAttack => true,
         _ => false
     };
 
@@ -35,11 +35,11 @@ public class BasicBehaviorController : NPCBehaviorController
     {
         return _npcBehavior switch
         {
-            BasicBehavior.None => Array.Empty<NPCTask>(),
+            BasicBehaviorType.None => Array.Empty<NPCTask>(),
             
-            BasicBehavior.FollowPlayer => FollowTask.OfPlayer(taskData).Yield(),
+            BasicBehaviorType.FollowPlayer => FollowTask.OfPlayer(taskData).Yield(),
             
-            BasicBehavior.FollowAndAttack => new NPCTask[]
+            BasicBehaviorType.FollowAndAttack => new NPCTask[]
                 { FollowTask.OfPlayer(taskData), AttackTask<PlayerController>.OfPlayer(taskData) },
             
             _ => throw new ArgumentOutOfRangeException(nameof(_npcBehavior), _npcBehavior, null)
@@ -50,7 +50,7 @@ public class BasicBehaviorController : NPCBehaviorController
 /// <summary>
 /// Перечисление базовых шаблонов поведения NPC.
 /// </summary>
-public enum BasicBehavior : byte
+public enum BasicBehaviorType : byte
 {
     None = 0,
     

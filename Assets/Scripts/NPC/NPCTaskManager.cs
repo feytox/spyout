@@ -9,16 +9,16 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
 {
     private readonly Stack<NPCTask> _taskStack = new();
     private NPCController? _npc;
-    private NPCBehaviorController? _npcBehavior;
+    private NPCBehavior? _npcBehavior;
     private TaskData? _taskData;
 
     void Start()
     {
         _npc = GetComponent<NPCController>();
         _taskData = new TaskData(this, _npc);
-        _npcBehavior = GetComponent<NPCBehaviorController>();
+        _npcBehavior = GetComponent<NPCBehavior>();
         Debug.Assert(_npcBehavior != null,
-            $"You need to add {nameof(NPCBehaviorController)} to this NPC (at least {nameof(BasicBehaviorController)})");
+            $"You need to add {nameof(NPCBehavior)} to this NPC (at least {nameof(BasicBehavior)})");
 
         LoadTasks(true);
     }
