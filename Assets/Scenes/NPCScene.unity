@@ -133,7 +133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4695648523177946101, guid: 30b2da9171a709548aaf6c4b4cd95a52, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6792501744135904007, guid: 30b2da9171a709548aaf6c4b4cd95a52, type: 3}
       propertyPath: _waypoints
@@ -6328,6 +6328,10 @@ PrefabInstance:
     - target: {fileID: 8541853858524022580, guid: 724387bb604719b4d8523e576d530d7d, type: 3}
       propertyPath: m_Name
       value: Passive NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 8541853858524022580, guid: 724387bb604719b4d8523e576d530d7d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
