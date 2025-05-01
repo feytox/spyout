@@ -15,8 +15,8 @@ public class AttackTask<T> : NPCTask where T : IDamageable, IPositionProvider
     private readonly T _target;
     private readonly Cooldown _attackCooldown = new(AttackCooldown);
     private readonly Cooldown _rangeCooldown = new(RangeCheckCooldown);
-    
-    public AttackTask([NotNull] TaskData taskData, T target) : base(taskData)
+
+    private AttackTask([NotNull] TaskData taskData, T target) : base(taskData)
     {
         _target = target;
     }
@@ -28,13 +28,18 @@ public class AttackTask<T> : NPCTask where T : IDamageable, IPositionProvider
 
     public override bool Step()
     {
-        if (_rangeCooldown.ResetIfExpired() && (_target == null || !NPC.IsInAttackRange(_target)))
+        if (_rangeCooldown.ResetIfExpired() && !CanAttack())
             return true;
         
         if (!_attackCooldown.ResetIfExpired())
             return false;
         
         return _target == null || !NPC.TryAttack(_target, DamageAmount);
+    }
+
+    private bool CanAttack()
+    {
+        return _target != null && _target.CanTakeDamage(NPC) && NPC.IsInAttackRange(_target);
     }
 
     public override NPCTask CreateNextTask(TaskData taskData) => null;

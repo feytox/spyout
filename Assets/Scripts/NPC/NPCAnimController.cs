@@ -6,6 +6,7 @@ public class NPCAnimController : MonoBehaviour
 {
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int Attack = Animator.StringToHash("attack");
+    private static readonly int IsDead = Animator.StringToHash("isDead");
     
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -23,8 +24,7 @@ public class NPCAnimController : MonoBehaviour
         _animator.SetBool(IsWalking, isWalking);
     }
 
-    public void TriggerAttack()
-    {
-        _animator.SetTrigger(Attack);
-    }
+    public void TriggerAttack() => _animator.SetTrigger(Attack);
+
+    public void OnDeath() => _animator.SetBool(IsDead, true);
 }

@@ -3,44 +3,47 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
-public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
-{   
-    public const float TargetMinimumSqrDistance = 0.2f;
-    
+public class NPCController : MonoBehaviour, ICharacter
+{
+    private const float TargetMinimumSqrDistance = 0.2f;
+
     [SerializeField] private float _movementSpeed = 4f;
 
+    public Rigidbody2D? Body { get; private set; }
     public Vector2 Position => transform.position;
-    
-    private Rigidbody2D? _body;
+
     private NPCAnimController? _animController;
+    private HealthController? _healthController;
 
     void Start()
     {
-        _body = GetComponent<Rigidbody2D>();
+        Body = GetComponent<Rigidbody2D>();
         _animController = GetComponentInChildren<NPCAnimController>();
-    }
-
-    public bool IsTargetReached(IPositionProvider target, float sqrPrecision = TargetMinimumSqrDistance)
-    {
-        return (target.Position - Position).sqrMagnitude <= sqrPrecision;
+        _healthController = GetComponentInChildren<HealthController>();
     }
 
     #region IDamageable
 
-    public void Damage(float amount)
-    {
-        Debug.Log($"Taken {amount} damage");
-    }
-
-    public void OnTargetAttacked()
+    public void OnTargetAttacked<T>(T attacker) where T : IDamageable, IPositionProvider
     {
         _animController?.TriggerAttack();
     }
 
-    public bool CanTakeDamage(IDamageable attacker) => true;
+    HealthController? ICharacter.HealthController => _healthController;
+
+    public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
+    {
+        _animController?.OnDeath();
+    }
+
+    public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
+    {
+        Debug.Log("NPC Damage :D");
+        this.ApplyKnockback(attacker);
+    }
 
     #endregion
-    
+
     #region Movement
 
     /// <summary>
@@ -53,19 +56,24 @@ public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
         var moveVec = target - (Vector2)transform.position;
         if (moveVec.sqrMagnitude <= TargetMinimumSqrDistance)
             return true;
-        
+
         MoveInDirection(moveVec.normalized);
         return false;
     }
-    
+
     /// <summary>
     /// Перемещает NPC в указанном направлении.
     /// </summary>
     /// <param name="moveVec">Вектор направления движения.</param>
     private void MoveInDirection(Vector2 moveVec)
     {
-        _body!.linearVelocity = moveVec * _movementSpeed;
+        Body!.linearVelocity = moveVec * _movementSpeed;
         _animController?.UpdateMovementAnimation(moveVec);
+    }
+
+    public bool IsTargetReached(IPositionProvider target, float sqrPrecision = TargetMinimumSqrDistance)
+    {
+        return (target.Position - Position).sqrMagnitude <= sqrPrecision;
     }
 
     #endregion

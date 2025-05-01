@@ -4,13 +4,14 @@ public interface IDamageable
     /// Наносит урон объекту.
     /// </summary>
     /// <remarks>Лучше использовать <see cref="DamageableExtensions.TryAttack"/></remarks>
-    /// <param name="amount">Величина урона.</param>
-    public void Damage(float amount);
+    /// <param name="attacker">Атакующий</param>
+    /// <param name="amount">Величина урона</param>
+    public void Damage<T>(T attacker, float amount) where T : IDamageable, IPositionProvider;
     
     /// <summary>
     /// Вызывается после совершения атаки по цели
     /// </summary>
-    public void OnTargetAttacked();
+    public void OnTargetAttacked<T>(T attacker) where T : IDamageable, IPositionProvider;
     
     /// <summary>
     /// Проверяет, может ли объект получить урон от указанного атакующего без учёта расстояния.
@@ -22,7 +23,7 @@ public interface IDamageable
 
 public static class DamageableExtensions
 {
-    private const float AttackSqrRange = 0.75f * 0.75f;
+    private const float AttackSqrRange = 1.25f * 1.25f;
 
     /// <summary>
     /// Пытается нанести урон цели, если она находится в радиусе атаки и может получить урон.
@@ -43,8 +44,8 @@ public static class DamageableExtensions
         if (!target.CanTakeDamage(attacker))
             return false;
 
-        target.Damage(amount);
-        attacker.OnTargetAttacked();
+        target.Damage(attacker, amount);
+        attacker.OnTargetAttacked(target);
         return true;
     }
 

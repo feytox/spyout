@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimController : MonoBehaviour
 {
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
+    private static readonly int Attack = Animator.StringToHash("attack");
     
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -21,4 +22,6 @@ public class PlayerAnimController : MonoBehaviour
         var isWalking = movementInput != Vector2.zero;
         _animator.SetBool(IsWalking, isWalking);
     }
+
+    public void TriggerAttack() => _animator.SetTrigger(Attack);
 }

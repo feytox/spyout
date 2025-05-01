@@ -8,12 +8,14 @@ using System;
 /// <typeparam name="T"></typeparam>
 public class OverflowBuffer<T> where T : struct
 {
-    private const int InitialCapacity = 4;
-    private T[] _array = new T[InitialCapacity];
+    public int Count => _size;
     
+    private const int InitialCapacity = 4;
+
     private int _head;
     private int _size;
     private int _capacity = InitialCapacity;
+    private T[] _array = new T[InitialCapacity];
 
     /// <summary>
     /// Уменьшает размер буфера до указанного значения.

@@ -1,0 +1,35 @@
+using UnityEngine;
+
+public interface ICharacter : IDamageable, IPositionProvider
+{   
+    public Rigidbody2D Body { get; }
+    public HealthController HealthController { get; }
+
+    public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider;
+
+    public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider;
+
+    void IDamageable.Damage<T>(T attacker, float amount)
+    {
+        if (HealthController.Damage(amount))
+            OnDamage(attacker);
+        else
+            OnDeath(attacker);
+    }
+    
+    bool IPositionProvider.IsDead => HealthController.IsDead;
+    bool IDamageable.CanTakeDamage(IDamageable attacker) => !IsDead;
+}
+
+public static class CharacterExtensions
+{
+    private const float KnockbackModifier = 5f;
+    
+    public static void ApplyKnockback<T>(this ICharacter character, T attacker) where T : IDamageable, IPositionProvider
+    {
+        var attackVec = character.Position - attacker.Position;
+        attackVec.Normalize();
+        
+        character.Body.AddForce(attackVec * KnockbackModifier, ForceMode2D.Impulse);
+    }
+}
