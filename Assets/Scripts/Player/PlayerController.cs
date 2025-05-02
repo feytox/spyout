@@ -8,6 +8,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, ICharacter
 {
     [SerializeField] private float _movementSpeed = 120f;
+    [SerializeField] private float _attackRadius = 1f;
+    [SerializeField] private LayerMask _attackLayer;
 
     private PlayerAnimController _animController;
     private PlayerInputController _inputs;
@@ -15,7 +17,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     private HealthController _healthController;
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
-    public static Inventory Inventory => GetInstance()._playerInventory.Inventory;
+    public InventoryController Inventory => _playerInventory;
 
     public Rigidbody2D Body { get; private set; }
     public Vector2 Position => transform.position;
@@ -38,18 +40,28 @@ public class PlayerController : MonoBehaviour, ICharacter
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         Body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
     }
 
+    public bool AttackInRange()
+    {
+        var targetCollider = Physics2D.OverlapCircle(Position, _attackRadius, _attackLayer);
+        if (targetCollider is null)
+            return false;
+        
+        var target = targetCollider.gameObject.GetComponent<ICharacter>();
+        return target is not null && this.TryAttack(target);
+    }
+
     #region ICharacter
 
-    HealthController ICharacter.HealthController => _healthController;
+    HealthController ICharacter.Health => _healthController;
 
-    public void OnTargetAttacked<T>(T attacker) where T : IDamageable, IPositionProvider
+    public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider
     {
-        _animController?.TriggerAttack();
+        _animController?.TriggerAttack(target.Position - Position);
     }
 
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider

@@ -18,7 +18,7 @@ namespace Utils
         /// Подписывает обработчик на событие с указанным приоритетом.
         /// </summary>
         /// <param name="priority">Приоритет. Чем больше, тем позже будет выполнен</param>
-        /// <param name="listener">Функция, которая обрабатывает данные события и возвращает false,
+        /// <param name="listener">Функция, которая обрабатывает данные события и возвращает true,
         /// если нужно прервать остальные события</param>
         public void Subscribe(int priority, Func<T, bool> listener)
         {
@@ -35,7 +35,7 @@ namespace Utils
         public void ExecuteEvents(T data)
         {
             foreach (var listener in _listeners)
-                if (!listener.Execute(data))
+                if (listener.Execute(data))
                     return;
         }
 

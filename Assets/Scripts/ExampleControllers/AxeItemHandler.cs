@@ -1,5 +1,4 @@
 using JetBrains.Annotations;
-using UnityEngine;
 
 public class AxeItemHandler : ItemHandler
 {
@@ -7,9 +6,8 @@ public class AxeItemHandler : ItemHandler
     {
     }
 
-    public override bool UseItem()
+    public override bool UseItem(ICharacter character)
     {
-        Debug.Log("топорр");
-        return false;
+        return true;
     }
 }

@@ -23,5 +23,9 @@ public class PlayerAnimController : MonoBehaviour
         _animator.SetBool(IsWalking, isWalking);
     }
 
-    public void TriggerAttack() => _animator.SetTrigger(Attack);
+    public void TriggerAttack(Vector2 attackVec)
+    {
+        _spriteRenderer.flipX = attackVec.x < 0.0f;
+        _animator.SetTrigger(Attack);
+    }
 }

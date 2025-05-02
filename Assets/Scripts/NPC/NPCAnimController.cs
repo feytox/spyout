@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// TODO: deduplicate with PlayerAnimController
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
 public class NPCAnimController : MonoBehaviour
@@ -24,7 +25,11 @@ public class NPCAnimController : MonoBehaviour
         _animator.SetBool(IsWalking, isWalking);
     }
 
-    public void TriggerAttack() => _animator.SetTrigger(Attack);
+    public void TriggerAttack(Vector2 attackVec)
+    {
+        _spriteRenderer.flipX = attackVec.x < 0.0f;
+        _animator.SetTrigger(Attack);
+    }
 
     public void OnDeath() => _animator.SetBool(IsDead, true);
 }

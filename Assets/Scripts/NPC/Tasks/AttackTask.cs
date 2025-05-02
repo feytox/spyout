@@ -34,7 +34,7 @@ public class AttackTask<T> : NPCTask where T : IDamageable, IPositionProvider
         if (!_attackCooldown.ResetIfExpired())
             return false;
         
-        return _target == null || !NPC.TryAttack(_target, DamageAmount);
+        return _target == null || !NPC.TryAttack(_target);
     }
 
     private bool CanAttack()

@@ -3,6 +3,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(NPCInventoryController))]
 public class NPCController : MonoBehaviour, ICharacter
 {
     private const float TargetMinimumSqrDistance = 0.2f;
@@ -10,6 +11,7 @@ public class NPCController : MonoBehaviour, ICharacter
     [SerializeField] private float _movementSpeed = 4f;
 
     public Rigidbody2D? Body { get; private set; }
+    public InventoryController? Inventory { get; private set; }
     public Vector2 Position => transform.position;
 
     private NPCAnimController? _animController;
@@ -20,16 +22,17 @@ public class NPCController : MonoBehaviour, ICharacter
         Body = GetComponent<Rigidbody2D>();
         _animController = GetComponentInChildren<NPCAnimController>();
         _healthController = GetComponentInChildren<HealthController>();
+        Inventory = GetComponent<InventoryController>();
     }
 
-    #region IDamageable
+    #region ICharacter
 
-    public void OnTargetAttacked<T>(T attacker) where T : IDamageable, IPositionProvider
+    public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider
     {
-        _animController?.TriggerAttack();
+        _animController?.TriggerAttack(target.Position - Position);
     }
 
-    HealthController? ICharacter.HealthController => _healthController;
+    HealthController? ICharacter.Health => _healthController;
 
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
     {

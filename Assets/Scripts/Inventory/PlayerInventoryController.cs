@@ -4,25 +4,30 @@ using UnityEngine;
 public class PlayerInventoryController : InventoryController
 {
     private int SelectedSlot { get; set; }
-    private ItemStack? SelectedItem => Inventory[SelectedSlot];
+    public override ItemStack? ActiveItem => Inventory?[SelectedSlot];
 
     protected override void OnStart()
     {
         var inputs = PlayerController.Inputs;
-        inputs.InteractStarted.Subscribe(10, _ => UseSelectedItem());
+        var player = PlayerController.GetInstance();
+        
+        inputs.InteractStarted.Subscribe(10, _ => UseSelectedItem(player));
         inputs.PrevItem += _ => ChangeSlot(-1);
         inputs.NextItem += _ => ChangeSlot(1);
     }
 
-    private bool UseSelectedItem() => SelectedItem is null || SelectedItem!.UseItem();
+    private bool UseSelectedItem(PlayerController player)
+    {
+        return ActiveItem is null || ActiveItem.UseItem(player);
+    }
 
     private void ChangeSlot(int delta)
     {
-        var size = Inventory.Size;
+        var size = Inventory!.Size;
         SelectedSlot += delta;
         if (SelectedSlot < 0 || SelectedSlot >= size)
             SelectedSlot = MathExt.MathMod(SelectedSlot, size);
 
-        Debug.Log($"selected {SelectedSlot}: {SelectedItem}");
+        Debug.Log($"selected {SelectedSlot}: {ActiveItem}");
     }
 }

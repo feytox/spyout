@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 3199959508139441150}
   - component: {fileID: 1946943941329450711}
   - component: {fileID: 4851837932636223223}
-  - component: {fileID: 7945566774714204215}
+  - component: {fileID: 6091150691565422584}
   - component: {fileID: 7293858143179834344}
+  - component: {fileID: 7945566774714204215}
   - component: {fileID: 420472507575524631}
   - component: {fileID: 3579183541001247209}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Base NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _npcBehavior: 0
---- !u!114 &7945566774714204215
+--- !u!114 &6091150691565422584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,9 +75,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1016959381881582479}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a5b6037f78426abb1e27606ede89c4, type: 3}
+  m_Script: {fileID: 11500000, guid: ac15dc0ba5784dc3a0070c59954147f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InventorySize: 1
+  _defaultItem: {fileID: 0}
 --- !u!114 &7293858143179834344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +93,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanOpenRestricted: 0
+--- !u!114 &7945566774714204215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016959381881582479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a5b6037f78426abb1e27606ede89c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &420472507575524631
 Rigidbody2D:
   serializedVersion: 5
@@ -199,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+  _currentHealth: 100
 --- !u!1 &3512635040821785104
 GameObject:
   m_ObjectHideFlags: 0

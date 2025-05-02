@@ -15,8 +15,8 @@ public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
 
     public void Interact()
     {
-        var playerInventory = PlayerController.Inventory;
-        if (!TryPickup(playerInventory)) 
+        var playerInventory = PlayerController.GetInstance().Inventory.Inventory;
+        if (!TryPickup(playerInventory!)) 
             return;
         
         Debug.Log(playerInventory);

@@ -3,21 +3,23 @@ using UnityEngine;
 public interface ICharacter : IDamageable, IPositionProvider
 {   
     public Rigidbody2D Body { get; }
-    public HealthController HealthController { get; }
-
+    public HealthController Health { get; }
+    public InventoryController Inventory { get; }
+    
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider;
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider;
 
     void IDamageable.Damage<T>(T attacker, float amount)
     {
-        if (HealthController.Damage(amount))
+        if (Health.Damage(amount))
             OnDamage(attacker);
         else
             OnDeath(attacker);
     }
-    
-    bool IPositionProvider.IsDead => HealthController.IsDead;
+
+    float IDamageable.CurrentDamage => (Inventory.ActiveItem?.Item.Damage).GetValueOrDefault();
+    bool IPositionProvider.IsDead => Health.IsDead;
     bool IDamageable.CanTakeDamage(IDamageable attacker) => !IsDead;
 }
 

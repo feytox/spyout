@@ -1,6 +1,11 @@
 public interface IDamageable
 {
     /// <summary>
+    /// Текущий урон, который может нанести объект
+    /// </summary>
+    public float CurrentDamage { get; }
+    
+    /// <summary>
     /// Наносит урон объекту.
     /// </summary>
     /// <remarks>Лучше использовать <see cref="DamageableExtensions.TryAttack"/></remarks>
@@ -11,7 +16,7 @@ public interface IDamageable
     /// <summary>
     /// Вызывается после совершения атаки по цели
     /// </summary>
-    public void OnTargetAttacked<T>(T attacker) where T : IDamageable, IPositionProvider;
+    public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider;
     
     /// <summary>
     /// Проверяет, может ли объект получить урон от указанного атакующего без учёта расстояния.
@@ -32,9 +37,8 @@ public static class DamageableExtensions
     /// <typeparam name="T2">Тип цели, реализующий <see cref="IDamageable"/> и <see cref="IPositionProvider"/>.</typeparam>
     /// <param name="attacker">Атакующий объект.</param>
     /// <param name="target">Цель атаки.</param>
-    /// <param name="amount">Величина урона.</param>
     /// <returns>True, если атака успешна, иначе false.</returns>
-    public static bool TryAttack<T1, T2>(this T1 attacker, T2 target, float amount)
+    public static bool TryAttack<T1, T2>(this T1 attacker, T2 target)
         where T1 : IDamageable, IPositionProvider
         where T2 : IDamageable, IPositionProvider
     {
@@ -43,8 +47,8 @@ public static class DamageableExtensions
 
         if (!target.CanTakeDamage(attacker))
             return false;
-
-        target.Damage(attacker, amount);
+        
+        target.Damage(attacker, attacker.CurrentDamage);
         attacker.OnTargetAttacked(target);
         return true;
     }
