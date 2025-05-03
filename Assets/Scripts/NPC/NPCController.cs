@@ -43,6 +43,7 @@ public class NPCController : MonoBehaviour, ICharacter
     {
         Debug.Log("NPC Damage :D");
         this.ApplyKnockback(attacker);
+        _animController?.OnDamage();
     }
 
     #endregion

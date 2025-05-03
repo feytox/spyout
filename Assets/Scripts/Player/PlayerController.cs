@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     {
         // TODO: add damage animation
         this.ApplyKnockback(attacker);
+        _animController?.OnDamage();
     }
 
     #endregion

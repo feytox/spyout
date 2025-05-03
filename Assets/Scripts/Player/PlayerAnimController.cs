@@ -1,31 +1,3 @@
-using UnityEngine;
-
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Animator))]
-public class PlayerAnimController : MonoBehaviour
+public class PlayerAnimController : CharacterAnimController
 {
-    private static readonly int IsWalking = Animator.StringToHash("isWalking");
-    private static readonly int Attack = Animator.StringToHash("attack");
-    
-    private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    
-    public void UpdateMovementAnimation(Vector2 movementInput)
-    {
-        _spriteRenderer.flipX = movementInput.x < 0.0f;
-        var isWalking = movementInput != Vector2.zero;
-        _animator.SetBool(IsWalking, isWalking);
-    }
-
-    public void TriggerAttack(Vector2 attackVec)
-    {
-        _spriteRenderer.flipX = attackVec.x < 0.0f;
-        _animator.SetTrigger(Attack);
-    }
 }
