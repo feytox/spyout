@@ -38,7 +38,7 @@ public class FollowTask : NPCTask
 
     public override bool Step()
     {
-        if (UpdatePath())
+        if (_target.IsDead || UpdatePath())
             return true;
         
         MoveByPath();
@@ -59,7 +59,7 @@ public class FollowTask : NPCTask
         
         var newTargetPos = _grid!.WorldToCell(_target.Position);
         if (newTargetPos == _targetPos)
-            return false;
+            return _currentPath.Count == 0;
         
         _targetPos = newTargetPos;
         _currentPath.Trim(LockedPathPoints);

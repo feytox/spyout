@@ -13,6 +13,7 @@ public class Item : ScriptableObject
     public Sprite Sprite;
     public int MaxCount = DefaultMaxCount;
     public ItemHandlerType ItemHandlerType;
+    public float Damage;
     
     public Item(string name, Sprite sprite)
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerInteractionDetector : MonoBehaviour
 {
     private HashSet<IPlayerInteractable> _interactablesInRange;
-
+    
     void Start()
     {
         PlayerController.Inputs.InteractStarted.Subscribe(0, _ => OnInteract());
@@ -18,10 +18,10 @@ public class PlayerInteractionDetector : MonoBehaviour
         var pos = transform.position;
         var interactable = _interactablesInRange.MinBy(interactable => (interactable.Position - pos).sqrMagnitude);
         if (interactable is null)
-            return true;
+            return false;
 
         interactable.Interact();
-        return false;
+        return true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

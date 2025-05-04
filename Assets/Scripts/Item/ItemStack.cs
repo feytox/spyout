@@ -18,7 +18,7 @@ public class ItemStack
     {
         Item = item;
         Count = count;
-        _itemHandler = ItemHandler.CreateHandler(this, item.ItemHandlerType);
+        _itemHandler = item.ItemHandlerType.CreateHandler(this);
     }
 
     public bool CanCombine(ItemStack stack) => Count < Item.MaxCount && stack.Item.Equals(Item);
@@ -30,10 +30,11 @@ public class ItemStack
         Count = newCount;
         stack.Count -= deltaCount;
     }
-
-    public bool UseItem()
+    
+    /// <inheritdoc cref="ItemHandler.UseItem"/>
+    public bool UseItem(ICharacter character)
     {
-        return _itemHandler is null || _itemHandler.UseItem();
+        return _itemHandler is null || _itemHandler.UseItem(character);
     }
 
     public override string ToString()

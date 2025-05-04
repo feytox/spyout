@@ -3,44 +3,51 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
-public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
-{   
-    public const float TargetMinimumSqrDistance = 0.2f;
-    
+[RequireComponent(typeof(NPCInventoryController))]
+public class NPCController : MonoBehaviour, ICharacter
+{
+    private const float TargetMinimumSqrDistance = 0.01f;
+
     [SerializeField] private float _movementSpeed = 4f;
 
-    public Vector2 Position => transform.position;
+    public Rigidbody2D? Body { get; private set; }
+    public InventoryController? Inventory { get; private set; }
     
-    private Rigidbody2D? _body;
+    public Vector2 Position =>  transform.position;
+
     private NPCAnimController? _animController;
+    private HealthController? _healthController;
 
     void Start()
     {
-        _body = GetComponent<Rigidbody2D>();
+        Body = GetComponent<Rigidbody2D>();
         _animController = GetComponentInChildren<NPCAnimController>();
+        _healthController = GetComponentInChildren<HealthController>();
+        Inventory = GetComponent<InventoryController>();
     }
 
-    public bool IsTargetReached(IPositionProvider target, float sqrPrecision = TargetMinimumSqrDistance)
+    #region ICharacter
+
+    public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider
     {
-        return (target.Position - Position).sqrMagnitude <= sqrPrecision;
+        _animController?.TriggerAttack(target.Position - Position);
     }
 
-    #region IDamageable
+    HealthController? ICharacter.Health => _healthController;
 
-    public void Damage(float amount)
+    public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
     {
-        Debug.Log($"Taken {amount} damage");
+        _animController?.OnDeath();
     }
 
-    public void OnTargetAttacked()
+    public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
     {
-        _animController?.TriggerAttack();
+        this.ApplyKnockback(attacker);
+        _animController?.OnDamage();
     }
-
-    public bool CanTakeDamage(IDamageable attacker) => true;
 
     #endregion
-    
+
     #region Movement
 
     /// <summary>
@@ -53,19 +60,24 @@ public class NPCController : MonoBehaviour, IDamageable, IPositionProvider
         var moveVec = target - (Vector2)transform.position;
         if (moveVec.sqrMagnitude <= TargetMinimumSqrDistance)
             return true;
-        
+
         MoveInDirection(moveVec.normalized);
         return false;
     }
-    
+
     /// <summary>
     /// Перемещает NPC в указанном направлении.
     /// </summary>
     /// <param name="moveVec">Вектор направления движения.</param>
     private void MoveInDirection(Vector2 moveVec)
     {
-        _body!.linearVelocity = moveVec * _movementSpeed;
+        Body!.linearVelocity = moveVec * _movementSpeed;
         _animController?.UpdateMovementAnimation(moveVec);
+    }
+
+    public bool IsTargetReached(IPositionProvider target, float sqrPrecision = TargetMinimumSqrDistance)
+    {
+        return (target.Position - Position).sqrMagnitude <= sqrPrecision;
     }
 
     #endregion

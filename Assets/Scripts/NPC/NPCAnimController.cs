@@ -1,30 +1,12 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Animator))]
-public class NPCAnimController : MonoBehaviour
+public class NPCAnimController : CharacterAnimController
 {
-    private static readonly int IsWalking = Animator.StringToHash("isWalking");
-    private static readonly int Attack = Animator.StringToHash("attack");
-    
-    private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
+    private static readonly int IsDead = Animator.StringToHash("isDead");
 
-    private void Awake()
+    public override void OnDeath()
     {
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    
-    public void UpdateMovementAnimation(Vector2 movementInput)
-    {
-        _spriteRenderer.flipX = movementInput.x < 0.0f;
-        var isWalking = movementInput != Vector2.zero;
-        _animator.SetBool(IsWalking, isWalking);
-    }
-
-    public void TriggerAttack()
-    {
-        _animator.SetTrigger(Attack);
+        Animator.SetBool(IsDead, true);
+        base.OnDeath();
     }
 }

@@ -5,18 +5,21 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerInputController))]
 [RequireComponent(typeof(PlayerInventoryController))]
-public class PlayerController : MonoBehaviour, IDamageable, IPositionProvider
+public class PlayerController : MonoBehaviour, ICharacter
 {
     [SerializeField] private float _movementSpeed = 120f;
+    [SerializeField] private float _attackRadius = 1f;
+    [SerializeField] private LayerMask _attackLayer;
 
     private PlayerAnimController _animController;
     private PlayerInputController _inputs;
-    private Rigidbody2D _body;
     private PlayerInventoryController _playerInventory;
+    private HealthController _healthController;
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
-    public static Inventory Inventory => GetInstance()._playerInventory.Inventory;
-    
+    public InventoryController Inventory => _playerInventory;
+
+    public Rigidbody2D Body { get; private set; }
     public Vector2 Position => transform.position;
 
     void Awake()
@@ -27,31 +30,55 @@ public class PlayerController : MonoBehaviour, IDamageable, IPositionProvider
         );
         _singleton = this;
 
+        Body = GetComponent<Rigidbody2D>();
         _inputs = GetComponent<PlayerInputController>();
-        _body = GetComponent<Rigidbody2D>();
         _playerInventory = GetComponent<PlayerInventoryController>();
         _animController = GetComponentInChildren<PlayerAnimController>();
+        _healthController = GetComponentInChildren<HealthController>();
 
         if (_animController is not null)
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        _body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
-    }
-    
-    public void Damage(float amount)
-    {
-        Debug.Log($"Player taken {amount} damage");
+        Body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
     }
 
-    public void OnTargetAttacked()
+    public bool AttackInRange()
     {
-        Debug.Log($"Target attacked by player!");
+        var targetCollider = Physics2D.OverlapCircle(Position, _attackRadius, _attackLayer);
+        if (targetCollider is null)
+            return false;
+        
+        var target = targetCollider.gameObject.GetComponent<ICharacter>();
+        return target is not null && this.TryAttack(target);
     }
 
-    public bool CanTakeDamage(IDamageable attacker) => true;
+    #region ICharacter
+
+    HealthController ICharacter.Health => _healthController;
+
+    public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider
+    {
+        _animController?.TriggerAttack(target.Position - Position);
+    }
+
+    public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
+    {
+        // TODO: add smth after death
+        _inputs.enabled = false;
+        _animController?.OnDeath();
+    }
+
+    public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
+    {
+        // TODO: add damage animation
+        this.ApplyKnockback(attacker);
+        _animController?.OnDamage();
+    }
+
+    #endregion
 
     #region Singleton
 
