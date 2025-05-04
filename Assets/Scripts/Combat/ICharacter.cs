@@ -12,9 +12,9 @@ public interface ICharacter : IDamageable, IPositionProvider
 
     void IDamageable.Damage<T>(T attacker, float amount)
     {
-        if (Health.Damage(amount))
-            OnDamage(attacker);
-        else
+        var isDead = !Health.Damage(amount);
+        OnDamage(attacker);
+        if (isDead)
             OnDeath(attacker);
     }
 

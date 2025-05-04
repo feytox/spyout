@@ -6,13 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(NPCInventoryController))]
 public class NPCController : MonoBehaviour, ICharacter
 {
-    private const float TargetMinimumSqrDistance = 0.2f;
+    private const float TargetMinimumSqrDistance = 0.01f;
 
     [SerializeField] private float _movementSpeed = 4f;
 
     public Rigidbody2D? Body { get; private set; }
     public InventoryController? Inventory { get; private set; }
-    public Vector2 Position => transform.position;
+    
+    public Vector2 Position =>  transform.position;
 
     private NPCAnimController? _animController;
     private HealthController? _healthController;
@@ -41,7 +42,6 @@ public class NPCController : MonoBehaviour, ICharacter
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
     {
-        Debug.Log("NPC Damage :D");
         this.ApplyKnockback(attacker);
         _animController?.OnDamage();
     }

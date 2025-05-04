@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour, ICharacter
         );
         _singleton = this;
 
-        _inputs = GetComponent<PlayerInputController>();
         Body = GetComponent<Rigidbody2D>();
+        _inputs = GetComponent<PlayerInputController>();
         _playerInventory = GetComponent<PlayerInventoryController>();
         _animController = GetComponentInChildren<PlayerAnimController>();
         _healthController = GetComponentInChildren<HealthController>();
@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     {
         // TODO: add smth after death
         _inputs.enabled = false;
+        _animController?.OnDeath();
     }
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
