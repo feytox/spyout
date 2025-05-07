@@ -1,19 +1,28 @@
-#nullable enable
+using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
     public int InventorySize = 8;
-    
-    public Inventory? Inventory { get; private set; }
 
-    public virtual ItemStack? ActiveItem => Inventory?[0];
+    public Inventory Inventory { get; private set; }
+    public int ActiveSlot { get; private set; }
+    [CanBeNull] public ItemStack ActiveItem => Inventory?[ActiveSlot];
 
-    void Start()
+    public event Action<int, int> OnActiveSlotChange;
+
+    void Awake()
     {
         Inventory = new Inventory(InventorySize);
-        OnStart();
     }
 
-    protected virtual void OnStart() {}
+    protected void SetActiveSlot(int slot)
+    {
+        if (slot == ActiveSlot)
+            return;
+
+        OnActiveSlotChange?.Invoke(ActiveSlot, slot);
+        ActiveSlot = slot;
+    }
 }

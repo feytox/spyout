@@ -1,16 +1,10 @@
-#nullable enable
-using UnityEngine;
-
 public class PlayerInventoryController : InventoryController
 {
-    private int SelectedSlot { get; set; }
-    public override ItemStack? ActiveItem => Inventory?[SelectedSlot];
-
-    protected override void OnStart()
+    void Start()
     {
         var inputs = PlayerController.Inputs;
         var player = PlayerController.GetInstance();
-        
+
         inputs.InteractStarted.Subscribe(10, _ => UseSelectedItem(player));
         inputs.PrevItem += _ => ChangeSlot(-1);
         inputs.NextItem += _ => ChangeSlot(1);
@@ -23,11 +17,8 @@ public class PlayerInventoryController : InventoryController
 
     private void ChangeSlot(int delta)
     {
-        var size = Inventory!.Size;
-        SelectedSlot += delta;
-        if (SelectedSlot < 0 || SelectedSlot >= size)
-            SelectedSlot = MathExt.MathMod(SelectedSlot, size);
-
-        Debug.Log($"selected {SelectedSlot}: {ActiveItem}");
+        var size = Inventory.Size;
+        var slot = MathExt.MathMod(ActiveSlot + delta, size);
+        SetActiveSlot(slot);
     }
 }

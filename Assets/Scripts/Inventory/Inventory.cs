@@ -1,10 +1,13 @@
 #nullable enable
+using System;
 using System.Linq;
 
 public class Inventory
 {
     private ItemStack?[] Items { get; }
     public int Size => Items.Length;
+
+    public event Action<int, ItemStack?>? OnSlotUpdated;
 
     public Inventory(int capacity)
     {
@@ -17,6 +20,7 @@ public class Inventory
     {
         var prevStack = this[slot];
         Items[slot] = stack;
+        OnSlotUpdated?.Invoke(slot, stack);
         return prevStack;
     }
 
@@ -30,6 +34,7 @@ public class Inventory
             if (currentStack is null)
             {
                 Items[i] = stack;
+                OnSlotUpdated?.Invoke(i, stack);
                 return true;
             }
 

@@ -54,6 +54,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementSpeed: 120
+  _attackRadius: 1
+  _attackLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &5911351680241135126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ff44afd767404986f1b206c05d8cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventorySize: 8
+  InventorySize: 3
 --- !u!114 &6853410581871152216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,3 +510,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+  _currentHealth: 100
