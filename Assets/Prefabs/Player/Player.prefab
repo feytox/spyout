@@ -58,6 +58,7 @@ MonoBehaviour:
   _attackLayer:
     serializedVersion: 2
     m_Bits: 0
+  _attackCooldownSeconds: 0.2
 --- !u!114 &5911351680241135126
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,11 +11,13 @@ public class PlayerController : MonoBehaviour, ICharacter
     [SerializeField] private float _movementSpeed = 120f;
     [SerializeField] private float _attackRadius = 1f;
     [SerializeField] private LayerMask _attackLayer;
+    [SerializeField] private float _attackCooldownSeconds = 0.25f;
 
     private PlayerAnimController _animController;
     private PlayerInputController _inputs;
     private PlayerInventoryController _playerInventory;
     private HealthController _healthController;
+    private Cooldown _attackCooldown;
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
     public InventoryController Inventory => _playerInventory;
@@ -38,6 +41,9 @@ public class PlayerController : MonoBehaviour, ICharacter
 
         if (_animController is not null)
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;
+
+        _attackCooldown = new Cooldown(_attackCooldownSeconds);
+        _inputs.Attack += () => AttackInRange();
     }
 
     void FixedUpdate()
@@ -47,10 +53,16 @@ public class PlayerController : MonoBehaviour, ICharacter
 
     public bool AttackInRange()
     {
+        if ((this as ICharacter).CurrentDamage <= 0 || !_attackCooldown.ResetIfExpired())
+            return false;
+
         var targetCollider = Physics2D.OverlapCircle(Position, _attackRadius, _attackLayer);
         if (targetCollider is null)
+        {
+            _animController?.TriggerAttack(_inputs.Movement);
             return false;
-        
+        }
+
         var target = targetCollider.gameObject.GetComponent<ICharacter>();
         return target is not null && this.TryAttack(target);
     }
