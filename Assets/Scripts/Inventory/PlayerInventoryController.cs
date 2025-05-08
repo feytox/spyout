@@ -5,7 +5,7 @@ public class PlayerInventoryController : InventoryController
         var inputs = PlayerController.Inputs;
         var player = PlayerController.GetInstance();
 
-        inputs.InteractStarted.Subscribe(10, _ => UseSelectedItem(player));
+        inputs.Interact.Subscribe(10, _ => UseSelectedItem(player));
         inputs.SwitchSlot += ChangeSlot;
         inputs.SelectSlot += SetActiveSlot;
     }

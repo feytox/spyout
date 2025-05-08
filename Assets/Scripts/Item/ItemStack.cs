@@ -18,7 +18,7 @@ public class ItemStack
     {
         Item = item;
         Count = count;
-        _itemHandler = item.ItemHandlerType.CreateHandler(this);
+        _itemHandler = item.InteractHandler.CreateHandler(this);
     }
 
     public bool CanCombine(ItemStack stack) => Count < Item.MaxCount && stack.Item.Equals(Item);

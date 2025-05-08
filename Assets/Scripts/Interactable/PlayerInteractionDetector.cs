@@ -9,7 +9,7 @@ public class PlayerInteractionDetector : MonoBehaviour
     
     void Start()
     {
-        PlayerController.Inputs.InteractStarted.Subscribe(0, _ => OnInteract());
+        PlayerController.Inputs.Interact.Subscribe(0, _ => OnInteract());
         _interactablesInRange = new HashSet<IPlayerInteractable>();
     }
 

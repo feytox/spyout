@@ -8,6 +8,7 @@ public class Inventory
     public int Size => Items.Length;
 
     public event Action<int, ItemStack?>? OnSlotUpdated;
+    public event Action<ItemStack>? OnCollectItem;
 
     public Inventory(int capacity)
     {
@@ -28,6 +29,12 @@ public class Inventory
 
     public bool TryAppendStack(ItemStack stack)
     {
+        if (stack.Item.ItemType == ItemType.Collectable)
+        {
+            OnCollectItem?.Invoke(stack);
+            return true;
+        }
+        
         for (var i = 0; i < Items.Length; i++)
         {
             var currentStack = Items[i];

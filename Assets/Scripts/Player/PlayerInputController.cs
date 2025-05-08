@@ -8,7 +8,7 @@ public class PlayerInputController : MonoBehaviour
 {
     private Inputs _inputs;
 
-    public PriorityEvent<InputAction.CallbackContext> InteractStarted { get; } = new();
+    public PriorityEvent<InputAction.CallbackContext> Interact { get; } = new();
 
     public event Action<bool> SwitchSlot;
     public event Action<Vector2> MovementUpdate;
@@ -24,7 +24,7 @@ public class PlayerInputController : MonoBehaviour
 
         _inputs.Player.Move.performed += SetMovement;
         _inputs.Player.Move.canceled += OnMoveCancel;
-        _inputs.Player.Interact.started += InteractStarted.ExecuteEvents;
+        _inputs.Player.Interact.started += Interact.ExecuteEvents;
         _inputs.Player.Attack.performed += OnAttack;
         
         _inputs.Player.SwitchSlot.started += OnSlotSwitch;
@@ -37,7 +37,7 @@ public class PlayerInputController : MonoBehaviour
     {
         _inputs.Player.Move.performed -= SetMovement;
         _inputs.Player.Move.canceled -= OnMoveCancel;
-        _inputs.Player.Interact.started -= InteractStarted.ExecuteEvents;
+        _inputs.Player.Interact.started -= Interact.ExecuteEvents;
         _inputs.Player.Attack.performed -= OnAttack;
         
         _inputs.Player.SwitchSlot.started -= OnSlotSwitch;
