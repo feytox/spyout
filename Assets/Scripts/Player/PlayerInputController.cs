@@ -8,11 +8,12 @@ public class PlayerInputController : MonoBehaviour
 {
     private Inputs _inputs;
 
-    public PriorityEvent<InputAction.CallbackContext> InteractStarted { get; } = new();
+    public PriorityEvent<InputAction.CallbackContext> Interact { get; } = new();
 
-    public event Action<InputAction.CallbackContext> PrevItem;
-    public event Action<InputAction.CallbackContext> NextItem;
+    public event Action<bool> SwitchSlot;
     public event Action<Vector2> MovementUpdate;
+    public event Action<int> SelectSlot;
+    public event Action Attack;
 
     public Vector2 Movement { get; private set; }
 
@@ -23,23 +24,31 @@ public class PlayerInputController : MonoBehaviour
 
         _inputs.Player.Move.performed += SetMovement;
         _inputs.Player.Move.canceled += OnMoveCancel;
-
-        _inputs.Player.Interact.started += InteractStarted.ExecuteEvents;
-        _inputs.Player.PreviousItem.started += OnPrevItem;
-        _inputs.Player.NextItem.started += OnNextItem;
+        _inputs.Player.Interact.started += Interact.ExecuteEvents;
+        _inputs.Player.Attack.performed += OnAttack;
+        
+        _inputs.Player.SwitchSlot.started += OnSlotSwitch;
+        _inputs.Player.Slot1.started += OnSlot1;
+        _inputs.Player.Slot2.started += OnSlot2;
+        _inputs.Player.Slot3.started += OnSlot3;
     }
 
     private void OnDisable()
     {
         _inputs.Player.Move.performed -= SetMovement;
         _inputs.Player.Move.canceled -= OnMoveCancel;
-
-        _inputs.Player.Interact.started -= InteractStarted.ExecuteEvents;
-        _inputs.Player.PreviousItem.started -= OnPrevItem;
-        _inputs.Player.NextItem.started -= OnNextItem;
-
+        _inputs.Player.Interact.started -= Interact.ExecuteEvents;
+        _inputs.Player.Attack.performed -= OnAttack;
+        
+        _inputs.Player.SwitchSlot.started -= OnSlotSwitch;
+        _inputs.Player.Slot1.started -= OnSlot1;
+        _inputs.Player.Slot2.started -= OnSlot2;
+        _inputs.Player.Slot3.started -= OnSlot3;
+        
         _inputs.Disable();
     }
+
+    #region Handlers
 
     private void SetMovement(InputAction.CallbackContext ctx)
     {
@@ -53,7 +62,25 @@ public class PlayerInputController : MonoBehaviour
         MovementUpdate?.Invoke(Movement);
     }
 
-    private void OnPrevItem(InputAction.CallbackContext ctx) => PrevItem?.Invoke(ctx);
+    private void OnSlotSwitch(InputAction.CallbackContext ctx)
+    {
+        var value = ctx.ReadValue<float>();
+        if (value == 0)
+            return;
+
+        SwitchSlot?.Invoke(ctx.ReadValue<float>() > 0);
+    }
     
-    private void OnNextItem(InputAction.CallbackContext ctx) => NextItem?.Invoke(ctx);
+    // копипаст для возможности отписки от ивента
+    private void OnSlot1(InputAction.CallbackContext ctx) => OnSlotSelect(0);
+    
+    private void OnSlot2(InputAction.CallbackContext ctx) => OnSlotSelect(1);
+    
+    private void OnSlot3(InputAction.CallbackContext ctx) => OnSlotSelect(2);
+
+    private void OnSlotSelect(int slot) => SelectSlot?.Invoke(slot);
+
+    private void OnAttack(InputAction.CallbackContext ctx) => Attack?.Invoke();
+
+    #endregion
 }

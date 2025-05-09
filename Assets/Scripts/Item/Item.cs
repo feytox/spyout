@@ -12,12 +12,19 @@ public class Item : ScriptableObject
     public string Name;
     public Sprite Sprite;
     public int MaxCount = DefaultMaxCount;
-    public ItemHandlerType ItemHandlerType;
     public float Damage;
+    public ItemType ItemType;
+    public ItemHandlerType InteractHandler;
     
     public Item(string name, Sprite sprite)
     {
         Name = name;
         Sprite = sprite;
     }
+}
+
+public enum ItemType : byte
+{
+    Default = 0,
+    Collectable = 1
 }

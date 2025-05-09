@@ -15,4 +15,6 @@ MonoBehaviour:
   Name: "\u041C\u043E\u043B\u043E\u043A\u043E"
   Sprite: {fileID: -3243293964076229483, guid: 0e33fe742361b03438c4c4fa89e05abc, type: 3}
   MaxCount: 16
-  ItemHandlerType: 98
+  Damage: 0
+  ItemType: 1
+  InteractHandler: 0
