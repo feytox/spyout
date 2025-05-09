@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utils;
 
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour, ICharacter
     private PlayerInventoryController _playerInventory;
     private HealthController _healthController;
     private Cooldown _attackCooldown;
+
+    public event Action OnDamageTaken; 
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
     public InventoryController Inventory => _playerInventory;
@@ -88,6 +91,7 @@ public class PlayerController : MonoBehaviour, ICharacter
         // TODO: add damage animation
         this.ApplyKnockback(attacker);
         _animController?.OnDamage();
+        OnDamageTaken?.Invoke();
     }
 
     #endregion

@@ -4,25 +4,22 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class CharacterAnimController : MonoBehaviour
 {
-    public const float DissolveTime = 1f;
-    private const float FlashTime = 0.25f;
-
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int Attack = Animator.StringToHash("attack");
     private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
     private static readonly int Fade = Shader.PropertyToID("_Fade");
-    
-    [SerializeField]
-    private AnimationCurve _flashCurve;
-    [SerializeField]
-    private AnimationCurve _dissolveCurve;
-    
+
+    [SerializeField] private AnimationCurve _flashCurve;
+    [SerializeField] private float _flashTime = 0.25f;
+    [SerializeField] private AnimationCurve _dissolveCurve;
+    [SerializeField] private float _dissolveTime = 1f;
+
     protected Animator Animator;
     private SpriteRenderer _spriteRenderer;
     private Material _material;
     private float _currentFlashTime;
     private float _currentDissolveTime;
-    
+
     private void Awake()
     {
         Animator = GetComponent<Animator>();
@@ -42,7 +39,7 @@ public class CharacterAnimController : MonoBehaviour
             return;
 
         _currentFlashTime = Mathf.Max(0, _currentFlashTime - Time.deltaTime);
-        var progress = _flashCurve.Evaluate(FlashTime - _currentFlashTime);
+        var progress = _flashCurve.Evaluate(_flashTime - _currentFlashTime);
         _material.SetFloat(FlashAmount, progress);
     }
 
@@ -52,7 +49,7 @@ public class CharacterAnimController : MonoBehaviour
             return;
 
         _currentDissolveTime = Mathf.Max(0, _currentDissolveTime - Time.deltaTime);
-        var progress = _dissolveCurve.Evaluate(DissolveTime - _currentDissolveTime);
+        var progress = _dissolveCurve.Evaluate(_dissolveTime - _currentDissolveTime);
         _material.SetFloat(Fade, progress);
     }
 
@@ -69,7 +66,7 @@ public class CharacterAnimController : MonoBehaviour
         Animator.SetTrigger(Attack);
     }
 
-    public void OnDamage() => _currentFlashTime = FlashTime;
+    public void OnDamage() => _currentFlashTime = _flashTime;
 
-    public virtual void OnDeath() => _currentDissolveTime = DissolveTime;
+    public virtual void OnDeath() => _currentDissolveTime = _dissolveTime;
 }
