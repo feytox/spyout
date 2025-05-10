@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: _npcBehavior
       value: 42
       objectReference: {fileID: 0}
+    - target: {fileID: 5310473699487871717, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1922.4768
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -110,3 +114,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f43a3c4e5854aa196f2019a2760f720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flashCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _flashTime: 0.25
+  _dissolveCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _dissolveTime: 1

@@ -7,22 +7,23 @@ using UnityEngine;
 public class NPCController : MonoBehaviour, ICharacter
 {
     private const float TargetMinimumSqrDistance = 0.01f;
+    private const float DeathTime = 0.7f;
 
     [SerializeField] private float _movementSpeed = 4f;
 
     public Rigidbody2D? Body { get; private set; }
     public InventoryController? Inventory { get; private set; }
-    
+    public HealthController? Health { get; private set; }
+
     public Vector2 Position =>  transform.position;
 
     private NPCAnimController? _animController;
-    private HealthController? _healthController;
 
-    void Start()
+    void Awake()
     {
         Body = GetComponent<Rigidbody2D>();
         _animController = GetComponentInChildren<NPCAnimController>();
-        _healthController = GetComponentInChildren<HealthController>();
+        Health = GetComponentInChildren<HealthController>();
         Inventory = GetComponent<InventoryController>();
     }
 
@@ -33,17 +34,22 @@ public class NPCController : MonoBehaviour, ICharacter
         _animController?.TriggerAttack(target.Position - Position);
     }
 
-    HealthController? ICharacter.Health => _healthController;
-
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
     {
         _animController?.OnDeath();
+        StartCoroutine(ScheduleDestroy());
     }
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
     {
         this.ApplyKnockback(attacker);
         _animController?.OnDamage();
+    }
+
+    private async Awaitable ScheduleDestroy()
+    {
+        await Awaitable.WaitForSecondsAsync(DeathTime);
+        Destroy(gameObject);
     }
 
     #endregion
