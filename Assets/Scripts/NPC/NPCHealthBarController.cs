@@ -41,7 +41,8 @@ public class NPCHealthBarController : HealthBarComponent
         ApplyGradient(_fill, _fillGradient, health);
         ApplyGradient(_border, _borderGradient, health);
     }
-
+    
+    // TODO: move to external class
     private void ApplyGradient(Image image, Gradient gradient, float health)
     {
         var progress = health / HealthController.MaxHealth;
