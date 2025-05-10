@@ -1,14 +1,17 @@
 #nullable enable
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class Inventory
 {
-    private ItemStack?[] Items { get; }
     public int Size => Items.Length;
 
+    private ItemStack?[] Items { get; }
+    private readonly Dictionary<Item, int> _collectableItems = new();
+
     public event Action<int, ItemStack?>? OnSlotUpdated;
-    public event Action<ItemStack>? OnCollectItem;
+    public event Action<Item, int>? OnCollectableItemChange; 
 
     public Inventory(int capacity)
     {
@@ -29,31 +32,42 @@ public class Inventory
 
     public bool TryAppendStack(ItemStack stack)
     {
-        if (stack.Item.ItemType == ItemType.Collectable)
-        {
-            OnCollectItem?.Invoke(stack);
+        if (TryCollectItem(stack))
             return true;
-        }
         
         for (var i = 0; i < Items.Length; i++)
-        {
-            var currentStack = Items[i];
-            if (currentStack is null)
-            {
-                Items[i] = stack;
-                OnSlotUpdated?.Invoke(i, stack);
+            if (TryPutStack(i, stack)) 
                 return true;
-            }
-
-            if (!currentStack.CanCombine(stack))
-                continue;
-            
-            currentStack.CombineWith(stack);
-            if (stack.IsEmpty)
-                return true;
-        }
 
         return false;
+    }
+
+    private bool TryPutStack(int slot, ItemStack stack)
+    {
+        var currentStack = Items[slot];
+        if (currentStack is null)
+        {
+            Items[slot] = stack;
+            OnSlotUpdated?.Invoke(slot, stack);
+            return true;
+        }
+
+        if (!currentStack.CanCombine(stack))
+            return false;
+            
+        currentStack.CombineWith(stack);
+        return stack.IsEmpty;
+    }
+
+    private bool TryCollectItem(ItemStack stack)
+    {
+        if (stack.Item.ItemType != ItemType.Collectable) 
+            return false;
+
+        var count = stack.Count + _collectableItems.GetValueOrDefault(stack.Item);
+        _collectableItems[stack.Item] = count;
+        OnCollectableItemChange?.Invoke(stack.Item, count);
+        return true;
     }
 
     public override string ToString()

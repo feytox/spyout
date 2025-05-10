@@ -18,17 +18,17 @@ public class ItemCounterComponent : MonoBehaviour
         _itemRenderer = GetComponentInChildren<ItemRenderer>();
         _text = GetComponentInChildren<TextMeshProUGUI>();
         _itemRenderer.UpdateItem(new ItemStack(_targetItem));
-        
-        PlayerController.GetInstance().Inventory.Inventory.OnCollectItem += OnCollectItem;
+
+        PlayerController.GetInstance().Inventory.Inventory.OnCollectableItemChange += OnItemCountChange;
         OnCountUpdate();
     }
 
-    private void OnCollectItem(ItemStack stack)
+    private void OnItemCountChange(Item item, int newCount)
     {
-        if (stack.Item != _targetItem)
+        if (item != _targetItem)
             return;
 
-        _count += stack.Count;
+        _count = newCount;
         OnCountUpdate();
     }
 
