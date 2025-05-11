@@ -1,10 +1,10 @@
-using UnityEngine;
+using JetBrains.Annotations;
 
-public interface IPlayerInteractable
+public interface IPlayerInteractable : IInteractable
 {
-    public void Interact();
-
-    public bool CanInteract();
+    [CanBeNull] protected PopupController Popup { get; }
     
-    public Vector3 Position { get; }
+    void IInteractable.OnInteractionEnter() => Popup?.EnablePopup();
+
+    void IInteractable.OnInteractionExit() => Popup?.DisablePopup();
 }

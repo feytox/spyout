@@ -13,21 +13,22 @@ public class PlayerController : MonoBehaviour, ICharacter
     [SerializeField] private float _attackRadius = 1f;
     [SerializeField] private LayerMask _attackLayer;
     [SerializeField] private float _attackCooldownSeconds = 0.25f;
+    
+    public event Action OnDamageTaken;
 
+    public static PlayerInputController Inputs => GetInstance()._inputs;
+    public InventoryController Inventory => _playerInventory;
+    public PlayerInteractionDetector InteractionDetector { get; private set; }
+
+    public Rigidbody2D Body { get; private set; }
+    public Vector2 Position => transform.position;
+    
     private PlayerAnimController _animController;
     private PlayerInputController _inputs;
     private PlayerInventoryController _playerInventory;
     private HealthController _healthController;
     private Cooldown _attackCooldown;
-
-    public event Action OnDamageTaken; 
-
-    public static PlayerInputController Inputs => GetInstance()._inputs;
-    public InventoryController Inventory => _playerInventory;
-
-    public Rigidbody2D Body { get; private set; }
-    public Vector2 Position => transform.position;
-
+    
     void Awake()
     {
         Debug.Assert(
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour, ICharacter
         _playerInventory = GetComponent<PlayerInventoryController>();
         _animController = GetComponentInChildren<PlayerAnimController>();
         _healthController = GetComponentInChildren<HealthController>();
+        InteractionDetector = GetComponentInChildren<PlayerInteractionDetector>();
 
         if (_animController is not null)
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;

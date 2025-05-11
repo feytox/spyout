@@ -9,9 +9,12 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
 {
+    private PopupController? _popup;
     public abstract ItemStack? Stack { get; set; }
     
     protected override Sprite? Sprite => Stack?.Item.Sprite;
+
+    void Awake() => _popup = GetComponentInChildren<PopupController>();
 
     public void Interact()
     {
@@ -28,4 +31,6 @@ public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
     public bool CanInteract() => true;
 
     public Vector3 Position => transform.position;
+
+    PopupController? IPlayerInteractable.Popup => _popup;
 }
