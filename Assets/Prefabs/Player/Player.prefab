@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5072793398244184986}
   - component: {fileID: 5911351680241135126}
   - component: {fileID: 2492986644358316892}
-  - component: {fileID: 6853410581871152216}
   - component: {fileID: 1252903036588500552}
   - component: {fileID: 448483258988154939}
   m_Layer: 3
@@ -84,19 +83,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InventorySize: 3
---- !u!114 &6853410581871152216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2418886506397472026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e7b42f34407420bb1bfa0ee88b01ad8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CanOpenRestricted: 1
 --- !u!50 &1252903036588500552
 Rigidbody2D:
   serializedVersion: 5
