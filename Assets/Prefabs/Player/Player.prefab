@@ -57,7 +57,7 @@ MonoBehaviour:
   _attackRadius: 1
   _attackLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   _attackCooldownSeconds: 0.2
 --- !u!114 &5911351680241135126
 MonoBehaviour:
@@ -170,7 +170,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 239727404131386772}
+  - component: {fileID: 6675249066949615956}
   - component: {fileID: 9200110862445344254}
+  - component: {fileID: 1350936188737307045}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -193,6 +195,86 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6800839527177258664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6675249066949615956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051810636685335140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b73cd1b6f24c8094a72b84a80c2b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -3.5148058
+      outSlope: -3.5148058
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.099634625
+      value: 0.64980364
+      inSlope: 3.1428986
+      outSlope: 3.1428986
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1154599
+      outWeight: 0.22886935
+    - serializedVersion: 3
+      time: 0.15894733
+      value: 0.1714652
+      inSlope: -4.62415
+      outSlope: -4.62415
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08892945
+    - serializedVersion: 3
+      time: 0.25
+      value: 0
+      inSlope: -1.8831432
+      outSlope: -1.8831432
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _flashTime: 0.25
+  _dissolveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _dissolveTime: 1
 --- !u!212 &9200110862445344254
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -216,7 +298,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: efa616b02a8227d4490ce64a8ca3da4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -236,18 +318,40 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: -1947934720824747230, guid: 1c17c0373c1a1474eabc25de7cf2b450, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -1016085844418303970, guid: 29e1de83bd0fd0847ac4c7be131ca01c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 1.125, y: 1.375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1350936188737307045
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051810636685335140}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d57d1a83156f61041ac91872006ffcfa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7170863900643452082
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +421,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
