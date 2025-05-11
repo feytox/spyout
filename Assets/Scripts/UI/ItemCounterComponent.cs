@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class ItemCounterComponent : MonoBehaviour
 {
     [SerializeField] private Item _targetItem;
     [SerializeField] private int _targetCount;
+    [SerializeField] private Image _checkMark;
 
     private ItemRenderer _itemRenderer;
     private TextMeshProUGUI _text;
@@ -35,5 +37,6 @@ public class ItemCounterComponent : MonoBehaviour
     private void OnCountUpdate()
     {
         _text.text = $"{_count}/{_targetCount}";
+        _checkMark.enabled = _count >= _targetCount;
     }
 }
