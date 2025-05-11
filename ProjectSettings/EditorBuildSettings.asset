@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 4b27b31cba8b2374693cd1a340398fd4
   - enabled: 1
-    path: Assets/Scenes/GeorgeScene.unity
-    guid: 6cfd9bcc7f23dc847b2899cbf59016e4
+    path: Assets/Scenes/Town.unity
+    guid: b26a4c684039fcd48adee3dbb600d52c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
