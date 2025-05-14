@@ -9036,11 +9036,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: efa616b02a8227d4490ce64a8ca3da4e, type: 2}
     - target: {fileID: 6261002037605640040, guid: aa6db89a53b4d4c48aa23b93ed73af64, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6261002037605640040, guid: aa6db89a53b4d4c48aa23b93ed73af64, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544729548734106484, guid: aa6db89a53b4d4c48aa23b93ed73af64, type: 3}
       propertyPath: m_Name
@@ -9048,7 +9048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544729548734106484, guid: aa6db89a53b4d4c48aa23b93ed73af64, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9653,6 +9653,10 @@ PrefabInstance:
     - target: {fileID: 4679285406920134340, guid: 6bd93c216590fb94b81a71f6fe4543e2, type: 3}
       propertyPath: m_Name
       value: Blacksmith
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679285406920134340, guid: 6bd93c216590fb94b81a71f6fe4543e2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7098891639449536181, guid: 6bd93c216590fb94b81a71f6fe4543e2, type: 3}
       propertyPath: m_LocalPosition.x
