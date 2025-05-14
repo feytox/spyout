@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Swordsman
       objectReference: {fileID: 0}
+    - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _movementSpeed
+      value: 6.75
+      objectReference: {fileID: 0}
     - target: {fileID: 3199959508139441150, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

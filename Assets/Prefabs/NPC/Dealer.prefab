@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.396
       objectReference: {fileID: 0}
+    - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _movementSpeed
+      value: 6.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2924686492294443246, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Sprite
       value: 
