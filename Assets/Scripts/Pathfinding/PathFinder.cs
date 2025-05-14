@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class PathFinder
@@ -11,21 +12,24 @@ public static class PathFinder
         while (ctx.Frontier.Count > 0)
         {
             var current = ctx.Frontier.Dequeue();
-            if (current == start) 
+            if (current == end)
                 break;
             
             ctx.ProcessNeighbours(current, maxPathLength);
         }
 
-        if (!ctx.Track.TryGetValue(start, out var pointData)) 
-            yield break;
+        if (!ctx.Track.ContainsKey(end))
+            return Enumerable.Empty<Vector2Int>();
 
-        var pos = pointData.CameFrom;
-        while (pos is not null)
+        var result = new List<Vector2Int>();
+        Vector2Int? point = end;
+        while (point is not null)
         {
-            yield return pos.Value;
-            pos = ctx.Track[pos.Value].CameFrom;
+            result.Add(point.Value);
+            point = ctx.Track[point.Value].CameFrom;
         }
+        
+        return Enumerable.Reverse(result).Skip(1);
     }
 
     private static int Heuristic(Vector2Int a, Vector2Int b) => Mathf.Abs(b.x - a.x) + Mathf.Abs(b.y - a.y);
@@ -34,7 +38,7 @@ public static class PathFinder
     {
         private readonly GameObject _walker;
         private readonly TileGrid _grid;
-        private readonly Vector2Int _start;
+        private readonly Vector2Int _end;
         private readonly List<Vector2Int> _buffer;
         public readonly PriorityQueue<Vector2Int, int> Frontier;
         public readonly Dictionary<Vector2Int, PointData> Track;
@@ -43,10 +47,10 @@ public static class PathFinder
         {
             _walker = walker;
             _grid = grid;
-            _start = start;
+            _end = end;
             Frontier = new PriorityQueue<Vector2Int, int>();
-            Frontier.Enqueue(end, 0);
-            Track = new Dictionary<Vector2Int, PointData> { { end, new PointData(null, 0) } };
+            Frontier.Enqueue(start, 0);
+            Track = new Dictionary<Vector2Int, PointData> { { start, new PointData(null, 0) } };
             _buffer = new List<Vector2Int>();
         }
 
@@ -63,7 +67,7 @@ public static class PathFinder
                 if (Track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
                     continue;
 
-                var priority = newCost + Heuristic(_start, next);
+                var priority = newCost + Heuristic(_end, next);
                 Frontier.Enqueue(next, priority);
                 Track[next] = new PointData(current, newCost);
             }

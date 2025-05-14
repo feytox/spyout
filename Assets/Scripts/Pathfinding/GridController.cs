@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -29,10 +30,19 @@ public class GridController : MonoBehaviour
         _tileGrid = TileGrid.Parse(obstacleTilemaps);
     }
 
-    public IEnumerable<Vector2Int> FindPath(GameObject walker, Vector2Int start, Vector2Int end,
+    public IEnumerable<Vector2Int> FindPathOrClosest(GameObject walker, Vector2Int start, Vector2Int end,
         int maxPathLength = 5000)
     {
-        return PathFinder.FindAStarPath(walker, _tileGrid, start, end, maxPathLength);
+        if (_tileGrid.IsWalkable(walker, end))
+            return PathFinder.FindAStarPath(walker, _tileGrid, start, end, maxPathLength);
+
+        var closest = _tileGrid.Get4Neighbours(walker, end)
+            .Cast<Vector2Int?>()
+            .FirstOrDefault();
+
+        return closest is null
+            ? Enumerable.Empty<Vector2Int>()
+            : PathFinder.FindAStarPath(walker, _tileGrid, start, closest.Value, maxPathLength);
     }
 
     [Obsolete]

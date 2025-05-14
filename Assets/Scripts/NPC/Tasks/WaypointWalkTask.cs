@@ -44,7 +44,7 @@ public class WaypointWalkTask : NPCTask
         if (!TryGetNextWaypoint(out var target))
             return true;
 
-        var targetPath = _grid.FindPath(NPC.gameObject, currentPos, target)
+        var targetPath = _grid.FindPathOrClosest(NPC.gameObject, currentPos, target)
             .Select(_grid.CellToNormalWorld);
 
         foreach (var pos in targetPath)

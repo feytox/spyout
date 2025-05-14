@@ -1,5 +1,6 @@
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -25,13 +26,7 @@ public class TileGrid
     public void Get8Neighbours(GameObject walker, Vector2Int pos, List<Vector2Int> result)
     {
         result.Clear();
-        
-        foreach (var delta in CellNeighbours)
-        {
-            var neighbourPos = pos + delta;
-            if (IsWalkable(walker, neighbourPos))
-                result.Add(neighbourPos);
-        }
+        result.AddRange(Get4Neighbours(walker, pos));
         
         foreach (var delta in DiagonalNeighbours)
         {
@@ -46,7 +41,14 @@ public class TileGrid
         }
     }
 
-    private bool IsWalkable(GameObject walker, Vector2Int pos)
+    public IEnumerable<Vector2Int> Get4Neighbours(GameObject walker, Vector2Int pos)
+    {
+        return CellNeighbours
+            .Select(delta => pos + delta)
+            .Where(neighbourPos => IsWalkable(walker, neighbourPos));
+    }
+
+    public bool IsWalkable(GameObject walker, Vector2Int pos)
     {
         if (_tilesData.TryGetValue(pos, out var info))
             return info.CanWalkThrough(walker);

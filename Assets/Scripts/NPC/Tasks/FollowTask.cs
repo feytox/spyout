@@ -72,7 +72,7 @@ public class FollowTask : NPCTask
             ? _grid!.WorldToCell(lastPathPoint)
             : currentPos;
 
-        var deltaPath = _grid!.FindPath(NPC.gameObject, start, _targetPos!.Value, MaxPathLength)
+        var deltaPath = _grid!.FindPathOrClosest(NPC.gameObject, start, _targetPos!.Value, MaxPathLength)
             .Select(_grid.CellToNormalWorld)
             .ToArray();
 
