@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fox
       objectReference: {fileID: 0}
+    - target: {fileID: 1622137232296373407, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.203
+      objectReference: {fileID: 0}
     - target: {fileID: 2924686492294443246, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -56,10 +60,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5310473699487871717, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1078.2373
+      objectReference: {fileID: 0}
     - target: {fileID: 7772106692622700074, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 139da3187d324f1448309b216b37daad, type: 2}
+      objectReference: {fileID: 9100000, guid: 0c2125c4cc339c34282031c24a325e38, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

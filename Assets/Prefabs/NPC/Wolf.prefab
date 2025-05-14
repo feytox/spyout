@@ -8,10 +8,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2242232409757113240, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1922.5073
+      objectReference: {fileID: 0}
+    - target: {fileID: 2242232409757113240, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1078.0356
+      objectReference: {fileID: 0}
     - target: {fileID: 4427183661217081175, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 2c7c297a5e78b1c4b90c890ed38236ae, type: 2}
+      objectReference: {fileID: 9100000, guid: ee8076749c1ad5f4a9042072aab0f641, type: 2}
+    - target: {fileID: 4624749287144834530, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.29
+      objectReference: {fileID: 0}
     - target: {fileID: 6390716610490587890, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_Name
       value: Wolf
