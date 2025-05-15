@@ -47,6 +47,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Castle Walls
+    uniqueID: 2754995901
+    locked: 0
   - name: Castle Objects
     uniqueID: 1483493867
     locked: 0
