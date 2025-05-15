@@ -8,9 +8,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[0]'
+      value: 1580073135
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[1]'
+      value: 1483493867
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[2]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[3]'
+      value: 1483493867
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[4]'
+      value: 1483493867
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[5]'
+      value: 1483493867
+      objectReference: {fileID: 0}
     - target: {fileID: 6725678721243695431, guid: a946a618aacf941419f04903bcec2511, type: 3}
       propertyPath: m_Name
-      value: Light 2D (25) Variant
+      value: Room Light
       objectReference: {fileID: 0}
     - target: {fileID: 7775643057036267598, guid: a946a618aacf941419f04903bcec2511, type: 3}
       propertyPath: m_LocalPosition.x
