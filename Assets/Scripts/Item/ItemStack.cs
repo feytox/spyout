@@ -36,6 +36,16 @@ public class ItemStack
     {
         return _itemHandler is null || _itemHandler.UseItem(character);
     }
+    
+    /// <summary>
+    /// Уменьшает количество предмета в текущем стаке
+    /// </summary>
+    /// <returns>true, если предметы в стаке закончились, false иначе</returns>
+    public bool Decrement(int delta = 1)
+    {
+        Count -= delta;
+        return IsEmpty;
+    }
 
     public override string ToString()
     {

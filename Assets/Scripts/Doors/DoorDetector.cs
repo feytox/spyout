@@ -21,8 +21,6 @@ public class DoorDetector : MonoBehaviour, IWalkable
     {
         Debug.Assert(DoorRenderer != null);
         Debug.Assert(OpenedSprite != null);
-        
-        _closedSprite = DoorRenderer.sprite;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -48,8 +46,9 @@ public class DoorDetector : MonoBehaviour, IWalkable
         var added = _visitors.Add(obj.GetInstanceID());
         if (_visitors.Count != 1 || !added)
             return;
-
+        
         DoorCollider.enabled = false;
+        _closedSprite = DoorRenderer.sprite;    
         DoorRenderer.sprite = OpenedSprite;
         _doorShadowCaster.enabled = false;
     }

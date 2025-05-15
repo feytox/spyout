@@ -42,6 +42,13 @@ public class Inventory
         return false;
     }
 
+    public void RefreshSlot(int slot)
+    {
+        var stack = this[slot];
+        if (stack is not null && stack.IsEmpty) 
+            PopStack(slot);
+    }
+
     private bool TryPutStack(int slot, ItemStack stack)
     {
         var currentStack = Items[slot];
