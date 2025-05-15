@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Castle floor
+    uniqueID: 1580073135
+    locked: 0
   - name: Background
     uniqueID: 3996323547
     locked: 0
