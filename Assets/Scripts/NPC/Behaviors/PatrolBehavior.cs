@@ -11,7 +11,7 @@ public class PatrolBehavior : NPCBehavior
     {
         return new NPCTask[] { 
             PatrolTask<PlayerController>.OfPlayer(taskData, _waypoints.Points.Value), 
-            AttackTask<PlayerController>.OfPlayer(taskData) 
+            AttackTask<PlayerController>.OfPlayer(taskData, true) 
         };
     }
 }

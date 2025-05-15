@@ -6,6 +6,16 @@ public interface IDamageable
     public float CurrentDamage { get; }
     
     /// <summary>
+    /// Радиус урона
+    /// </summary>
+    public float AttackRadius { get; }
+    
+    /// <summary>
+    /// Текущее время перезарядки атаки в секундах
+    /// </summary>
+    public float AttackCooldown { get; }
+    
+    /// <summary>
     /// Наносит урон объекту.
     /// </summary>
     /// <remarks>Лучше использовать <see cref="DamageableExtensions.TryAttack"/></remarks>
@@ -28,8 +38,6 @@ public interface IDamageable
 
 public static class DamageableExtensions
 {
-    private const float AttackSqrRange = 1.25f * 1.25f;
-
     /// <summary>
     /// Пытается нанести урон цели, если она находится в радиусе атаки и может получить урон.
     /// </summary>
@@ -42,7 +50,7 @@ public static class DamageableExtensions
         where T1 : IDamageable, IPositionProvider
         where T2 : IDamageable, IPositionProvider
     {
-        if (!attacker.IsInAttackRange(target))
+        if (!attacker.IsInAttackRadius(target))
             return false;
 
         if (!target.CanTakeDamage(attacker))
@@ -61,10 +69,11 @@ public static class DamageableExtensions
     /// <param name="attacker">Атакующий объект.</param>
     /// <param name="target">Цель атаки.</param>
     /// <returns>True, если цель в радиусе атаки, иначе false.</returns>
-    public static bool IsInAttackRange<T1, T2>(this T1 attacker, T2 target)
+    public static bool IsInAttackRadius<T1, T2>(this T1 attacker, T2 target)
         where T1 : IDamageable, IPositionProvider
         where T2 : IDamageable, IPositionProvider
     {
-        return (attacker.Position - target.Position).sqrMagnitude <= AttackSqrRange;
+        var sqrRange = attacker.AttackRadius * attacker.AttackRadius;
+        return (attacker.Position - target.Position).sqrMagnitude <= sqrRange;
     }
 }

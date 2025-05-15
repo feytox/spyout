@@ -36,12 +36,11 @@ public class BasicBehavior : NPCBehavior
         return _npcBehavior switch
         {
             BasicBehaviorType.None => Array.Empty<NPCTask>(),
-            
-            BasicBehaviorType.FollowPlayer => FollowTask.OfPlayer(taskData).Yield(),
-            
-            BasicBehaviorType.FollowAndAttack => new NPCTask[]
-                { FollowTask.OfPlayer(taskData), AttackTask<PlayerController>.OfPlayer(taskData) },
-            
+
+            BasicBehaviorType.FollowPlayer => FollowTask<PlayerController>.OfPlayer(taskData, false).Yield(),
+
+            BasicBehaviorType.FollowAndAttack => AttackTask<PlayerController>.OfPlayer(taskData, false).Yield(),
+
             _ => throw new ArgumentOutOfRangeException(nameof(_npcBehavior), _npcBehavior, null)
         };
     }
@@ -53,7 +52,7 @@ public class BasicBehavior : NPCBehavior
 public enum BasicBehaviorType : byte
 {
     None = 0,
-    
+
     // tests
     FollowPlayer = 42,
     FollowAndAttack = 43

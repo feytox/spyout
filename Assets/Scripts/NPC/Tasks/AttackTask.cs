@@ -1,46 +1,40 @@
 using JetBrains.Annotations;
 using Utils;
 
-/// <summary>
-/// Задача атаки цели до тех пор, пока цель в зоне поражения
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class AttackTask<T> : NPCTask where T : IDamageable, IPositionProvider
+public class AttackTask<T> : FollowTask<T> where T : IDamageable, IPositionProvider
 {
-    // TODO: move from const to somewhere else
-    private const float DamageAmount = 10;
-    private const float AttackCooldown = 1f;
-    private const float RangeCheckCooldown = 0.3f;
-    
-    private readonly T _target;
-    private readonly Cooldown _attackCooldown = new(AttackCooldown);
-    private readonly Cooldown _rangeCooldown = new(RangeCheckCooldown);
+    private readonly Cooldown _attackCooldown = new(0);
 
-    private AttackTask([NotNull] TaskData taskData, T target) : base(taskData)
+
+    private AttackTask([NotNull] TaskData taskData, T target, bool endWhenNoTarget) 
+        : base(taskData, target, endWhenNoTarget)
     {
-        _target = target;
     }
 
-    public static AttackTask<PlayerController> OfPlayer(TaskData taskData)
+    public new static AttackTask<PlayerController> OfPlayer(TaskData taskData, bool endWhenNoTarget)
     {
-        return new AttackTask<PlayerController>(taskData, PlayerController.GetInstance());
+        return new AttackTask<PlayerController>(taskData, PlayerController.GetInstance(), endWhenNoTarget);
+    }
+
+    protected override void OnTaskStart()
+    {
+        base.OnTaskStart();
+        _attackCooldown.SetDuration(NPC.AttackCooldown);
+        _attackCooldown.Reset();
     }
 
     public override bool Step()
     {
-        if (_rangeCooldown.ResetIfExpired() && !CanAttack())
-            return true;
-        
+        var followCompleted = base.Step();
+        var attackCompleted = AttackStep();
+        return followCompleted && attackCompleted;
+    }
+
+    private bool AttackStep()
+    {
         if (!_attackCooldown.ResetIfExpired())
             return false;
-        
-        return _target == null || !NPC.TryAttack(_target);
-    }
 
-    private bool CanAttack()
-    {
-        return _target != null && _target.CanTakeDamage(NPC) && NPC.IsInAttackRange(_target);
+        return Target == null || !NPC.TryAttack(Target);
     }
-
-    public override NPCTask CreateNextTask(TaskData taskData) => null;
 }

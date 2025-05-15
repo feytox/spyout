@@ -33,6 +33,10 @@ public class GridController : MonoBehaviour
     public IEnumerable<Vector2Int> FindPathOrClosest(GameObject walker, Vector2Int start, Vector2Int end,
         int maxPathLength = 5000)
     {
+        var distance = MathExt.ManhattanDistance(start, end);
+        if (distance > maxPathLength)
+            return Enumerable.Empty<Vector2Int>();
+
         if (_tileGrid.IsWalkable(walker, end))
             return PathFinder.FindAStarPath(walker, _tileGrid, start, end, maxPathLength);
 

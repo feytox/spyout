@@ -67,7 +67,7 @@ public static class PathFinder
                 if (Track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
                     continue;
 
-                var priority = newCost + Heuristic(_end, next);
+                var priority = newCost + MathExt.ManhattanDistance(_end, next);
                 Frontier.Enqueue(next, priority);
                 Track[next] = new PointData(current, newCost);
             }

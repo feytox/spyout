@@ -6,28 +6,30 @@ using Utils;
 /// <summary>
 /// Задача следования за целью с поиском пути
 /// </summary>
-public class FollowTask : NPCTask
+public class FollowTask<T> : NPCTask where T : IPositionProvider
 {
     // TODO: move const to somewhere else
     private const int MaxPathLength = 15;
     private const int LockedPathPoints = 1;
     private const float TargetUpdateCooldown = 0.2f;
 
+    protected readonly T Target;
+    protected readonly bool EndWhenNoTarget;
     private readonly Cooldown _targetUpdateCooldown = new(TargetUpdateCooldown);
     private readonly OverflowBuffer<Vector2> _currentPath = new();
-    private readonly IPositionProvider _target;
     
     private GridController? _grid;
     private Vector2Int? _targetPos;
 
-    public FollowTask(TaskData taskData, IPositionProvider target) : base(taskData)
+    protected FollowTask(TaskData taskData, T target, bool endWhenNoTarget) : base(taskData)
     {
-        _target = target;
+        Target = target;
+        EndWhenNoTarget = endWhenNoTarget;
     }
 
-    public static FollowTask OfPlayer(TaskData taskData)
+    public static FollowTask<PlayerController> OfPlayer(TaskData taskData, bool endWhenNoTarget)
     {
-        return new FollowTask(taskData, PlayerController.GetInstance());
+        return new FollowTask<PlayerController>(taskData, PlayerController.GetInstance(), endWhenNoTarget);
     }
 
     protected override void OnTaskStart()
@@ -38,8 +40,8 @@ public class FollowTask : NPCTask
 
     public override bool Step()
     {
-        if (_target.IsDead || UpdatePath())
-            return true;
+        if (Target.IsDead || UpdatePath())
+            return EndWhenNoTarget;
         
         MoveByPath();
         return false;
@@ -54,10 +56,10 @@ public class FollowTask : NPCTask
         else if (!_targetUpdateCooldown.ResetIfExpired())
             return false;
         
-        if (NPC.IsTargetReached(_target))
+        if (NPC.IsTargetReached(Target))
             return true;
         
-        var newTargetPos = _grid!.WorldToCell(_target.Position);
+        var newTargetPos = _grid!.WorldToCell(Target.Position);
         if (newTargetPos == _targetPos)
             return _currentPath.Count == 0;
         

@@ -10,12 +10,18 @@ public class NPCController : MonoBehaviour, ICharacter
     private const float DeathTime = 0.7f;
 
     [SerializeField] private float _movementSpeed = 4f;
+    [SerializeField] private float _attackDamage = 10f;
+    [SerializeField] private float _attackRadius = 1.25f;
+    [SerializeField] private float _attackCooldownSeconds = 1f;
 
     public Rigidbody2D? Body { get; private set; }
     public InventoryController? Inventory { get; private set; }
     public HealthController? Health { get; private set; }
 
     public Vector2 Position =>  transform.position;
+    public float CurrentDamage => _attackDamage;
+    public float AttackRadius => _attackRadius;
+    public float AttackCooldown => _attackCooldownSeconds;
 
     private NPCAnimController? _animController;
 

@@ -22,7 +22,10 @@ public class PlayerController : MonoBehaviour, ICharacter
 
     public Rigidbody2D Body { get; private set; }
     public Vector2 Position => transform.position;
-    
+    public float CurrentDamage => (Inventory.ActiveItem?.Item.Damage).GetValueOrDefault();
+    public float AttackRadius => _attackRadius;
+    public float AttackCooldown => _attackCooldownSeconds;
+
     private PlayerAnimController _animController;
     private PlayerInputController _inputs;
     private PlayerInventoryController _playerInventory;

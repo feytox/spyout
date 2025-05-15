@@ -4,7 +4,6 @@ public interface ICharacter : IDamageable, IPositionProvider
 {   
     public Rigidbody2D Body { get; }
     public HealthController Health { get; }
-    public InventoryController Inventory { get; }
     
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider;
 
@@ -17,8 +16,7 @@ public interface ICharacter : IDamageable, IPositionProvider
         if (isDead)
             OnDeath(attacker);
     }
-
-    float IDamageable.CurrentDamage => (Inventory.ActiveItem?.Item.Damage).GetValueOrDefault();
+    
     bool IPositionProvider.IsDead => Health.IsDead;
     bool IDamageable.CanTakeDamage(IDamageable attacker) => !IsDead;
 }

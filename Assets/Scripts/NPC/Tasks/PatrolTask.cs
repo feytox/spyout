@@ -4,7 +4,6 @@ using Utils;
 
 /// <summary>
 /// Задача для NPC, реализующая патрулирование цели по заданным точкам (waypoints).
-/// Если цель достигнута, задача завершается и создает следующую задачу <see cref="FollowTask"/>.
 /// </summary>
 public class PatrolTask<T> : WaypointWalkTask where T : IDamageable, IPositionProvider
 {
@@ -14,7 +13,7 @@ public class PatrolTask<T> : WaypointWalkTask where T : IDamageable, IPositionPr
     private readonly Cooldown _targetCheckCooldown = new(TargetCheckCooldown);
     private readonly T _target;
 
-    protected PatrolTask(TaskData taskData, T target, Vector2Int[] waypoints)
+    private PatrolTask(TaskData taskData, T target, Vector2Int[] waypoints)
         : base(taskData, waypoints)
     {
         _target = target;
@@ -35,5 +34,5 @@ public class PatrolTask<T> : WaypointWalkTask where T : IDamageable, IPositionPr
         return base.Step();
     }
 
-    public override NPCTask? CreateNextTask(TaskData taskData) => new FollowTask(taskData, _target);
+    public override NPCTask? CreateNextTask(TaskData taskData) => null;
 }
