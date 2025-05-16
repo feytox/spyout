@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8082165465371084299}
   - component: {fileID: 4185874576750595480}
+  - component: {fileID: 6196556528515009007}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -87,6 +88,83 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6196556528515009007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446744159399252172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: af002e5edb0e33ee00000000eb516c582f5387cb5397a08a21f456386dfe4cb2
+  m_ShapePath:
+  - {x: -0.50156784, y: -0.3127861, z: 0}
+  - {x: -0.501009, y: 0.502018, z: 0}
+  - {x: -0.43680382, y: 0.5020218, z: 0}
+  - {x: -0.43680382, y: 0.4396057, z: 0}
+  - {x: -0.37425232, y: 0.43946838, z: 0}
+  - {x: -0.37428474, y: 0.18943405, z: 0}
+  - {x: -0.31346703, y: 0.18925476, z: 0}
+  - {x: -0.3152771, y: 0.31342697, z: 0}
+  - {x: -0.25125122, y: 0.31484604, z: 0}
+  - {x: -0.25213623, y: 0.37548065, z: 0}
+  - {x: -0.18999672, y: 0.37595367, z: 0}
+  - {x: -0.18809891, y: 0.43809128, z: 0}
+  - {x: 0.18805885, y: 0.43904114, z: 0}
+  - {x: 0.18803787, y: 0.37614822, z: 0}
+  - {x: 0.25079346, y: 0.37633514, z: 0}
+  - {x: 0.24997711, y: 0.31346893, z: 0}
+  - {x: 0.31284332, y: 0.31469345, z: 0}
+  - {x: 0.31365585, y: 0.18855667, z: 0}
+  - {x: 0.3744812, y: 0.18855667, z: 0}
+  - {x: 0.37447548, y: 0.43755722, z: 0}
+  - {x: 0.43696404, y: 0.43740082, z: 0}
+  - {x: 0.43699265, y: 0.5006447, z: 0}
+  - {x: 0.5007343, y: 0.50110245, z: 0}
+  - {x: 0.5005436, y: -0.31263733, z: 0}
+  - {x: 0.31451607, y: -0.3130951, z: 0}
+  - {x: 0.3129692, y: -0.37566376, z: 0}
+  - {x: -0.31290817, y: -0.37573242, z: 0}
+  - {x: -0.31294632, y: -0.3131485, z: 0}
+  - {x: -0.3748436, y: -0.31251526, z: 0}
+  m_ShapePathHash: -1315342257
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 0}
+  m_ShadowShape2DProvider:
+    rid: -2
+  m_ShadowCastingSource: 1
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.48332214, y: 0.48332214, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.05
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0.05
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0.05
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 4185874576750595480}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &2887688167793657854
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ddf469412bd1c46980c6f9f5b03b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _doorShadowCaster: {fileID: 6196556528515009007}
   DoorType: 0
   DoorRenderer: {fileID: 4185874576750595480}
   DoorCollider: {fileID: 5031137616213463260}

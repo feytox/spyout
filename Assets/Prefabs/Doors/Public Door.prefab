@@ -14,7 +14,19 @@ PrefabInstance:
       objectReference: {fileID: 6615319868462110837, guid: 2119efbfb116e0e4294b4d231d142304, type: 3}
     - target: {fileID: 5795821955115155162, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_Name
-      value: Public_Door
+      value: Public Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePathHash
+      value: -1309945905
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[28].x
+      value: -0.4003601
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[28].y
+      value: -0.31330872
       objectReference: {fileID: 0}
     - target: {fileID: 6378118166643784001, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: OpenedSprite

@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
 public class DoorDetector : MonoBehaviour, IWalkable
 {
+    [SerializeField]
+    private ShadowCaster2D _doorShadowCaster;
+    
     public DoorType DoorType;
     public SpriteRenderer DoorRenderer;
     public Collider2D DoorCollider;
@@ -47,6 +51,7 @@ public class DoorDetector : MonoBehaviour, IWalkable
 
         DoorCollider.enabled = false;
         DoorRenderer.sprite = OpenedSprite;
+        _doorShadowCaster.enabled = false;
     }
 
     private void Close(Collider2D obj)
@@ -57,6 +62,7 @@ public class DoorDetector : MonoBehaviour, IWalkable
 
         DoorCollider.enabled = true;
         DoorRenderer.sprite = _closedSprite;
+        _doorShadowCaster.enabled = true;
     }
 
     public Vector3 Position => transform.position;

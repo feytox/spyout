@@ -16,6 +16,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Locked Door
       objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePathHash
+      value: -1310511530
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[28].x
+      value: -0.38621214
+      objectReference: {fileID: 0}
     - target: {fileID: 6378118166643784001, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: OpenedSprite
       value: 
