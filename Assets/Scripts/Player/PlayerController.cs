@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     public static PlayerInputController Inputs => GetInstance()._inputs;
     public InventoryController Inventory => _playerInventory;
     public PlayerInteractionDetector InteractionDetector { get; private set; }
+    public Collider2D Collider { get; private set; }
 
     public Rigidbody2D Body { get; private set; }
     public Vector2 Position => transform.position;
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour, ICharacter
         _animController = GetComponentInChildren<PlayerAnimController>();
         _healthController = GetComponentInChildren<HealthController>();
         InteractionDetector = GetComponentInChildren<PlayerInteractionDetector>();
+        Collider = GetComponent<Collider2D>();
 
         if (_animController is not null)
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;

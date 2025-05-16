@@ -41,7 +41,7 @@ public class DoorDetector : MonoBehaviour, IWalkable
             Close(other);
     }
 
-    private void Open(Collider2D obj)
+    public void Open(Collider2D obj)
     {
         var added = _visitors.Add(obj.GetInstanceID());
         if (_visitors.Count != 1 || !added)

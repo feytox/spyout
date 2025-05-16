@@ -36,8 +36,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
     {
         _doorDetector.DoorRenderer.sprite = _unlockedSprite;
         _doorDetector.DoorType = DoorType.Public;
-        
-        // TODO: открытие двери сразу после
+        _doorDetector.Open(PlayerController.GetInstance().Collider);
     }
 
     public Vector3 Position => transform.position;
