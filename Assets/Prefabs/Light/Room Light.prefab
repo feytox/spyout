@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
       propertyPath: m_ApplyToSortingLayers.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2598637572414974638, guid: a946a618aacf941419f04903bcec2511, type: 3}
       propertyPath: 'm_ApplyToSortingLayers.Array.data[0]'
