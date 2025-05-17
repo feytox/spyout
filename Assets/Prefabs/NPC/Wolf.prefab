@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1892071378596553101, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: _maxHealth
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1892071378596553101, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: _currentHealth
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 2242232409757113240, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1922.5073
@@ -23,6 +31,14 @@ PrefabInstance:
     - target: {fileID: 4624749287144834530, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 5595857766821257130, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: _attackDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5595857766821257130, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: _attackRadius
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6390716610490587890, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_Name

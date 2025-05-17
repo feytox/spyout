@@ -21,8 +21,20 @@ PrefabInstance:
       value: 0.788
       objectReference: {fileID: 0}
     - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _attackDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _attackRadius
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _movementSpeed
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _attackCooldownSeconds
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 2924686492294443246, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Sprite
@@ -87,6 +99,14 @@ PrefabInstance:
     - target: {fileID: 5310473699487871717, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1077.3152
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543202346724083952, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543202346724083952, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _currentHealth
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7293858143179834344, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: CanOpenRestricted
