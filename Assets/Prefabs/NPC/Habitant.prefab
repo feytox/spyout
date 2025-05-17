@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _npcBehavior
-      value: 42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5310473699487871717, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_AnchoredPosition.x
