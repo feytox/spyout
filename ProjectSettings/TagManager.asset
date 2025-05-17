@@ -44,6 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 3996323547
     locked: 0
+  - name: UnderWalls
+    uniqueID: 734137559
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
