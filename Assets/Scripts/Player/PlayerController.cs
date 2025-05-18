@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     public static PlayerInputController Inputs => GetInstance()._inputs;
     public InventoryController Inventory => _playerInventory;
     public PlayerInteractionDetector InteractionDetector { get; private set; }
+    public CharacterSoundController Sounds { get; private set; }
     public Collider2D Collider { get; private set; }
 
     public Rigidbody2D Body { get; private set; }
@@ -47,11 +48,12 @@ public class PlayerController : MonoBehaviour, ICharacter
         _animController = GetComponentInChildren<PlayerAnimController>();
         _healthController = GetComponentInChildren<HealthController>();
         InteractionDetector = GetComponentInChildren<PlayerInteractionDetector>();
+        Sounds = GetComponentInChildren<CharacterSoundController>();
         Collider = GetComponent<Collider2D>();
 
         if (_animController is not null)
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;
-
+        
         _attackCooldown = new Cooldown(_attackCooldownSeconds);
         _inputs.Attack += () => AttackInRange();
     }
@@ -59,6 +61,8 @@ public class PlayerController : MonoBehaviour, ICharacter
     void FixedUpdate()
     {
         Body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
+        Sounds?.UpdateMovement(Position, _inputs.Movement);
+        Sounds?.UpdateIdleSound();
     }
 
     public bool AttackInRange()
@@ -70,6 +74,10 @@ public class PlayerController : MonoBehaviour, ICharacter
         if (targetCollider is null)
         {
             _animController?.TriggerAttack(_inputs.Movement);
+            var missSound = Inventory.ActiveItem?.Item.AttackMissSound;
+            if (missSound is not null)
+                Sounds?.PlayRandomSound(missSound);
+            
             return false;
         }
 
@@ -84,18 +92,21 @@ public class PlayerController : MonoBehaviour, ICharacter
     public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider
     {
         _animController?.TriggerAttack(target.Position - Position);
+        var attackSound = Inventory.ActiveItem?.Item.AttackSound;
+        if (attackSound is not null)
+            Sounds?.PlayRandomSound(attackSound);
     }
 
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
     {
         // TODO: add smth after death
         _inputs.enabled = false;
+        Sounds.PlaySound(CharacterSoundType.Death);
         _animController?.OnDeath();
     }
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
     {
-        // TODO: add damage animation
         this.ApplyKnockback(attacker);
         _animController?.OnDamage();
         OnDamageTaken?.Invoke();

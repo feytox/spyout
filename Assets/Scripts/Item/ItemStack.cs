@@ -34,6 +34,9 @@ public class ItemStack
     /// <inheritdoc cref="ItemHandler.UseItem"/>
     public bool UseItem(ICharacter character)
     {
+        var usageSound = Item.UsageSound;
+        character.Sounds.PlayRandomSound(usageSound);
+        
         return _itemHandler is null || _itemHandler.UseItem(character);
     }
     

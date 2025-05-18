@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d085af31a5fc4436b2893e91cab295da, type: 3}
+  m_Name: TilesTile
+  m_EditorClassIdentifier: 
+  Tiles:
+  - {fileID: 11400000, guid: 820f67a5ada36c64fbb447f82bad521e, type: 2}
+  Sounds:
+  - {fileID: 8300000, guid: fc3b8e8835d55cb4a9ed9fc0235dae9e, type: 3}
+  - {fileID: 8300000, guid: aaffaa6042e120e48bc4ddaee49cb3fd, type: 3}
+  - {fileID: 8300000, guid: 9795bd7438102ab4fb08f5be5c73c944, type: 3}
+  - {fileID: 8300000, guid: 7eaf898fd1d1c0d49ade184bcd5d1595, type: 3}
+  - {fileID: 8300000, guid: cde6e1136dfde6b4bbf5234d49257d0a, type: 3}
+  - {fileID: 8300000, guid: b69d30b21ca20f847824d13cc687bdef, type: 3}
+  - {fileID: 8300000, guid: f20e5ee9f213b4b489e15dd85673bf77, type: 3}

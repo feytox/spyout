@@ -4,6 +4,7 @@ public interface ICharacter : IDamageable, IPositionProvider
 {   
     public Rigidbody2D Body { get; }
     public HealthController Health { get; }
+    public CharacterSoundController Sounds { get; }
     
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider;
 

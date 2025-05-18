@@ -18,9 +18,15 @@ public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
 
     public void Interact()
     {
+        var pickupSound = Stack?.Item.PickupSound;
         var playerInventory = PlayerController.GetInstance().Inventory.Inventory;
-        if (TryPickup(playerInventory!)) 
-            Destroy(gameObject);
+        if (!TryPickup(playerInventory!)) 
+            return;
+        
+        if (pickupSound is not null)
+            SoundFXManager.Instance.PlayRandomSound(pickupSound, transform);
+        
+        Destroy(gameObject);
     }
 
     private bool TryPickup(Inventory inventory)

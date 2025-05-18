@@ -17,8 +17,9 @@ public class NPCController : MonoBehaviour, ICharacter
     public Rigidbody2D? Body { get; private set; }
     public InventoryController? Inventory { get; private set; }
     public HealthController? Health { get; private set; }
+    public CharacterSoundController? Sounds { get; private set; }
 
-    public Vector2 Position =>  transform.position;
+    public Vector2 Position => transform.position;
     public float CurrentDamage => _attackDamage;
     public float AttackRadius => _attackRadius;
     public float AttackCooldown => _attackCooldownSeconds;
@@ -31,6 +32,12 @@ public class NPCController : MonoBehaviour, ICharacter
         _animController = GetComponentInChildren<NPCAnimController>();
         Health = GetComponentInChildren<HealthController>();
         Inventory = GetComponent<InventoryController>();
+        Sounds = GetComponentInChildren<CharacterSoundController>();
+    }
+
+    void FixedUpdate()
+    {
+        Sounds?.UpdateIdleSound();
     }
 
     #region ICharacter
@@ -38,24 +45,20 @@ public class NPCController : MonoBehaviour, ICharacter
     public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider
     {
         _animController?.TriggerAttack(target.Position - Position);
+        Sounds?.PlaySound(CharacterSoundType.Attack);
     }
 
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
     {
         _animController?.OnDeath();
-        StartCoroutine(ScheduleDestroy());
+        Sounds?.PlaySound(CharacterSoundType.Death);
+        Destroy(gameObject, DeathTime);
     }
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
     {
         this.ApplyKnockback(attacker);
         _animController?.OnDamage();
-    }
-
-    private async Awaitable ScheduleDestroy()
-    {
-        await Awaitable.WaitForSecondsAsync(DeathTime);
-        Destroy(gameObject);
     }
 
     #endregion
@@ -85,6 +88,7 @@ public class NPCController : MonoBehaviour, ICharacter
     {
         Body!.linearVelocity = moveVec * _movementSpeed;
         _animController?.UpdateMovementAnimation(moveVec);
+        Sounds?.UpdateMovement(Position, moveVec);
     }
 
     public bool IsTargetReached(IPositionProvider target, float sqrPrecision = TargetMinimumSqrDistance)
