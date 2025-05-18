@@ -65,5 +65,8 @@ TagManager:
   - name: Overlay
     uniqueID: 2991390317
     locked: 0
+  - name: Decor
+    uniqueID: 1506205399
+    locked: 0
   m_RenderingLayers:
   - Default
