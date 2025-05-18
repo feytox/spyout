@@ -399,13 +399,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sounds:
-  - SoundType: 2
-    Clips:
-    - {fileID: 8300000, guid: bdcfd6e6e15e0344ab50e7353ddf023e, type: 3}
   - SoundType: 1
     Clips:
     - {fileID: 8300000, guid: 63c9468a950374d438ddb9a380be2f31, type: 3}
-    - {fileID: 8300000, guid: d9d9b5ef2bd4e6946ad597d48d85eb80, type: 3}
+  _idleSoundCooldown: 10
   _footstepsLength: 0.3
 --- !u!1 &7170863900643452082
 GameObject:

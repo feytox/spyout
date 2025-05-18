@@ -9,7 +9,6 @@ using Utils;
 public class FollowTask<T> : NPCTask where T : IPositionProvider
 {
     // TODO: move const to somewhere else
-    private const int MaxPathLength = 15;
     private const int LockedPathPoints = 1;
     private const float TargetUpdateCooldown = 0.2f;
 
@@ -74,7 +73,7 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
             ? _grid!.WorldToCell(lastPathPoint)
             : currentPos;
 
-        var deltaPath = _grid!.FindPathOrClosest(NPC.gameObject, start, _targetPos!.Value, MaxPathLength)
+        var deltaPath = _grid!.FindPathOrClosest(NPC.gameObject, start, _targetPos!.Value, NPC.MaxPathLength)
             .Select(_grid.CellToNormalWorld)
             .ToArray();
 

@@ -8,7 +8,8 @@ public class CharacterAnimController : MonoBehaviour
     private static readonly int Attack = Animator.StringToHash("attack");
     private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
     private static readonly int Fade = Shader.PropertyToID("_Fade");
-
+    private const float MovementEpsilon = 0.005f;
+    
     [SerializeField] private AnimationCurve _flashCurve;
     [SerializeField] private float _flashTime = 0.25f;
     [SerializeField] private AnimationCurve _dissolveCurve;
@@ -56,7 +57,7 @@ public class CharacterAnimController : MonoBehaviour
     public void UpdateMovementAnimation(Vector2 movementInput)
     {
         _spriteRenderer.flipX = movementInput.x < 0.0f;
-        var isWalking = movementInput != Vector2.zero;
+        var isWalking = movementInput.sqrMagnitude > MovementEpsilon;
         Animator.SetBool(IsWalking, isWalking);
     }
 

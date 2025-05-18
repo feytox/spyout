@@ -39,7 +39,7 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
     {
         if ((_npc! as ICharacter).IsDead)
             return;
-        
+
         if (!_taskStack.TryPeek(out var currentTask))
         {
             LoadTasks();

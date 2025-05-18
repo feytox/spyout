@@ -13,6 +13,7 @@ public class NPCController : MonoBehaviour, ICharacter
     [SerializeField] private float _attackDamage = 10f;
     [SerializeField] private float _attackRadius = 1.25f;
     [SerializeField] private float _attackCooldownSeconds = 1f;
+    [SerializeField] private int _maxPathLength = 50;
 
     public Rigidbody2D? Body { get; private set; }
     public InventoryController? Inventory { get; private set; }
@@ -23,6 +24,7 @@ public class NPCController : MonoBehaviour, ICharacter
     public float CurrentDamage => _attackDamage;
     public float AttackRadius => _attackRadius;
     public float AttackCooldown => _attackCooldownSeconds;
+    public int MaxPathLength => _maxPathLength;
 
     private NPCAnimController? _animController;
 
@@ -37,6 +39,7 @@ public class NPCController : MonoBehaviour, ICharacter
 
     void FixedUpdate()
     {
+        _animController?.UpdateMovementAnimation(Body!.linearVelocity);
         Sounds?.UpdateIdleSound();
     }
 
@@ -87,7 +90,6 @@ public class NPCController : MonoBehaviour, ICharacter
     private void MoveInDirection(Vector2 moveVec)
     {
         Body!.linearVelocity = moveVec * _movementSpeed;
-        _animController?.UpdateMovementAnimation(moveVec);
         Sounds?.UpdateMovement(Position, moveVec);
     }
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1946943941329450711}
   - component: {fileID: 4851837932636223223}
   - component: {fileID: 6091150691565422584}
+  - component: {fileID: 5358211802007327755}
   - component: {fileID: 7293858143179834344}
   - component: {fileID: 7945566774714204215}
   - component: {fileID: 420472507575524631}
@@ -58,6 +59,7 @@ MonoBehaviour:
   _attackDamage: 10
   _attackRadius: 1.25
   _attackCooldownSeconds: 1
+  _maxPathLength: 50
 --- !u!114 &4851837932636223223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +87,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventorySize: 1
   _defaultItem: {fileID: 11400000, guid: 0de6d45966f7843408708d89ecee7728, type: 2}
+--- !u!114 &5358211802007327755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016959381881582479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfb2bd20ae149f6b84f367b0085495e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxPlayerDistance: 30
 --- !u!114 &7293858143179834344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1025,6 +1040,7 @@ MonoBehaviour:
   - SoundType: 1
     Clips:
     - {fileID: 8300000, guid: 63c9468a950374d438ddb9a380be2f31, type: 3}
+  _idleSoundCooldown: 10
   _footstepsLength: 0.3
 --- !u!1001 &6839734273900539275
 PrefabInstance:
