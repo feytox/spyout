@@ -24,6 +24,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1078.0356
       objectReference: {fileID: 0}
+    - target: {fileID: 3640605637399860065, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: _idleSoundCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3640605637399860065, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: '_sounds.Array.data[0].Clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 91ca7009b00081347a7ad7e382de9077, type: 3}
     - target: {fileID: 4427183661217081175, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_Controller
       value: 

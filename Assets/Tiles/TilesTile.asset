@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: TilesTile
   m_EditorClassIdentifier: 
   Tiles:
-  - {fileID: 11400000, guid: 820f67a5ada36c64fbb447f82bad521e, type: 2}
+  - {fileID: 11400000, guid: ec975e125e12f33448b79a8d487f625e, type: 2}
+  - {fileID: 11400000, guid: e572d94e26a9cc14fb40ef7ae2a28a88, type: 2}
+  - {fileID: 11400000, guid: 660d345ee309a7e43971b542437e152e, type: 2}
+  - {fileID: 11400000, guid: b855ff7de8ed10c4d87b82718b9b08c5, type: 2}
+  - {fileID: 11400000, guid: 7c18cdeb5a241fb45a414ad62c6f3187, type: 2}
   Sounds:
   - {fileID: 8300000, guid: fc3b8e8835d55cb4a9ed9fc0235dae9e, type: 3}
   - {fileID: 8300000, guid: aaffaa6042e120e48bc4ddaee49cb3fd, type: 3}

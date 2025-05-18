@@ -19,6 +19,13 @@ MonoBehaviour:
   ItemType: 0
   InteractHandler: 1
   UsageSound: []
+  AttackSound:
+  - {fileID: 8300000, guid: 85a3571a99c2fa343a0be0b77ac2505c, type: 3}
+  AttackMissSound:
+  - {fileID: 8300000, guid: 85a3571a99c2fa343a0be0b77ac2505c, type: 3}
+  PickupSound:
+  - {fileID: 8300000, guid: afa4e15f814e5aa46a893917760b0a97, type: 3}
+  UsageSound: []
   AttackSound: []
   AttackMissSound: []
   PickupSound: []

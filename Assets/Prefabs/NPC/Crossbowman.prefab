@@ -104,6 +104,10 @@ PrefabInstance:
       propertyPath: _currentHealth
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: '_sounds.Array.data[0].Clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 0e3f1aad5cec2484f9bc1298d5e55ce4, type: 3}
     - target: {fileID: 7293858143179834344, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: CanOpenRestricted
       value: 1
