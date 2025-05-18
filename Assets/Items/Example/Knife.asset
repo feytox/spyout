@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Knife
   m_EditorClassIdentifier: 
   Name: "\u041D\u043E\u0436"
-  Sprite: {fileID: -7773870562576252253, guid: 59e873a4568ade94697daaf9cf00d1ec, type: 3}
+  Sprite: {fileID: 1947028018, guid: 57e63b5e69a92b24c8de6cd945db83f6, type: 3}
   MaxCount: 1
   Damage: 6
   ItemType: 0
   InteractHandler: 1
+  UsageSound: []
+  AttackSound: []
+  AttackMissSound: []
+  PickupSound: []
