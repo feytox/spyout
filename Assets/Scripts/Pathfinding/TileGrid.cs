@@ -1,6 +1,5 @@
 #nullable enable
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,8 +10,7 @@ public class TileGrid
 
     private readonly Vector2Int _min;
     private readonly Vector2Int _max;
-
-    // maybe use Vector2Int, idk
+    
     private readonly Dictionary<Vector2Int, ITileInfo> _tilesData;
 
     private TileGrid(Dictionary<Vector2Int, ITileInfo> tilesData, Vector2Int min, Vector2Int max)
@@ -21,31 +19,31 @@ public class TileGrid
         _min = min;
         _max = max;
     }
-    
-    // TODO: ускорить???
-    public void Get8Neighbours(GameObject walker, Vector2Int pos, List<Vector2Int> result)
+
+    public IEnumerable<Vector2Int> Get8Neighbours(GameObject walker, Vector2Int pos)
     {
-        result.Clear();
-        result.AddRange(Get4Neighbours(walker, pos));
-        
+        foreach (var delta in CellNeighbours)
+        {
+            var tilePos = pos + delta;
+            if (IsWalkable(walker, tilePos))
+                yield return tilePos;
+        }
+
         foreach (var delta in DiagonalNeighbours)
         {
-            var firstNeighbour = new Vector2Int(pos.x + delta.x, pos.y);
-            var secondNeighbour = new Vector2Int(pos.x, pos.y + delta.y);
-            if (!result.Contains(firstNeighbour) || !result.Contains(secondNeighbour)) // < 8 elements, so it is fast
-                return;
-            
-            var diagonalPos = pos + delta;
-            if (IsWalkable(walker, diagonalPos))
-                result.Add(diagonalPos);
+            var tilePos = pos + delta;
+            if (!IsWalkable(walker, tilePos))
+                continue;
+            if (IsWalkable(walker, pos + delta.WithX(0)) && IsWalkable(walker, pos + delta.WithY(0)))
+                yield return tilePos;
         }
     }
 
     public IEnumerable<Vector2Int> Get4Neighbours(GameObject walker, Vector2Int pos)
     {
-        return CellNeighbours
-            .Select(delta => pos + delta)
-            .Where(neighbourPos => IsWalkable(walker, neighbourPos));
+        foreach (var delta in CellNeighbours)
+            if (IsWalkable(walker, pos + delta))
+                yield return pos + delta;
     }
 
     public bool IsWalkable(GameObject walker, Vector2Int pos)
@@ -54,12 +52,6 @@ public class TileGrid
             return info.CanWalkThrough(walker);
 
         return pos.x >= _min.x && pos.y >= _min.y && pos.x <= _max.x && pos.y <= _max.y;
-    }
-
-    // maybe deprecate costs, idk
-    public int GetCost(Vector2Int pos)
-    {
-        return _tilesData.TryGetValue(pos, out var info) ? info.Cost : 1;
     }
 
     public static TileGrid Parse(Tilemap[] tilemaps)
@@ -96,7 +88,7 @@ public class TileGrid
             if (tile == null)
                 continue;
 
-            tilesData[pos.ToXY()] = new SimpleTileInfo(1, false);
+            tilesData[pos.ToXY()] = new SimpleTileInfo(false);
         }
     }
 
@@ -109,7 +101,7 @@ public class TileGrid
                 continue;
 
             var pos = tilemap.WorldToCell(tile.Position).ToXY();
-            tilesData[pos] = new TileInfo(1, tile.CanWalkThrough);
+            tilesData[pos] = new TileInfo(tile.CanWalkThrough);
         }
     }
 }

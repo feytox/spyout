@@ -31,15 +31,12 @@ public static class PathFinder
         
         return Enumerable.Reverse(result).Skip(1);
     }
-
-    private static int Heuristic(Vector2Int a, Vector2Int b) => Mathf.Abs(b.x - a.x) + Mathf.Abs(b.y - a.y);
     
     private class AStarContext
     {
         private readonly GameObject _walker;
         private readonly TileGrid _grid;
         private readonly Vector2Int _end;
-        private readonly List<Vector2Int> _buffer;
         public readonly PriorityQueue<Vector2Int, int> Frontier;
         public readonly Dictionary<Vector2Int, PointData> Track;
 
@@ -51,16 +48,14 @@ public static class PathFinder
             Frontier = new PriorityQueue<Vector2Int, int>();
             Frontier.Enqueue(start, 0);
             Track = new Dictionary<Vector2Int, PointData> { { start, new PointData(null, 0) } };
-            _buffer = new List<Vector2Int>();
         }
 
         public void ProcessNeighbours(Vector2Int current, int maxPathLength)
         {
             var currentCost = Track[current].CostSoFar;
-            _grid.Get8Neighbours(_walker, current, _buffer);
-            foreach (var next in _buffer)
+            foreach (var next in _grid.Get8Neighbours(_walker, current))
             {
-                var newCost = currentCost + _grid.GetCost(next);
+                var newCost = currentCost + 1;
                 if (newCost > maxPathLength)
                     continue;
                 

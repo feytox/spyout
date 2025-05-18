@@ -1,7 +1,9 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
+using Task = System.Threading.Tasks.Task;
 
 /// <summary>
 /// Задача перемещения по заданному порядку точек (waypoints) с использованием поиска пути.
@@ -11,6 +13,7 @@ public class WaypointWalkTask : NPCTask
     private readonly Queue<Vector2Int> _waypoints;
     private readonly Queue<Vector2> _path = new();
     private GridController? _grid;
+    private Task? _pathUpdateTask;
 
     protected WaypointWalkTask(TaskData taskData, Vector2Int[] waypoints) : base(taskData)
     {
@@ -32,25 +35,36 @@ public class WaypointWalkTask : NPCTask
     }
 
     protected virtual bool CanWalkNext() => true;
-
-    // TODO: это стоит закинуть в async
-    // ReSharper disable Unity.PerformanceAnalysis
+    
     private bool UpdatePath()
     {
         if (_path.Count > 0 || !CanWalkNext())
             return false;
 
+        if (_pathUpdateTask is not null && !_pathUpdateTask.IsCompleted)
+            return false;
+
         var currentPos = _grid!.WorldToCell(NPC.transform.position);
         if (!TryGetNextWaypoint(out var target))
             return true;
-
-        var targetPath = _grid.FindPathOrClosest(NPC.gameObject, currentPos, target)
-            .Select(_grid.CellToNormalWorld);
-
-        foreach (var pos in targetPath)
-            _path.Enqueue(pos);
-
+        
+        _pathUpdateTask = CreatePathUpdateTask(NPC.gameObject, currentPos, target);
         return false;
+    }
+
+    private Task CreatePathUpdateTask(GameObject walker, Vector2Int currentPos, Vector2Int target)
+    {
+        return Task.Run(() => _grid!
+                .FindPathOrClosest(walker, currentPos, target, NPC.MaxPathLength)
+                .Select(_grid.CellToNormalWorld), NPC.destroyCancellationToken)
+            .ContinueWith(task =>
+            {
+                if (task.IsCompletedSuccessfully)
+                    foreach (var pos in task.Result)
+                        _path.Enqueue(pos);
+                else if (task is { IsFaulted: true, Exception: not null })
+                    throw task.Exception;
+            }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private bool TryGetNextWaypoint(out Vector2Int nextWaypoint)

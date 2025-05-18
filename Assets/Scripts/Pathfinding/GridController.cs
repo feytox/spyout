@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -77,6 +78,7 @@ public class GridController : MonoBehaviour
     {
         var tilesData = _tilesSettings
             .SelectMany(data => data.Tiles.Select(tile => (tile, data)))
+            .DistinctBy(tuple => tuple.tile)
             .ToDictionary(tuple => tuple.tile, tuple => tuple.data);
         
         _gridData.Clear();

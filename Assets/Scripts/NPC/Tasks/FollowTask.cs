@@ -1,5 +1,6 @@
 #nullable enable
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
 
@@ -16,9 +17,10 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
     protected readonly bool EndWhenNoTarget;
     private readonly Cooldown _targetUpdateCooldown = new(TargetUpdateCooldown);
     private readonly OverflowBuffer<Vector2> _currentPath = new();
-    
+
     private GridController? _grid;
     private Vector2Int? _targetPos;
+    private Task? _pathUpdateTask;
 
     protected FollowTask(TaskData taskData, T target, bool endWhenNoTarget) : base(taskData)
     {
@@ -41,27 +43,28 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
     {
         if (Target.IsDead || UpdatePath())
             return EndWhenNoTarget;
-        
+
         MoveByPath();
         return false;
     }
     
-    // TODO: это стоит закинуть в async
-    // ReSharper disable Unity.PerformanceAnalysis
     private bool UpdatePath()
     {
         if (_targetPos is null)
             _targetUpdateCooldown.Reset();
         else if (!_targetUpdateCooldown.ResetIfExpired())
             return false;
-        
+
         if (NPC.IsTargetReached(Target))
             return true;
-        
+
         var newTargetPos = _grid!.WorldToCell(Target.Position);
         if (newTargetPos == _targetPos)
-            return _currentPath.Count == 0;
-        
+            return _currentPath.Count == 0 && IsUpdatingCompleted();
+
+        if (!IsUpdatingCompleted())
+            return false;
+
         _targetPos = newTargetPos;
         _currentPath.Trim(LockedPathPoints);
         return RefreshPath(_grid!.WorldToCell(NPC.transform.position));
@@ -73,19 +76,22 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
             ? _grid!.WorldToCell(lastPathPoint)
             : currentPos;
 
-        var deltaPath = _grid!.FindPathOrClosest(NPC.gameObject, start, _targetPos!.Value, NPC.MaxPathLength)
-            .Select(_grid.CellToNormalWorld)
-            .ToArray();
+        _pathUpdateTask = CreatePathUpdateTask(NPC.gameObject, start);
+        return false;
+    }
 
-        if (deltaPath.Length != 0)
-        {
-            _currentPath.EnqueueRange(deltaPath);
-            return false;
-        }
-
-        _currentPath.Clear();
-        _targetPos = null;
-        return true;
+    private Task CreatePathUpdateTask(GameObject walker, Vector2Int start)
+    {
+        return Task.Run(() => _grid!
+                .FindPathOrClosest(walker, start, _targetPos!.Value, NPC.MaxPathLength)
+                .Select(_grid.CellToNormalWorld), NPC.destroyCancellationToken)
+            .ContinueWith(task =>
+            {
+                if (task.IsCompletedSuccessfully)
+                    _currentPath.EnqueueRange(task.Result.ToArray());
+                else if (task is { IsFaulted: true, Exception: not null })
+                    throw task.Exception;
+            }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private void MoveByPath()
@@ -97,10 +103,12 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
 
             if (!NPC.MoveToTarget(currentTarget))
                 break;
-            
+
             _currentPath.Dequeue();
         }
     }
+
+    private bool IsUpdatingCompleted() => _pathUpdateTask is null || _pathUpdateTask.IsCompleted;
 
     public override NPCTask? CreateNextTask(TaskData taskData) => null;
 }
