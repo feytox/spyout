@@ -12,7 +12,7 @@ public static class VectorsExtensions
         return new Vector2Int(Mathf.Max(vec.x, other.x), Mathf.Max(vec.y, other.y));
     }
 
-    public static Vector2Int ToXY(this Vector3Int vec) => new(vec.x, vec.y);
+    public static Vector2Int ToXY(this Vector3Int vec) => (Vector2Int)vec;
 
     public static Vector2 ToCellCenter(this Vector2Int pos) => new(pos.x + 0.5f, pos.y + 0.5f);
 

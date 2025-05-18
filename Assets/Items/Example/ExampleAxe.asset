@@ -18,3 +18,11 @@ MonoBehaviour:
   Damage: 10
   ItemType: 0
   InteractHandler: 1
+  UsageSound: []
+  AttackSound:
+  - {fileID: 8300000, guid: bdcfd6e6e15e0344ab50e7353ddf023e, type: 3}
+  - {fileID: 8300000, guid: 7a1b84a440aa5d6429571d81244c88b8, type: 3}
+  AttackMissSound:
+  - {fileID: 8300000, guid: 85a3571a99c2fa343a0be0b77ac2505c, type: 3}
+  PickupSound:
+  - {fileID: 8300000, guid: afa4e15f814e5aa46a893917760b0a97, type: 3}
