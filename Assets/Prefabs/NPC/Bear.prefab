@@ -96,6 +96,18 @@ PrefabInstance:
       propertyPath: _currentHealth
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _idleSoundCooldown
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _sounds.Array.data[0].SoundType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: '_sounds.Array.data[0].Clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 51ac0e9fdbc43d74ca9849d70703813f, type: 3}
     - target: {fileID: 7772106692622700074, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Controller
       value: 
