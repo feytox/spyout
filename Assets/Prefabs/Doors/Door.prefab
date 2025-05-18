@@ -108,7 +108,7 @@ MonoBehaviour:
   m_CastsShadows: 1
   m_SelfShadows: 0
   m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: af002e5edb0e33ee00000000eb516c582f5387cb5397a08a21f456386dfe4cb2
+  m_ApplyToSortingLayers: af002e5edb0e33ee00000000eb516c582f5387cb5397a08a21f45638
   m_ShapePath:
   - {x: -0.50156784, y: -0.3127861, z: 0}
   - {x: -0.501009, y: 0.502018, z: 0}

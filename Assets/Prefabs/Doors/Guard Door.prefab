@@ -17,36 +17,104 @@ PrefabInstance:
       value: Guard Door
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_HasRenderer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePathHash
-      value: -1187631350
+      value: -1792124135
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_PreviousTrimEdge
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShadowCastingSource
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.size
-      value: 40
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShadowShape2DProvider
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_PreviousEdgeProcessing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShadowShape2DComponent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShadowMesh.m_InitialTrim
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[0].x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[0].y
+      value: -0.31219864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[1].x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[1].y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[2].x
+      value: -0.43722153
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[2].y
+      value: 0.5000801
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[3].x
+      value: -0.4373188
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[3].y
+      value: 0.43810272
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[4].x
+      value: 0.4367733
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_ShapePath.Array.data[4].y
+      value: 0.43830872
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.data[5].x
-      value: -0.37331164
+      value: 0.43746948
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.data[5].y
-      value: 0.3139934
+      value: 0.5002594
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.data[6].x
-      value: -0.25090718
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.data[6].y
-      value: 0.31336883
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.data[7].x
-      value: -0.2512162
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.data[7].y
-      value: 0.3751873
+      value: -0.3121986
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShapePath.Array.data[8].x
@@ -305,20 +373,32 @@ PrefabInstance:
       value: -0.3105954
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_PreviousShadowCastingSource
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: m_PreviousShadowShape2DSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.x
-      value: -0.0002642274
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.y
-      value: 0.09436554
+      value: 0.09403038
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.x
-      value: 0.5013036
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.y
-      value: 0.40765625
+      value: 0.40622902
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556528515009007, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
+      propertyPath: 'managedReferences[9085896123298611302]'
+      value: Unity.RenderPipelines.Universal.2D.Runtime UnityEngine.Rendering.Universal.ShadowShape2DProvider_SpriteRenderer
       objectReference: {fileID: 0}
     - target: {fileID: 6378118166643784001, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
       propertyPath: DoorType
