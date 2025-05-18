@@ -14,14 +14,9 @@ public abstract class HealthBarComponent : MonoBehaviour
         _slider.maxValue = HealthController.MaxHealth;
         _slider.value = HealthController.MaxHealth;
         HealthController.OnHealthChange += OnHealthChange;
-        OnStart();
     }
 
-    protected virtual void OnStart()
-    {
-    }
-
-    protected virtual void OnHealthChange(float health)
+    private void OnHealthChange(float health)
     {
         _slider.value = health;
     }

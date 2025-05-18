@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wolf
       objectReference: {fileID: 0}
+    - target: {fileID: 6655620279619889136, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.191
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655620279619889136, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.777
+      objectReference: {fileID: 0}
     - target: {fileID: 7415085829924681454, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

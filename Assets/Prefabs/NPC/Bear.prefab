@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 788436351695883917, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.247
+      objectReference: {fileID: 0}
     - target: {fileID: 1016959381881582479, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Name
       value: Bear

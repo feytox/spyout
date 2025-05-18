@@ -22,6 +22,9 @@ public static class VectorsExtensions
     public static Vector2Int WithY(this Vector2Int vec, int y) => new(vec.x, y);
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 WithX(this Vector2 vec, float x) => new(x, vec.y);
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2Int ToXY(this Vector3Int vec) => (Vector2Int)vec;
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -81,6 +81,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 788436351695883917, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.161
+      objectReference: {fileID: 0}
+    - target: {fileID: 788436351695883917, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.495
+      objectReference: {fileID: 0}
     - target: {fileID: 1016959381881582479, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Name
       value: Habitant
@@ -135,15 +143,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3479937294507892627, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3479937294507892627, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3892816127637543724, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _npcBehavior
@@ -152,10 +160,6 @@ PrefabInstance:
     - target: {fileID: 5310473699487871717, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1922.4768
-      objectReference: {fileID: 0}
-    - target: {fileID: 5543202346724083952, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}

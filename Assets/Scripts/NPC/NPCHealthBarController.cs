@@ -1,8 +1,7 @@
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class NPCHealthBarController : HealthBarComponent
+public class NPCHealthBarController : MonoBehaviour
 {
     [SerializeField] private NPCController _npc;
     [SerializeField] private AnimationCurve _flashCurve;
@@ -10,42 +9,68 @@ public class NPCHealthBarController : HealthBarComponent
     [SerializeField] private Gradient _backGroundGradient;
     [SerializeField] private Gradient _fillGradient;
     [SerializeField] private Gradient _borderGradient;
-    [SerializeField] private Image _background;
-    [SerializeField] private Image _fill;
-    [SerializeField] private Image _border;
+    [SerializeField] private SpriteRenderer _background;
+    [SerializeField] private SpriteRenderer _fill;
+    [SerializeField] private SpriteRenderer _border;
 
-    private CanvasGroup _canvasGroup;
+    private float _maxFillWidth;
+    private float _maxHealth;
     private float _currentFlashTime;
-    
-    protected override HealthController HealthController => _npc.Health;
 
-    protected override void OnStart()
+    void Start()
     {
-        _canvasGroup = GetComponent<CanvasGroup>();
+        _maxFillWidth = _fill.size.x;
+        _npc.Health!.OnHealthChange += OnHealthChange;
+        _maxHealth = _npc.Health.MaxHealth;
     }
 
     void Update()
     {
         if (_currentFlashTime <= 0)
+        {
+            ToggleSprites(false);
             return;
+        }
 
         _currentFlashTime = Mathf.Max(0, _currentFlashTime - Time.deltaTime);
-        _canvasGroup.alpha = _flashCurve.Evaluate(_flashTime - _currentFlashTime);
+        var alpha = _flashCurve.Evaluate(_flashTime - _currentFlashTime);
+        ApplyAlpha(_background, alpha);
+        ApplyAlpha(_fill, alpha);
+        ApplyAlpha(_border, alpha);
     }
 
-    protected override void OnHealthChange(float health)
+
+    private void OnHealthChange(float health)
     {
-        base.OnHealthChange(health);
+        var progress = health / _maxHealth;
+        _fill.size = _fill.size.WithX(_maxFillWidth * progress);
         _currentFlashTime = _flashTime;
-        ApplyGradient(_background, _backGroundGradient, health);
-        ApplyGradient(_fill, _fillGradient, health);
-        ApplyGradient(_border, _borderGradient, health);
+        ToggleSprites(true);
+        ApplyGradient(_background, _backGroundGradient, progress);
+        ApplyGradient(_fill, _fillGradient, progress);
+        ApplyGradient(_border, _borderGradient, progress);
     }
-    
+
     // TODO: move to external class
-    private void ApplyGradient(Image image, Gradient gradient, float health)
+    private void ApplyGradient(SpriteRenderer sprite, Gradient gradient, float progress)
     {
-        var progress = health / HealthController.MaxHealth;
-        image.color = gradient.Evaluate(progress);
+        sprite.color = gradient.Evaluate(progress);
+    }
+
+    private void ApplyAlpha(SpriteRenderer sprite, float alpha)
+    {
+        sprite.color = sprite.color.WithAlpha(alpha);
+    }
+
+    private void ToggleSprites(bool value)
+    {
+        if (!value && _currentFlashTime <= -100)
+            return;
+
+        _background.enabled = value;
+        _fill.enabled = value;
+        _border.enabled = value;
+        if (!value)
+            _currentFlashTime = -1000;
     }
 }
