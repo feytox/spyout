@@ -1,15 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
 public class PlayerInteractionDetector : MonoBehaviour
 {
+    [SerializeField] private float _checkInteractionCooldown = 0.2f;
+
     private readonly HashSet<IInteractable> _interactablesInRange = new();
-    
+    private Cooldown _checkCooldown;
+
     void Start()
     {
         PlayerController.Inputs.Interact.Subscribe(0, _ => OnInteract());
+        _checkCooldown = new Cooldown(_checkInteractionCooldown);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!_checkCooldown.ResetIfExpired())
+            return;
+
+        if (_interactablesInRange.Count == 0)
+            return;
+
+        foreach (var interactable in _interactablesInRange)
+            if (interactable.CanInteract())
+                interactable.OnInteractionEnter();
+            else
+                interactable.OnInteractionExit();
     }
 
     private bool OnInteract()
@@ -25,18 +45,19 @@ public class PlayerInteractionDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out IInteractable interactable) || !interactable.CanInteract()) 
+        if (!other.TryGetComponent(out IInteractable interactable))
             return;
-        
+
         _interactablesInRange.Add(interactable);
-        interactable.OnInteractionEnter();
+        if (interactable.CanInteract())
+            interactable.OnInteractionEnter();
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out IInteractable interactable)) 
+        if (!other.TryGetComponent(out IInteractable interactable))
             return;
-        
+
         _interactablesInRange.Remove(interactable);
         interactable.OnInteractionExit();
     }

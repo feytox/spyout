@@ -39,4 +39,6 @@ public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
     public Vector3 Position => transform.position;
 
     PopupController? IPlayerInteractable.Popup => _popup;
+
+    bool IPlayerInteractable.Interacted { get; set; }
 }

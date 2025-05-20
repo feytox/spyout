@@ -9,7 +9,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
     
     private PopupController _popup;
     private DoorDetector _doorDetector;
-    
+
     void Start()
     {
         _popup = GetComponentInChildren<PopupController>();
@@ -42,4 +42,6 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
     public Vector3 Position => transform.position;
 
     PopupController IPlayerInteractable.Popup => _popup;
+
+    bool IPlayerInteractable.Interacted { get; set; }
 }
