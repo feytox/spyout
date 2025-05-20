@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -108,12 +108,40 @@ TextureImporter:
         width: 89
         height: 91
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      outline:
+      - - {x: 36.5, y: -19.5}
+        - {x: 41.5, y: -15.5}
+        - {x: 44.5, y: -3.5}
+        - {x: 42.5, y: -0.5}
+        - {x: 41.5, y: 23.5}
+        - {x: 21.5, y: 34.5}
+        - {x: 1.5, y: 45.5}
+        - {x: -5.5, y: 45.5}
+        - {x: -23.5, y: 34.5}
+        - {x: -44.5, y: 24.5}
+        - {x: -44.5, y: -15.5}
+        - {x: -39.5, y: -18.5}
+        - {x: -39.5, y: -45.5}
+        - {x: 36.5, y: -45.5}
+      physicsShape:
+      - - {x: 36.5, y: -19.5}
+        - {x: 41.5, y: -15.5}
+        - {x: 44.5, y: -3.5}
+        - {x: 42.5, y: -0.5}
+        - {x: 41.5, y: 23.5}
+        - {x: 21.5, y: 34.5}
+        - {x: 1.5, y: 45.5}
+        - {x: -5.5, y: 45.5}
+        - {x: -23.5, y: 34.5}
+        - {x: -44.5, y: 24.5}
+        - {x: -44.5, y: -15.5}
+        - {x: -39.5, y: -18.5}
+        - {x: -39.5, y: -45.5}
+        - {x: 36.5, y: -45.5}
+      tessellationDetail: 0.5
       bones: []
       spriteID: 97cbf233eee8a32e0800000000000000
       internalID: -2145245118776492935
@@ -125,7 +153,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 404b04e3247253e43a264d97e7273411
     internalID: 0
     vertices: []
     indices: 

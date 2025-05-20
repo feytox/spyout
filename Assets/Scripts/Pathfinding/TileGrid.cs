@@ -77,6 +77,7 @@ public class TileGrid
             ParseStaticTiles(tilesData, tilemap);
 
         ParseDynamicTiles(tilesData, tilemap);
+        ParseLargeObjects(tilesData, tilemap);
     }
 
     private static void ParseStaticTiles(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
@@ -102,6 +103,18 @@ public class TileGrid
 
             var pos = tilemap.WorldToCell(tile.Position).ToXY();
             tilesData[pos] = new TileInfo(tile.CanWalkThrough);
+        }
+    }
+
+    private static void ParseLargeObjects(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
+    {
+        var largeObjects = tilemap.GetComponentsInChildren<LargeTilemapObject>();
+        foreach (var largeObj in largeObjects)
+        {
+            foreach (var tilePos in largeObj.GetTilePoses(tilemap))
+            {
+                tilesData[tilePos] = new SimpleTileInfo(false);
+            }
         }
     }
 }

@@ -11,10 +11,9 @@ using UnityEngine.Tilemaps;
 public class GridController : MonoBehaviour
 {
     public Tilemap[] obstacleTilemaps;
-
+    
     [SerializeField] private TileData[] _tilesSettings;
-
-    private readonly Dictionary<TileBase, TileData> _tilesData = new();
+    
     private readonly Dictionary<Vector3Int, TileData> _gridData = new();
     private Grid _grid;
     private TileGrid _tileGrid;
