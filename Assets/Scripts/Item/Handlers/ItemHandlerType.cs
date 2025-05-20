@@ -3,7 +3,9 @@ using System;
 public enum ItemHandlerType : byte
 {
     None = 0,
-    Weapon = 1
+    Weapon = 1,
+    Meat = 2,
+    Wine = 3
 }
 
 public static class ItemHandlerTypeExt
@@ -14,6 +16,8 @@ public static class ItemHandlerTypeExt
         {
             ItemHandlerType.None => null,
             ItemHandlerType.Weapon => new WeaponItemHandler(stack),
+            ItemHandlerType.Meat => new FoodItemHandler(stack, 15),
+            ItemHandlerType.Wine => new FoodItemHandler(stack, 10),
             _ => throw new ArgumentOutOfRangeException(nameof(handlerType), handlerType, null)
         };
     }

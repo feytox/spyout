@@ -12,7 +12,12 @@ public class PlayerInventoryController : InventoryController
 
     private bool UseSelectedItem(PlayerController player)
     {
-        return ActiveItem is null || ActiveItem.UseItem(player);
+        if (ActiveItem is null)
+            return true;
+        
+        var result = ActiveItem.UseItem(player);
+        Inventory.RefreshSlot(ActiveSlot);
+        return result;
     }
 
     private void ChangeSlot(bool isPositive)
