@@ -20,7 +20,7 @@ public class TileGrid
         _max = max;
     }
 
-    public IEnumerable<Vector2Int> Get8Neighbours(GameObject walker, Vector2Int pos)
+    public IEnumerable<Vector2Int> Get8Neighbours(IWalker walker, Vector2Int pos)
     {
         foreach (var delta in CellNeighbours)
         {
@@ -39,14 +39,14 @@ public class TileGrid
         }
     }
 
-    public IEnumerable<Vector2Int> Get4Neighbours(GameObject walker, Vector2Int pos)
+    public IEnumerable<Vector2Int> Get4Neighbours(IWalker walker, Vector2Int pos)
     {
         foreach (var delta in CellNeighbours)
             if (IsWalkable(walker, pos + delta))
                 yield return pos + delta;
     }
 
-    public bool IsWalkable(GameObject walker, Vector2Int pos)
+    public bool IsWalkable(IWalker walker, Vector2Int pos)
     {
         if (_tilesData.TryGetValue(pos, out var info))
             return info.CanWalkThrough(walker);

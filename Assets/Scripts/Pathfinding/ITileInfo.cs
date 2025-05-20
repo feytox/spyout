@@ -1,9 +1,8 @@
 using System;
-using UnityEngine;
 
 public interface ITileInfo
 {
-    public bool CanWalkThrough(GameObject walker);
+    public bool CanWalkThrough(IWalker walker);
 }
 
 public readonly struct SimpleTileInfo : ITileInfo
@@ -12,22 +11,18 @@ public readonly struct SimpleTileInfo : ITileInfo
 
     public SimpleTileInfo(bool isWalkable) => _isWalkable = isWalkable;
 
-    public bool CanWalkThrough(GameObject walker) => _isWalkable;
-
-    public bool IsConstantState => true;
+    public bool CanWalkThrough(IWalker walker) => _isWalkable;
 }
 
 public class TileInfo : ITileInfo
 {
 
-    private readonly Func<GameObject, bool> _walkable;
+    private readonly Func<IWalker, bool> _walkable;
     
-    public TileInfo(Func<GameObject, bool> walkablePredicate)
+    public TileInfo(Func<IWalker, bool> walkablePredicate)
     {
         _walkable = walkablePredicate;
     }
     
-    public bool CanWalkThrough(GameObject walker) => _walkable(walker);
-
-    public bool IsConstantState => false;
+    public bool CanWalkThrough(IWalker walker) => _walkable(walker);
 }

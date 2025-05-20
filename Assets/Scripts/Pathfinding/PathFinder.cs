@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class PathFinder
 {
-    public static IEnumerable<Vector2Int> FindAStarPath(GameObject walker, TileGrid grid,
+    public static IEnumerable<Vector2Int> FindAStarPath(IWalker walker, TileGrid grid,
         Vector2Int start, Vector2Int end, int maxPathLength)
     {
         var ctx = new AStarContext(walker, grid, start, end);
@@ -34,13 +34,13 @@ public static class PathFinder
     
     private class AStarContext
     {
-        private readonly GameObject _walker;
+        private readonly IWalker _walker;
         private readonly TileGrid _grid;
         private readonly Vector2Int _end;
         public readonly PriorityQueue<Vector2Int, int> Frontier;
         public readonly Dictionary<Vector2Int, PointData> Track;
 
-        public AStarContext(GameObject walker, TileGrid grid, Vector2Int start, Vector2Int end)
+        public AStarContext(IWalker walker, TileGrid grid, Vector2Int start, Vector2Int end)
         {
             _walker = walker;
             _grid = grid;

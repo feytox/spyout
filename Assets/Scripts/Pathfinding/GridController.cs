@@ -32,7 +32,7 @@ public class GridController : MonoBehaviour
         RefreshGrid();
     }
 
-    public IEnumerable<Vector2Int> FindPathOrClosest(GameObject walker, Vector2Int start, Vector2Int end,
+    public IEnumerable<Vector2Int> FindPathOrClosest(IWalker walker, Vector2Int start, Vector2Int end,
         int maxPathLength = 5000)
     {
         var distance = MathExt.ManhattanDistance(start, end);
@@ -52,7 +52,7 @@ public class GridController : MonoBehaviour
     }
 
     [Obsolete]
-    public static IEnumerable<Vector2Int> FindPath(GameObject walker, Vector3 startPos, Vector3 endPos)
+    public static IEnumerable<Vector2Int> FindPath(IWalker walker, Vector3 startPos, Vector3 endPos)
     {
         var instance = GetInstance();
         var start = instance.WorldToCell(startPos);

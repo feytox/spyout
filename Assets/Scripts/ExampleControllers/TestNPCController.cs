@@ -5,7 +5,7 @@ using Utils;
 
 [Obsolete]
 [RequireComponent(typeof(Rigidbody2D))]
-public class TestNPCController : MonoBehaviour
+public class TestNPCController : MonoBehaviour, IWalker
 {
     public GameObject target;
     public float MovementSpeed = 4f;
@@ -18,7 +18,7 @@ public class TestNPCController : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        pathToTarget = GridController.FindPath(gameObject, rigidbody.transform.position, target.transform.position)
+        pathToTarget = GridController.FindPath(this, rigidbody.transform.position, target.transform.position)
             .Select(cellPos => cellPos.ToCellCenter())
             .ToArray();
         walkCooldown = new Cooldown(5);
@@ -45,4 +45,6 @@ public class TestNPCController : MonoBehaviour
 
         rigidbody.linearVelocity = moveVec.normalized * MovementSpeed;
     }
+
+    public IDoorPermission DoorPermission => null;
 }

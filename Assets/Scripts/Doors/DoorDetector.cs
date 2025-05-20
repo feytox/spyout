@@ -66,8 +66,9 @@ public class DoorDetector : MonoBehaviour, IWalkable
 
     public Vector3 Position => transform.position;
     
-    public bool CanWalkThrough(GameObject walker)
+    public bool CanWalkThrough(IWalker walker)
     {
-        return walker.TryGetComponent(out IDoorPermission permission) && permission.CanOpenDoor(DoorType);
+        var doorPermission = walker.DoorPermission;
+        return doorPermission is not null && doorPermission.CanOpenDoor(DoorType);
     }
 }

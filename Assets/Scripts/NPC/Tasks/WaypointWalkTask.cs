@@ -48,22 +48,23 @@ public class WaypointWalkTask : NPCTask
         if (!TryGetNextWaypoint(out var target))
             return true;
         
-        _pathUpdateTask = CreatePathUpdateTask(NPC.gameObject, currentPos, target);
+        _pathUpdateTask = CreatePathUpdateTask(currentPos, target);
         return false;
     }
 
-    private Task CreatePathUpdateTask(GameObject walker, Vector2Int currentPos, Vector2Int target)
+    // ReSharper disable Unity.PerformanceAnalysis
+    private Task CreatePathUpdateTask(Vector2Int currentPos, Vector2Int target)
     {
         return Task.Run(() => _grid!
-                .FindPathOrClosest(walker, currentPos, target, NPC.MaxPathLength)
+                .FindPathOrClosest(NPC, currentPos, target, NPC.MaxPathLength)
                 .Select(_grid.CellToNormalWorld), NPC.destroyCancellationToken)
             .ContinueWith(task =>
             {
                 if (task.IsCompletedSuccessfully)
                     foreach (var pos in task.Result)
                         _path.Enqueue(pos);
-                else if (task is { IsFaulted: true, Exception: not null })
-                    throw task.Exception;
+                else if (task.Exception is not null)
+                    Debug.LogException(task.Exception);
             }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 

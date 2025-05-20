@@ -4,7 +4,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(NPCInventoryController))]
-public class NPCController : MonoBehaviour, ICharacter
+public class NPCController : MonoBehaviour, ICharacter, IWalker
 {
     private const float TargetMinimumSqrDistance = 0.01f;
     private const float DeathTime = 0.7f;
@@ -19,6 +19,7 @@ public class NPCController : MonoBehaviour, ICharacter
     public InventoryController? Inventory { get; private set; }
     public HealthController? Health { get; private set; }
     public CharacterSoundController? Sounds { get; private set; }
+    public IDoorPermission? DoorPermission { get; private set; }
 
     public Vector2 Position => transform.position;
     public float CurrentDamage => _attackDamage;
@@ -35,6 +36,7 @@ public class NPCController : MonoBehaviour, ICharacter
         Health = GetComponentInChildren<HealthController>();
         Inventory = GetComponent<InventoryController>();
         Sounds = GetComponentInChildren<CharacterSoundController>();
+        DoorPermission = GetComponent<IDoorPermission>();
     }
 
     void FixedUpdate()

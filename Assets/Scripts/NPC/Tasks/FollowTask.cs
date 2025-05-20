@@ -76,21 +76,22 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
             ? _grid!.WorldToCell(lastPathPoint)
             : currentPos;
 
-        _pathUpdateTask = CreatePathUpdateTask(NPC.gameObject, start);
+        _pathUpdateTask = CreatePathUpdateTask(start);
         return false;
     }
 
-    private Task CreatePathUpdateTask(GameObject walker, Vector2Int start)
+    // ReSharper disable Unity.PerformanceAnalysis
+    private Task CreatePathUpdateTask(Vector2Int start)
     {
         return Task.Run(() => _grid!
-                .FindPathOrClosest(walker, start, _targetPos!.Value, NPC.MaxPathLength)
+                .FindPathOrClosest(NPC, start, _targetPos!.Value, NPC.MaxPathLength)
                 .Select(_grid.CellToNormalWorld), NPC.destroyCancellationToken)
             .ContinueWith(task =>
             {
                 if (task.IsCompletedSuccessfully)
                     _currentPath.EnqueueRange(task.Result.ToArray());
-                else if (task is { IsFaulted: true, Exception: not null })
-                    throw task.Exception;
+                else if (task.Exception is not null)
+                    Debug.LogException(task.Exception);
             }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
