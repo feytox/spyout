@@ -586,6 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bde240561613e1546ae334fa3fb084fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _checkInteractionCooldown: 0.2
 --- !u!58 &2253154830368704144
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -715,6 +716,10 @@ PrefabInstance:
     - target: {fileID: 2439219945318054339, guid: e9cbbaec3dbb445499d1d83d00fa216b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144357425763651505, guid: e9cbbaec3dbb445499d1d83d00fa216b, type: 3}
+      propertyPath: m_Volume
+      value: 0.133
       objectReference: {fileID: 0}
     - target: {fileID: 6204916815976528708, guid: e9cbbaec3dbb445499d1d83d00fa216b, type: 3}
       propertyPath: m_Name

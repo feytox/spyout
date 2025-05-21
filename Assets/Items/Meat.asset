@@ -21,4 +21,5 @@ MonoBehaviour:
   UsageSound: []
   AttackSound: []
   AttackMissSound: []
-  PickupSound: []
+  PickupSound:
+  - {fileID: 8300000, guid: 457ae2bde35075c42b5c30344443acfa, type: 3}
