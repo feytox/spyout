@@ -16,8 +16,8 @@ public static class ItemHandlerTypeExt
         {
             ItemHandlerType.None => null,
             ItemHandlerType.Weapon => new WeaponItemHandler(stack),
-            ItemHandlerType.Meat => new FoodItemHandler(stack, 15),
-            ItemHandlerType.Wine => new FoodItemHandler(stack, 10),
+            ItemHandlerType.Meat => new FoodItemHandler(stack, 25),
+            ItemHandlerType.Wine => new FoodItemHandler(stack, 15),
             _ => throw new ArgumentOutOfRangeException(nameof(handlerType), handlerType, null)
         };
     }
