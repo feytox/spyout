@@ -12,6 +12,18 @@ public class ItemStack
     public int Count { get; private set; }
     public bool IsEmpty => Count <= 0;
 
+    /// <summary>
+    /// Позволяет переопределить количество восстанавливаемого здоровья для этого конкретного стака.
+    /// Если null, используется значение из Item.HealAmount.
+    /// </summary>
+    public float? CustomHealAmount { get; set; }
+
+    /// <summary>
+    /// Возвращает действительное количество восстанавливаемого здоровья,
+    /// учитывая возможное переопределение.
+    /// </summary>
+    public float EffectiveHealAmount => CustomHealAmount ?? Item.HealAmount;
+
     private readonly ItemHandler? _itemHandler;
 
     public ItemStack(Item item, int count = 1)

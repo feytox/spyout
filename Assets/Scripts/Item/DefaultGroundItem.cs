@@ -10,6 +10,12 @@ public class DefaultGroundItem : GroundItem
 
     [Range(1, Item.DefaultMaxCount)] public int Count = 1;
 
+    [Header("Heal Override")]
+    [Tooltip("Если отмечено, будет использоваться значение Custom Heal Amount вместо значения из Item.")]
+    public bool OverrideHealAmount = false;
+    [Tooltip("Пользовательское количество восстанавливаемого здоровья для этого предмета.")]
+    public float CustomHealAmountValue = 0f;
+
     private ItemStack _stack;
 
     public override ItemStack Stack
@@ -26,5 +32,9 @@ public class DefaultGroundItem : GroundItem
     {
         Debug.Assert(DefaultItem != null);
         _stack = new ItemStack(DefaultItem, Count);
+        if (OverrideHealAmount)
+        {
+            _stack.CustomHealAmount = CustomHealAmountValue;
+        }
     }
 }

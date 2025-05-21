@@ -13,6 +13,7 @@ public class Item : ScriptableObject
     public Sprite Sprite;
     public int MaxCount;
     public float Damage;
+    public float HealAmount;
     public ItemType ItemType;
     public ItemHandlerType InteractHandler;
     public AudioClip[] UsageSound;
