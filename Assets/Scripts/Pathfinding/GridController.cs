@@ -50,6 +50,11 @@ public class GridController : MonoBehaviour
             : PathFinder.FindAStarPath(walker, _tileGrid, start, closest.Value, maxPathLength);
     }
 
+    public bool IsPathVisible(IWalker walker, Vector2Int start, Vector2Int end, int maxPathLength)
+    {
+        return PathFinder.IsPathVisible(walker, _tileGrid, start, end, maxPathLength);
+    }
+
     [Obsolete]
     public static IEnumerable<Vector2Int> FindPath(IWalker walker, Vector3 startPos, Vector3 endPos)
     {

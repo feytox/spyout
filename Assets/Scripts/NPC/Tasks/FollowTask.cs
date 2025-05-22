@@ -1,4 +1,5 @@
 #nullable enable
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -14,10 +15,11 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
     private const float TargetUpdateCooldown = 0.2f;
 
     protected readonly T Target;
-    protected readonly bool EndWhenNoTarget;
+    private readonly bool _endWhenNoTarget;
     private readonly Cooldown _targetUpdateCooldown = new(TargetUpdateCooldown);
     private readonly OverflowBuffer<Vector2> _currentPath = new();
 
+    protected bool NoTarget;
     private GridController? _grid;
     private Vector2Int? _targetPos;
     private Task? _pathUpdateTask;
@@ -25,7 +27,7 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
     protected FollowTask(TaskData taskData, T target, bool endWhenNoTarget) : base(taskData)
     {
         Target = target;
-        EndWhenNoTarget = endWhenNoTarget;
+        _endWhenNoTarget = endWhenNoTarget;
     }
 
     public static FollowTask<PlayerController> OfPlayer(TaskData taskData, bool endWhenNoTarget)
@@ -41,13 +43,18 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
 
     public override bool Step()
     {
-        if (Target.IsDead || UpdatePath())
-            return EndWhenNoTarget;
+        if (Target.IsDead)
+            return _endWhenNoTarget;
 
-        MoveByPath();
-        return false;
+        if (!IsUpdatingCompleted())
+            return false;
+
+        if (UpdatePath())
+            return _endWhenNoTarget;
+
+        return MoveByPath() && NoTarget && _endWhenNoTarget;
     }
-    
+
     private bool UpdatePath()
     {
         if (_targetPos is null)
@@ -66,47 +73,78 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
             return false;
 
         _targetPos = newTargetPos;
-        _currentPath.Trim(LockedPathPoints);
         return RefreshPath(_grid!.WorldToCell(NPC.transform.position));
     }
 
     private bool RefreshPath(Vector2Int currentPos)
     {
-        var start = _currentPath.TryPeekLast(out var lastPathPoint)
+        var start = _currentPath.TryGetOrLast(LockedPathPoints - 1, out var lastPathPoint)
             ? _grid!.WorldToCell(lastPathPoint)
             : currentPos;
 
         _pathUpdateTask = CreatePathUpdateTask(start);
         return false;
     }
-
+    
     // ReSharper disable Unity.PerformanceAnalysis
     private Task CreatePathUpdateTask(Vector2Int start)
     {
-        return Task.Run(() => _grid!
-                .FindPathOrClosest(NPC, start, _targetPos!.Value, NPC.MaxPathLength)
-                .Select(_grid.CellToNormalWorld), NPC.destroyCancellationToken)
-            .ContinueWith(task =>
-            {
-                if (task.IsCompletedSuccessfully)
-                    _currentPath.EnqueueRange(task.Result.ToArray());
-                else if (task.Exception is not null)
-                    Debug.LogException(task.Exception);
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+        return Task.Run(() => FindPath(start), NPC.destroyCancellationToken)
+            .ContinueWith(OnUpdatePathComplete, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
-    private void MoveByPath()
+    private IEnumerable<Vector2> FindPath(Vector2Int start)
+    {
+        var targetPos = _targetPos!.Value;
+        if (_grid!.IsPathVisible(NPC, start, targetPos, NPC.MaxPathLength))
+            return _grid
+                .FindPathOrClosest(NPC, start, targetPos, NPC.MaxPathLength)
+                .Select(_grid.CellToNormalWorld);
+        
+        return Enumerable.Empty<Vector2>();
+    }
+
+    private void OnUpdatePathComplete(Task<IEnumerable<Vector2>> task)
+    {
+        if (task.Exception is not null)
+        {
+            Debug.LogException(task.Exception);
+            return;
+        }
+        
+        if (!task.IsCompletedSuccessfully)
+            return;
+        
+        var path = task.Result.ToArray();
+        if (path.Length == 0)
+        {
+            NoTarget = true;
+            return;
+        }
+
+        NoTarget = false;
+        _currentPath.Trim(LockedPathPoints);
+        _currentPath.EnqueueRange(path);
+    }
+    
+    /// <summary>
+    /// Двигает NPC по пути
+    /// </summary>
+    /// <returns>true, если путь закончился</returns>
+    private bool MoveByPath()
     {
         while (true)
         {
             if (!_currentPath.TryPeek(out var currentTarget))
-                return;
+                return true;
 
             if (!NPC.MoveToTarget(currentTarget))
                 break;
 
             _currentPath.Dequeue();
         }
+
+        return false;
     }
 
     private bool IsUpdatingCompleted() => _pathUpdateTask is null || _pathUpdateTask.IsCompleted;

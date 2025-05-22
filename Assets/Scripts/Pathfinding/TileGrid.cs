@@ -10,7 +10,7 @@ public class TileGrid
 
     private readonly Vector2Int _min;
     private readonly Vector2Int _max;
-    
+
     private readonly Dictionary<Vector2Int, ITileInfo> _tilesData;
 
     private TileGrid(Dictionary<Vector2Int, ITileInfo> tilesData, Vector2Int min, Vector2Int max)
@@ -48,9 +48,16 @@ public class TileGrid
 
     public bool IsWalkable(IWalker walker, Vector2Int pos)
     {
-        if (_tilesData.TryGetValue(pos, out var info))
-            return info.CanWalkThrough(walker);
+        return _tilesData.TryGetValue(pos, out var info) ? info.CanWalkThrough(walker) : IsInBounds(pos);
+    }
 
+    public bool CanSeeThrough(IWalker walker, Vector2Int pos)
+    {
+        return _tilesData.TryGetValue(pos, out var info) ? info.CanSeeThrough(walker) : IsInBounds(pos);
+    }
+
+    private bool IsInBounds(Vector2Int pos)
+    {
         return pos.x >= _min.x && pos.y >= _min.y && pos.x <= _max.x && pos.y <= _max.y;
     }
 
@@ -73,14 +80,17 @@ public class TileGrid
 
     private static void ParseTilemap(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
     {
+        var canSeeThrough = tilemap.TryGetComponent<VisibleTilemapComponent>(out var component) 
+                            && component.CanSeeThroughTiles;
+        
         if (tilemap.TryGetComponent(out TilemapCollider2D _))
-            ParseStaticTiles(tilesData, tilemap);
+            ParseStaticTiles(tilesData, tilemap, canSeeThrough);
 
-        ParseDynamicTiles(tilesData, tilemap);
-        ParseLargeObjects(tilesData, tilemap);
+        ParseDynamicTiles(tilesData, tilemap, canSeeThrough);
+        ParseLargeObjects(tilesData, tilemap, canSeeThrough);
     }
 
-    private static void ParseStaticTiles(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
+    private static void ParseStaticTiles(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap, bool visible)
     {
         var bounds = tilemap.cellBounds;
         foreach (var pos in bounds.allPositionsWithin) // TODO: maybe use tilemap.GetTilesBlock()
@@ -89,11 +99,11 @@ public class TileGrid
             if (tile == null)
                 continue;
 
-            tilesData[pos.ToXY()] = new SimpleTileInfo(false);
+            tilesData[pos.ToXY()] = new SimpleTileInfo(false, visible);
         }
     }
 
-    private static void ParseDynamicTiles(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
+    private static void ParseDynamicTiles(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap, bool visible)
     {
         var dynamicTiles = tilemap.GetComponentsInChildren<IWalkable>();
         foreach (var tile in dynamicTiles)
@@ -102,18 +112,18 @@ public class TileGrid
                 continue;
 
             var pos = tilemap.WorldToCell(tile.Position).ToXY();
-            tilesData[pos] = new TileInfo(tile.CanWalkThrough);
+            tilesData[pos] = new TileInfo(tile.CanWalkThrough, tile.CanSeeThrough);
         }
     }
 
-    private static void ParseLargeObjects(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
+    private static void ParseLargeObjects(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap, bool visible)
     {
         var largeObjects = tilemap.GetComponentsInChildren<LargeTilemapObject>();
         foreach (var largeObj in largeObjects)
         {
             foreach (var tilePos in largeObj.GetTilePoses(tilemap))
             {
-                tilesData[tilePos] = new SimpleTileInfo(false);
+                tilesData[tilePos] = new SimpleTileInfo(false, visible);
             }
         }
     }

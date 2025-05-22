@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 // TODO: maybe use something else
 /// <summary>
@@ -133,11 +134,24 @@ public class OverflowBuffer<T> where T : struct
     {
         if (_size == 0)
         {
-            result = default(T);
+            result = default;
             return false;
         }
 
         result = _array[(_head + _size - 1) % _capacity];
+        return true;
+    }
+
+    public bool TryGetOrLast(int index, out T result)
+    {
+        index = Mathf.Min(index, _size - 1);
+        if (index < 0)
+        {
+            result = default;
+            return false;
+        }
+        
+        result = _array[(_head + index) % _capacity];
         return true;
     }
 

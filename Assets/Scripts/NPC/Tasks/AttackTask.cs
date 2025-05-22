@@ -26,6 +26,9 @@ public class AttackTask<T> : FollowTask<T> where T : IDamageable, IPositionProvi
     public override bool Step()
     {
         var followCompleted = base.Step();
+        if (NoTarget)
+            return followCompleted;
+        
         var attackCompleted = AttackStep();
         return followCompleted && attackCompleted;
     }

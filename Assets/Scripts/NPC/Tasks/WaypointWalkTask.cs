@@ -51,7 +51,8 @@ public class WaypointWalkTask : NPCTask
         _pathUpdateTask = CreatePathUpdateTask(currentPos, target);
         return false;
     }
-
+    
+    // TODO: refactor
     // ReSharper disable Unity.PerformanceAnalysis
     private Task CreatePathUpdateTask(Vector2Int currentPos, Vector2Int target)
     {

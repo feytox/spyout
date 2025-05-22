@@ -16,6 +16,7 @@ public class DoorDetector : MonoBehaviour, IWalkable
     
     private readonly HashSet<int> _visitors = new();
     private Sprite _closedSprite;
+    private bool _isOpened;
     
     void Start()
     {
@@ -46,7 +47,8 @@ public class DoorDetector : MonoBehaviour, IWalkable
         var added = _visitors.Add(obj.GetInstanceID());
         if (_visitors.Count != 1 || !added)
             return;
-        
+
+        _isOpened = true;
         DoorCollider.enabled = false;
         _closedSprite = DoorRenderer.sprite;    
         DoorRenderer.sprite = OpenedSprite;
@@ -59,6 +61,7 @@ public class DoorDetector : MonoBehaviour, IWalkable
         if (_visitors.Count != 0 || !removed)
             return;
 
+        _isOpened = false;
         DoorCollider.enabled = true;
         DoorRenderer.sprite = _closedSprite;
         _doorShadowCaster.enabled = true;
@@ -71,4 +74,6 @@ public class DoorDetector : MonoBehaviour, IWalkable
         var doorPermission = walker.DoorPermission;
         return doorPermission is not null && doorPermission.CanOpenDoor(DoorType);
     }
+
+    public bool CanSeeThrough(IWalker walker) => _isOpened;
 }

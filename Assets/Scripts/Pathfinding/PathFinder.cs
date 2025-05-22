@@ -4,6 +4,14 @@ using UnityEngine;
 
 public static class PathFinder
 {
+    public static bool IsPathVisible(IWalker walker, TileGrid grid, Vector2Int start, Vector2Int end, int maxPathLength)
+    {
+        if ((end - start).sqrMagnitude > maxPathLength * maxPathLength)
+            return false;
+
+        return VectorsExtensions.IterateLine(start, end).All(pos => grid.CanSeeThrough(walker, pos));
+    }
+    
     public static IEnumerable<Vector2Int> FindAStarPath(IWalker walker, TileGrid grid,
         Vector2Int start, Vector2Int end, int maxPathLength)
     {
