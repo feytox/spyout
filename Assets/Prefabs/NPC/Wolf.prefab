@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: _currentHealth
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 2085347978465541494, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: _maxPlayerDistance
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2242232409757113240, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1922.5073
