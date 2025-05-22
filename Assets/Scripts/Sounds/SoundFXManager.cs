@@ -24,7 +24,7 @@ public class SoundFXManager : MonoBehaviour
 
     private void PlaySound(AudioClip clip, Transform spawnTransform)
     {
-        var source = Instantiate(_soundFXObject, spawnTransform.position, Quaternion.identity, transform);
+        var source = Instantiate(_soundFXObject, spawnTransform.position, Quaternion.identity, spawnTransform);
         source.clip = clip;
         source.volume = 1.0f;
         source.Play();
