@@ -9,6 +9,7 @@ public class CharacterSoundController : MonoBehaviour
     [SerializeField] private CharacterSoundStorage[] _sounds;
     [SerializeField] private float _idleSoundCooldown = 10f;
     [SerializeField] private float _footstepsLength = 0.5f;
+    [SerializeField] private bool _hasFootsteps = true;
 
     private readonly Dictionary<CharacterSoundType, AudioClip[]> _soundClips = new();
     private Cooldown _footstepsCooldown;
@@ -45,7 +46,7 @@ public class CharacterSoundController : MonoBehaviour
     
     public void UpdateMovement(Vector3 currentPos, Vector3 moveVec)
     {
-        if (_footstepsCooldown.ResetIfExpired())
+        if (_hasFootsteps && _footstepsCooldown.ResetIfExpired())
             OnMove(currentPos, moveVec);
     }
 
