@@ -36,7 +36,7 @@ public class PlayerInteractionDetector : MonoBehaviour
     {
         var pos = transform.position;
         var interactable = _interactablesInRange.MinBy(interactable => (interactable.Position - pos).sqrMagnitude);
-        if (interactable is null)
+        if (interactable is null || !interactable.CanInteract())
             return false;
 
         interactable.Interact();
