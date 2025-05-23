@@ -9,7 +9,7 @@ using UnityEngine;
 public class ItemStack
 {
     public Item Item { get; }
-    public int Count { get; private set; }
+    public int Count { get; set; }
     public bool IsEmpty => Count <= 0;
 
     private readonly ItemHandler? _itemHandler;

@@ -9,6 +9,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
     
     private PopupController _popup;
     private DoorDetector _doorDetector;
+    private bool _unlocked;
 
     void Start()
     {
@@ -28,6 +29,9 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
 
     public bool CanInteract()
     {
+        if (_unlocked)
+            return false;
+        
         var activeStack = PlayerController.GetInstance().Inventory.ActiveItem;
         return _doorKey == activeStack?.Item;
     }
@@ -37,6 +41,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
         _doorDetector.DoorRenderer.sprite = _unlockedSprite;
         _doorDetector.DoorType = DoorType.Public;
         _doorDetector.Open(PlayerController.GetInstance().Collider);
+        _unlocked = true;
     }
 
     public Vector3 Position => transform.position;
