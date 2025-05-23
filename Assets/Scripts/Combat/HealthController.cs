@@ -13,7 +13,7 @@ public class HealthController : MonoBehaviour
 
     public bool Damage(float amount)
     {
-        _currentHealth -= amount;
+        _currentHealth = Mathf.Max(_currentHealth - amount, 0);
         OnHealthChange?.Invoke(_currentHealth);
         return _currentHealth > 0;
     }
