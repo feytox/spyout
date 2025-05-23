@@ -8,9 +8,9 @@ public class ItemCounterComponent : MonoBehaviour
     [SerializeField] private Item _targetItem;
     [SerializeField] private int _targetCount;
     [SerializeField] private Image _checkMark;
-
+    [SerializeField] private TextMeshProUGUI _text;
+    
     private ItemRenderer _itemRenderer;
-    private TextMeshProUGUI _text;
     private int _count;
 
     void Start()

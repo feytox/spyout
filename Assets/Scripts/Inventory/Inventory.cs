@@ -47,6 +47,8 @@ public class Inventory
         var stack = this[slot];
         if (stack is not null && stack.IsEmpty) 
             PopStack(slot);
+        else
+            OnSlotUpdated?.Invoke(slot, stack);
     }
 
     private bool TryPutStack(int slot, ItemStack stack)
@@ -63,6 +65,7 @@ public class Inventory
             return false;
             
         currentStack.CombineWith(stack);
+        OnSlotUpdated?.Invoke(slot, currentStack);
         return stack.IsEmpty;
     }
 

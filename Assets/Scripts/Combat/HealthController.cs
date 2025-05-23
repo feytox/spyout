@@ -10,6 +10,7 @@ public class HealthController : MonoBehaviour
 
     public float MaxHealth => _maxHealth;
     public bool IsDead => _currentHealth <= 0;
+    public bool IsMaxHealth => Mathf.Approximately(_currentHealth, _maxHealth);
 
     public bool Damage(float amount)
     {

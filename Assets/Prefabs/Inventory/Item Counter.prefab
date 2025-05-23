@@ -129,6 +129,7 @@ MonoBehaviour:
   _targetItem: {fileID: 11400000, guid: 045cd12d5befec74693a03fd3f7c5385, type: 2}
   _targetCount: 3
   _checkMark: {fileID: 8370008101190589239}
+  _text: {fileID: 4247557396226097079}
 --- !u!1 &8662425160213296021
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,11 @@ public class FoodItemHandler : ItemHandler
 
     public override bool UseItem(ICharacter character)
     {
-        character.Health?.Heal(_healAmount);
+        var healthController = character.Health;
+        if (healthController is null || healthController.IsMaxHealth)
+            return false;
+        
+        healthController.Heal(_healAmount);
         Stack.Decrement();
         return true;
     }
