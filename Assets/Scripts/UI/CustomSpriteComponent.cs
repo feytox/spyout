@@ -9,17 +9,17 @@ public abstract class CustomSpriteComponent : MonoBehaviour // TODO: maybe use b
 
     private SpriteRenderer? _renderer;
 
-    void OnEnable() => UpdateSprite();
+    void OnEnable() => RefreshSprite();
 
-    void OnValidate() => UpdateSprite();
+    void OnValidate() => RefreshSprite();
 
-    protected virtual void BeforeSpriteUpdate()
+    protected virtual void BeforeSpriteRefresh()
     {
     }
 
-    private void UpdateSprite()
+    private void RefreshSprite()
     {
-        BeforeSpriteUpdate();
+        BeforeSpriteRefresh();
         if (Sprite != null)
             GetRenderer().sprite = Sprite;
     }

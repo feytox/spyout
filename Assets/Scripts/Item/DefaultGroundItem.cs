@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -10,21 +9,13 @@ public class DefaultGroundItem : GroundItem
 
     [Range(1, Item.DefaultMaxCount)] public int Count = 1;
 
-    private ItemStack _stack;
-
-    public override ItemStack Stack
-    {
-        get => _stack;
-        set => throw new InvalidOperationException("Cannot set stack to Ground Item");
-    }
-
     void Start() => UpdateItem();
 
-    protected override void BeforeSpriteUpdate() => UpdateItem();
+    protected override void BeforeSpriteRefresh() => UpdateItem();
 
     private void UpdateItem()
     {
         Debug.Assert(DefaultItem != null);
-        _stack = new ItemStack(DefaultItem, Count);
+        Stack = new ItemStack(DefaultItem, Count);
     }
 }

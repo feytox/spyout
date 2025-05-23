@@ -28,6 +28,7 @@ public class NPCController : MonoBehaviour, ICharacter, IWalker
     public int MaxPathLength => _maxPathLength;
 
     private NPCAnimController? _animController;
+    private DropOnDeathComponent? _dropOnDeath;
 
     void Awake()
     {
@@ -37,6 +38,7 @@ public class NPCController : MonoBehaviour, ICharacter, IWalker
         Inventory = GetComponent<InventoryController>();
         Sounds = GetComponentInChildren<CharacterSoundController>();
         DoorPermission = GetComponent<IDoorPermission>();
+        _dropOnDeath = GetComponentInChildren<DropOnDeathComponent>();
     }
 
     void FixedUpdate()
@@ -57,6 +59,7 @@ public class NPCController : MonoBehaviour, ICharacter, IWalker
     {
         _animController?.OnDeath();
         Sounds?.PlaySound(CharacterSoundType.Death);
+        _dropOnDeath?.OnDeath(0.9f * DeathTime);
         Destroy(gameObject, DeathTime);
     }
 

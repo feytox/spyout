@@ -7,10 +7,10 @@ using UnityEngine;
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-public abstract class GroundItem : CustomSpriteComponent, IPlayerInteractable
+public class GroundItem : CustomSpriteComponent, IPlayerInteractable
 {
+    public ItemStack? Stack { get; set; }
     private PopupController? _popup;
-    public abstract ItemStack? Stack { get; set; }
     
     protected override Sprite? Sprite => Stack?.Item.Sprite;
 
