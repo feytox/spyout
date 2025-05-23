@@ -33,6 +33,10 @@ PrefabInstance:
       value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _maxPathLength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946943941329450711, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _movementSpeed
       value: 9
       objectReference: {fileID: 0}
@@ -106,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5358211802007327755, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _maxPlayerDistance
-      value: 15
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5543202346724083952, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _maxHealth

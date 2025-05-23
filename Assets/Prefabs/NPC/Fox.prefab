@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1078.2373
       objectReference: {fileID: 0}
+    - target: {fileID: 5358211802007327755, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _maxPlayerDistance
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _sounds.Array.size
       value: 1
@@ -101,13 +105,29 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _sounds.Array.data[0].Clips.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _sounds.Array.data[1].Clips.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: '_sounds.Array.data[0].Clips.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: 59f230bd5dc441d4f8d9f4cda31df6fa, type: 3}
+      objectReference: {fileID: 8300000, guid: 324514a46d6ca394388130cb34b02d8f, type: 3}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: '_sounds.Array.data[0].Clips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 8615f7b5e2bb5e44f82da38b708f9852, type: 3}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: '_sounds.Array.data[0].Clips.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 4251a60d082b31d41905b72a61b4c2a8, type: 3}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: '_sounds.Array.data[0].Clips.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 418da289958c1aa47a0bdd8ec59590a9, type: 3}
     - target: {fileID: 7293858143179834344, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Enabled
       value: 0

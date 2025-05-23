@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: _attackRadius
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5595857766821257130, guid: 37b38077373af0446a49a20b15fda810, type: 3}
+      propertyPath: _maxPathLength
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6390716610490587890, guid: 37b38077373af0446a49a20b15fda810, type: 3}
       propertyPath: m_Name
       value: Wolf

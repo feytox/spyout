@@ -165,6 +165,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -1922.5088
       objectReference: {fileID: 0}
+    - target: {fileID: 5358211802007327755, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _maxPlayerDistance
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
     m_RemovedGameObjects: []
