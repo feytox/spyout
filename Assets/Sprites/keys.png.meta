@@ -1379,9 +1379,9 @@ TextureImporter:
       name: keys_49
       rect:
         serializedVersion: 2
-        x: 175
-        y: 2
-        width: 9
+        x: 176
+        y: 1
+        width: 14
         height: 14
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1423,9 +1423,9 @@ TextureImporter:
       name: keys_51
       rect:
         serializedVersion: 2
-        x: 185
-        y: 2
-        width: 9
+        x: 229
+        y: 20
+        width: 14
         height: 14
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

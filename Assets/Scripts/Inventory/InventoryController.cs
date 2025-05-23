@@ -11,10 +11,12 @@ public class InventoryController : MonoBehaviour
     [CanBeNull] public ItemStack ActiveItem => Inventory?[ActiveSlot];
 
     public event Action<int, int> OnActiveSlotChange;
+    public event Action<ItemStack> OnActiveItemChange; 
 
     void Awake()
     {
         Inventory = new Inventory(InventorySize);
+        Inventory.OnSlotUpdated += OnSlotUpdated;
     }
 
     protected void SetActiveSlot(int slot)
@@ -24,5 +26,14 @@ public class InventoryController : MonoBehaviour
 
         OnActiveSlotChange?.Invoke(ActiveSlot, slot);
         ActiveSlot = slot;
+        OnActiveItemChange?.Invoke(ActiveItem);
+    }
+
+    private void OnSlotUpdated(int slot, ItemStack stack)
+    {
+        if (slot != ActiveSlot)
+            return;
+        
+        OnActiveItemChange?.Invoke(ActiveItem);
     }
 }
