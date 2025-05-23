@@ -6,7 +6,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class SlotComponent : MonoBehaviour
 {
+    [SerializeField]
     private Image _selectImage;
+    
     private ItemRenderer _itemRenderer;
 
     void Start()
