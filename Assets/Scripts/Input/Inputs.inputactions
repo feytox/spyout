@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Drop Item",
+                    "type": "Button",
+                    "id": "6fa182f6-2e6d-4219-bd95-2f03ae8b20ac",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -358,8 +367,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ca67587e-50c7-44cc-8a20-e7acc68120f7",
-                    "path": "<Keyboard>/f",
+                    "id": "5a27b4de-cb8e-4091-90fe-621ef1041fec",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -369,12 +378,12 @@
                 },
                 {
                     "name": "",
-                    "id": "5a27b4de-cb8e-4091-90fe-621ef1041fec",
-                    "path": "<Mouse>/leftButton",
+                    "id": "f7faa174-6d8e-47ed-8118-c4ee4574d574",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "Drop Item",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

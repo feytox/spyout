@@ -14,6 +14,7 @@ public class PlayerInputController : MonoBehaviour
     public event Action<Vector2> MovementUpdate;
     public event Action<int> SelectSlot;
     public event Action Attack;
+    public event Action DropItem;
 
     public Vector2 Movement { get; private set; }
 
@@ -31,6 +32,7 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Player.Slot1.started += OnSlot1;
         _inputs.Player.Slot2.started += OnSlot2;
         _inputs.Player.Slot3.started += OnSlot3;
+        _inputs.Player.DropItem.started += OnDropItem;
     }
 
     private void OnDisable()
@@ -44,6 +46,7 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Player.Slot1.started -= OnSlot1;
         _inputs.Player.Slot2.started -= OnSlot2;
         _inputs.Player.Slot3.started -= OnSlot3;
+        _inputs.Player.DropItem.started -= OnDropItem;
         
         _inputs.Disable();
     }
@@ -81,6 +84,8 @@ public class PlayerInputController : MonoBehaviour
     private void OnSlotSelect(int slot) => SelectSlot?.Invoke(slot);
 
     private void OnAttack(InputAction.CallbackContext ctx) => Attack?.Invoke();
+
+    private void OnDropItem(InputAction.CallbackContext ctx) => DropItem?.Invoke();
 
     #endregion
 }

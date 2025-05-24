@@ -86,6 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InventorySize: 3
+  _dropItemPrefab: {fileID: 1764196008961731513, guid: 6bd244cf79150d04aa565c3d1f08dc76, type: 3}
 --- !u!114 &6072407171118809897
 MonoBehaviour:
   m_ObjectHideFlags: 0

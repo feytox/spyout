@@ -18,6 +18,7 @@ MonoBehaviour:
   Damage: 0
   ItemType: 0
   InteractHandler: 2
+  OutlineMaterial: {fileID: 2100000, guid: 761e9ae2124123c41b06e1ff4587fc9b, type: 2}
   UsageSound: []
   AttackSound: []
   AttackMissSound: []

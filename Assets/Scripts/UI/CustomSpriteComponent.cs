@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class CustomSpriteComponent : MonoBehaviour // TODO: maybe use better solution, idk
 {
     protected abstract Sprite? Sprite { get; }
+    protected abstract Material? Material { get; }
 
     private SpriteRenderer? _renderer;
 
@@ -17,11 +18,15 @@ public abstract class CustomSpriteComponent : MonoBehaviour // TODO: maybe use b
     {
     }
 
-    private void RefreshSprite()
+    public void RefreshSprite()
     {
         BeforeSpriteRefresh();
-        if (Sprite != null)
-            GetRenderer().sprite = Sprite;
+        if (Sprite == null)
+            return;
+        
+        var spriteRenderer = GetRenderer();
+        spriteRenderer.sprite = Sprite;
+        spriteRenderer.material = Material;
     }
 
     private SpriteRenderer GetRenderer()

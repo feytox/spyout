@@ -13,9 +13,19 @@ public class GroundItem : CustomSpriteComponent, IPlayerInteractable
     private PopupController? _popup;
     
     protected override Sprite? Sprite => Stack?.Item.Sprite;
+    protected override Material? Material => Stack?.Item.OutlineMaterial;
 
     void Awake() => _popup = GetComponentInChildren<PopupController>();
 
+    public static void SpawnItem(ItemStack stack, Vector3 position)
+    {
+        var item = new GameObject("Spawned Item");
+        var groundItem = item.AddComponent<GroundItem>();
+        groundItem.Stack = stack;
+        groundItem.RefreshSprite();
+        item.transform.position = position;
+    }
+    
     public void Interact()
     {
         var pickupSound = Stack?.Item.PickupSound;

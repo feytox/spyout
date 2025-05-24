@@ -18,7 +18,6 @@ public class ItemCounterComponent : MonoBehaviour
         Debug.Assert(_targetItem.ItemType == ItemType.Collectable, "Предмет для счётчика должен быть Collectable");
         
         _itemRenderer = GetComponentInChildren<ItemRenderer>();
-        _text = GetComponentInChildren<TextMeshProUGUI>();
         _itemRenderer.UpdateItem(new ItemStack(_targetItem));
 
         PlayerController.GetInstance().Inventory.Inventory.OnCollectableItemChange += OnItemCountChange;

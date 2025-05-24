@@ -15,6 +15,7 @@ public class Item : ScriptableObject
     public float Damage;
     public ItemType ItemType;
     public ItemHandlerType InteractHandler;
+    public Material OutlineMaterial;
     public AudioClip[] UsageSound;
     public AudioClip[] AttackSound;
     public AudioClip[] AttackMissSound;
@@ -22,7 +23,7 @@ public class Item : ScriptableObject
 
     public Item(string name, Sprite sprite, int maxCount, float damage, ItemType itemType,
         ItemHandlerType interactHandler, AudioClip[] usageSound, AudioClip[] attackSound, AudioClip[] pickupSound,
-        AudioClip[] attackMissSound)
+        AudioClip[] attackMissSound, Material outlineMaterial)
     {
         Name = name;
         Sprite = sprite;
@@ -34,6 +35,7 @@ public class Item : ScriptableObject
         AttackSound = attackSound;
         PickupSound = pickupSound;
         AttackMissSound = attackMissSound;
+        OutlineMaterial = outlineMaterial;
     }
 }
 
