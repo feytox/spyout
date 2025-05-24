@@ -27,12 +27,14 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Player.Move.canceled += OnMoveCancel;
         _inputs.Player.Interact.started += Interact.ExecuteEvents;
         _inputs.Player.Attack.performed += OnAttack;
-        
         _inputs.Player.SwitchSlot.started += OnSlotSwitch;
         _inputs.Player.Slot1.started += OnSlot1;
         _inputs.Player.Slot2.started += OnSlot2;
         _inputs.Player.Slot3.started += OnSlot3;
         _inputs.Player.DropItem.started += OnDropItem;
+        _inputs.Player.Pause.started += OnPause;
+
+        _inputs.UI.Resume.started += OnResume;
     }
 
     private void OnDisable()
@@ -41,14 +43,22 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Player.Move.canceled -= OnMoveCancel;
         _inputs.Player.Interact.started -= Interact.ExecuteEvents;
         _inputs.Player.Attack.performed -= OnAttack;
-        
         _inputs.Player.SwitchSlot.started -= OnSlotSwitch;
         _inputs.Player.Slot1.started -= OnSlot1;
         _inputs.Player.Slot2.started -= OnSlot2;
         _inputs.Player.Slot3.started -= OnSlot3;
         _inputs.Player.DropItem.started -= OnDropItem;
+        _inputs.Player.Pause.started -= OnPause;
+
+        _inputs.UI.Resume.started -= OnResume;
         
         _inputs.Disable();
+    }
+
+    public void Unpause()
+    {
+        _inputs.Player.Enable();
+        _inputs.UI.Disable();
     }
 
     #region Handlers
@@ -86,6 +96,15 @@ public class PlayerInputController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext ctx) => Attack?.Invoke();
 
     private void OnDropItem(InputAction.CallbackContext ctx) => DropItem?.Invoke();
+
+    private void OnPause(InputAction.CallbackContext ctx)
+    {
+        _inputs.Player.Disable();
+        _inputs.UI.Enable();
+        PauseManager.Instance.PauseGame();
+    }
+
+    private void OnResume(InputAction.CallbackContext ctx) => PauseManager.Instance.ResumeGame();
 
     #endregion
 }
