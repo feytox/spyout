@@ -9,13 +9,8 @@ public class SlotComponent : MonoBehaviour
     [SerializeField]
     private Image _selectImage;
     
+    [SerializeField]
     private ItemRenderer _itemRenderer;
-
-    void Start()
-    {
-        _selectImage = GetComponent<Image>();
-        _itemRenderer = GetComponentInChildren<ItemRenderer>();
-    }
 
     public void OnSlotUpdate([CanBeNull] ItemStack stack) => _itemRenderer.UpdateItem(stack);
 

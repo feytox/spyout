@@ -270,10 +270,6 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6423695394417498012, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6423695394417498012, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -575,6 +571,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1272906326 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3805362209045648257, guid: 6d9a867f85eb1fd4f837f10d529c2185, type: 3}
+  m_PrefabInstance: {fileID: 2357554862072078522}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1331418758
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,10 +653,6 @@ PrefabInstance:
     - target: {fileID: 5752883662552269716, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6423695394417498012, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6423695394417498012, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -763,10 +766,6 @@ PrefabInstance:
     - target: {fileID: 5752883662552269716, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6423695394417498012, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6423695394417498012, guid: 116c3a543609b764f800aa3202f48e9c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1182,6 +1181,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Settings
       objectReference: {fileID: 0}
+    - target: {fileID: 2466997462714173321, guid: 6d9a867f85eb1fd4f837f10d529c2185, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 1272906326}
     - target: {fileID: 2466997462714173321, guid: 6d9a867f85eb1fd4f837f10d529c2185, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
