@@ -120,6 +120,34 @@ PrefabInstance:
       propertyPath: _currentHealth
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _idleSoundCooldown
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _sounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _sounds.Array.data[2].SoundType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _sounds.Array.data[2].Clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: _sounds.Array.data[3].Clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: '_sounds.Array.data[2].Clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 9ce49ea6a8ad72e47b0e18db4ac298a5, type: 3}
+    - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: '_sounds.Array.data[3].Clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 9ce49ea6a8ad72e47b0e18db4ac298a5, type: 3}
     - target: {fileID: 7293858143179834344, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: CanOpenRestricted
       value: 1
