@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -17,12 +18,15 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
         _doorDetector = GetComponent<DoorDetector>();
     }
 
+    public event Action OnInteract;
+
     public void Interact()
     {
         var inventory = PlayerController.GetInstance().Inventory;
         if (inventory.ActiveItem!.Decrement())
             inventory.Inventory.RefreshSlot(inventory.ActiveSlot);
         
+        OnInteract?.Invoke();
         UnlockDoor();
         (this as IPlayerInteractable).OnInteractionExit();
     }

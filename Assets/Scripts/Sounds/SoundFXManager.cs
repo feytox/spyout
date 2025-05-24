@@ -22,7 +22,7 @@ public class SoundFXManager : MonoBehaviour
         PlaySound(clips[soundIndex], spawnTransform);
     }
 
-    private void PlaySound(AudioClip clip, Transform spawnTransform)
+    public void PlaySound(AudioClip clip, Transform spawnTransform)
     {
         var source = Instantiate(_soundFXObject, spawnTransform.position, Quaternion.identity);
         source.clip = clip;

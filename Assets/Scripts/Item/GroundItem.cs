@@ -1,4 +1,5 @@
 #nullable enable
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -25,7 +26,9 @@ public class GroundItem : CustomSpriteComponent, IPlayerInteractable
         groundItem.RefreshSprite();
         item.transform.position = position;
     }
-    
+
+    public event Action? OnInteract;
+
     public void Interact()
     {
         var pickupSound = Stack?.Item.PickupSound;
@@ -36,6 +39,7 @@ public class GroundItem : CustomSpriteComponent, IPlayerInteractable
         if (pickupSound is not null)
             SoundFXManager.Instance.PlayRandomSound(pickupSound, transform);
         
+        OnInteract?.Invoke();
         Destroy(gameObject);
     }
 
