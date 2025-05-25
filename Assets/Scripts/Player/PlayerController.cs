@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     [SerializeField] private float _attackRadius = 1f;
     [SerializeField] private LayerMask _attackLayer;
     [SerializeField] private float _attackCooldownSeconds = 0.25f;
+    [SerializeField] private DeathMenuController _deathMenu;
     
     public event Action OnDamageTaken;
 
@@ -99,10 +100,10 @@ public class PlayerController : MonoBehaviour, ICharacter
 
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider
     {
-        // TODO: add smth after death
-        _inputs.enabled = false;
+        _inputs.DisablePlayer();
         Sounds.PlaySound(CharacterSoundType.Death);
         _animController?.OnDeath();
+        _deathMenu?.TriggerDeath();
     }
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider
