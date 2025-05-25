@@ -22,6 +22,7 @@ public class PlayerInputController : MonoBehaviour
     {
         _inputs = new Inputs();
         _inputs.Enable();
+        _inputs.UI.Disable();
 
         _inputs.Player.Move.performed += SetMovement;
         _inputs.Player.Move.canceled += OnMoveCancel;

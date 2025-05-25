@@ -4,10 +4,10 @@ public class PauseManager : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _settings;
+    [SerializeField] private GameObject _blur;
 
     private PlayerInputController _playerInputs;
-    private bool _isPaused;
-    
+
     void Awake()
     {
         Debug.Assert(
@@ -24,8 +24,8 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
-        _isPaused = true;
         Time.timeScale = 0.0f;
+        _blur.SetActive(true);
         _pauseMenu.SetActive(true);
     }
 
@@ -38,8 +38,8 @@ public class PauseManager : MonoBehaviour
             return;
         }
         
-        _isPaused = false;
         Time.timeScale = 1.0f;
+        _blur.SetActive(false);
         _pauseMenu.SetActive(false);
         _playerInputs.Unpause();
     }
