@@ -9,20 +9,20 @@ public class ItemCounterComponent : MonoBehaviour
     [SerializeField] private int _targetCount;
     [SerializeField] private Image _checkMark;
     [SerializeField] private TextMeshProUGUI _text;
+    [SerializeField] private ItemRenderer _itemRenderer;
     
-    private ItemRenderer _itemRenderer;
     private int _count;
 
     void Start()
     {
         Debug.Assert(_targetItem.ItemType == ItemType.Collectable, "Предмет для счётчика должен быть Collectable");
         
-        _itemRenderer = GetComponentInChildren<ItemRenderer>();
         _itemRenderer.UpdateItem(new ItemStack(_targetItem));
-
         PlayerController.GetInstance().Inventory.Inventory.OnCollectableItemChange += OnItemCountChange;
         OnCountUpdate();
     }
+
+    public void ForceShowItemIcon() => _itemRenderer.Image.material = null;
 
     private void OnItemCountChange(Item item, int newCount)
     {

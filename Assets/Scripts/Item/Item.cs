@@ -14,6 +14,7 @@ public class Item : ScriptableObject
     public int MaxCount;
     public float Damage;
     public ItemType ItemType;
+    public int CollectableScore;
     public ItemHandlerType InteractHandler;
     public Material OutlineMaterial;
     public AudioClip[] UsageSound;

@@ -62,6 +62,13 @@ public class PlayerInputController : MonoBehaviour
         _inputs.UI.Disable();
     }
 
+    public void DisablePlayer()
+    {
+        _inputs.Player.Disable();
+        Movement = Vector2.zero;
+        MovementUpdate?.Invoke(Vector2.zero);
+    }
+
     #region Handlers
 
     private void SetMovement(InputAction.CallbackContext ctx)
@@ -100,7 +107,7 @@ public class PlayerInputController : MonoBehaviour
 
     private void OnPause(InputAction.CallbackContext ctx)
     {
-        _inputs.Player.Disable();
+        DisablePlayer();
         _inputs.UI.Enable();
         PauseManager.Instance.PauseGame();
     }

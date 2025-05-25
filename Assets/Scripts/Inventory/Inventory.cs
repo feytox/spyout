@@ -7,12 +7,14 @@ public class Inventory
 {
     public int Size => Items.Length;
 
+    public event Action<int, ItemStack?>? OnSlotUpdated;
+    public event Action<Item, int>? OnCollectableItemChange;
+
+    public IEnumerable<(Item item, int count)> Collectables => _collectableItems.Select(pair => (pair.Key, pair.Value));
+    
     private ItemStack?[] Items { get; }
     private readonly Dictionary<Item, int> _collectableItems = new();
-
-    public event Action<int, ItemStack?>? OnSlotUpdated;
-    public event Action<Item, int>? OnCollectableItemChange; 
-
+    
     public Inventory(int capacity)
     {
         Items = new ItemStack?[capacity];

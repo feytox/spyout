@@ -9,13 +9,9 @@ public class ItemRenderer : MonoBehaviour
 {
     [SerializeField] private bool _displayCount;
     [SerializeField] private TextMeshProUGUI _text;
+    [SerializeField] private Image _image;
 
-    public Image Image { get; private set; }
-    
-    void Awake()
-    {
-        Image = GetComponent<Image>();
-    }
+    public Image Image => _image;
 
     public void UpdateItem([CanBeNull] ItemStack stack)
     {

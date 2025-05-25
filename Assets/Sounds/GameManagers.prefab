@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1370835444127170041}
   - component: {fileID: 5823191316388653983}
   - component: {fileID: 4091073313795891155}
+  - component: {fileID: 3697225570159251813}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -75,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 0}
   _settings: {fileID: 0}
+  _blur: {fileID: 0}
 --- !u!114 &4091073313795891155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,3 +91,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fadeAnimator: {fileID: 0}
   _transitionTime: 1
+--- !u!114 &3697225570159251813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7064113241252138727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 161e0ad054174d7fbdc82fa6116f819c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fadeAnimator: {fileID: 0}
+  _beforeFadeDelay: 1.5
+  _endLength: 3
+  _endMenu: {fileID: 0}
