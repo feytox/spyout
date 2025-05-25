@@ -5,6 +5,7 @@ public class EndMenuController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private LevelLoader _levelLoader;
 
     public void Start()
     {
@@ -16,9 +17,14 @@ public class EndMenuController : MonoBehaviour
     public void SetResult(float time, int score)
     {
         var floorTime = (int)time;
-        var seconds = (floorTime % 60).ToString().PadRight(2, '0');
+        var seconds = (floorTime % 60).ToString().PadLeft(2, '0');
         var minutes = floorTime / 60;
         _timeText.text = $"{minutes}:{seconds}";
         _scoreText.text = score.ToString();
+    }
+
+    public void QuitToMainMenu()
+    {
+        _levelLoader.LoadLevel("MainMenu", 0.3f);
     }
 }

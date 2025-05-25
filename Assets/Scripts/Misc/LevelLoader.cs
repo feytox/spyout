@@ -11,15 +11,17 @@ public class LevelLoader : MonoBehaviour
     
     private static readonly int StartTrigger = Animator.StringToHash("Start");
 
-    public void LoadLevel(string sceneName)
+    public void LoadLevel(string sceneName) => LoadLevel(sceneName, _transitionTime);
+
+    public void LoadLevel(string sceneName, float transitionTime)
     {
-        StartCoroutine(LoadLevelAsync(sceneName));
+        StartCoroutine(LoadLevelAsync(sceneName, transitionTime));
     }
     
-    private async Awaitable LoadLevelAsync(string sceneName)
+    private async Awaitable LoadLevelAsync(string sceneName, float transitionTime)
     {
         _fadeAnimator.SetTrigger(StartTrigger);
-        await Awaitable.WaitForSecondsAsync(_transitionTime);
+        await Awaitable.WaitForSecondsAsync(transitionTime);
         await SceneManager.LoadSceneAsync(sceneName);
     }
 }

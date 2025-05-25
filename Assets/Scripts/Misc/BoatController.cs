@@ -1,29 +1,32 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Animator))]
 public class BoatController : MonoBehaviour, IPlayerInteractable
 {
     private static readonly int Move = Animator.StringToHash("move");
-    
+
     [SerializeField] private PopupController _popup;
-    [SerializeField] private SessionController _sessionController;
+
+    [SerializeField] [FormerlySerializedAs("_sessionController")]
+    private EndManager _endManager;
 
     private Animator _animator;
     private bool _isInBoat;
-    
+
     private void Start() => _animator = GetComponent<Animator>();
 
     private void TriggerGameEnd()
     {
-        _sessionController.StopTimer();
+        _endManager.StopTimer();
         var player = PlayerController.GetInstance();
 
         _isInBoat = true;
         _popup.DisablePopup();
         LockPlayer(player);
         _animator.SetTrigger(Move);
-        _sessionController.ScheduleEnd();
+        _endManager.ScheduleEnd();
     }
 
     private void LockPlayer(PlayerController player)

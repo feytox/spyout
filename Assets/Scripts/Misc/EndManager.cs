@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class SessionController : MonoBehaviour
+public class EndManager : MonoBehaviour
 {
     private static readonly int GameEnd = Animator.StringToHash("GameEnd");
 
@@ -40,8 +40,8 @@ public class SessionController : MonoBehaviour
 
     private int CountScore()
     {
-        return PlayerController.GetInstance().Inventory.Inventory.Collectables
-            .Select(tuple => tuple.item.CollectableScore * tuple.count)
+        return PlayerController.GetInstance().Inventory.Inventory.CollectableItems
+            .Select(pair => pair.Key.CollectableScore * pair.Value)
             .Sum();
     }
 }

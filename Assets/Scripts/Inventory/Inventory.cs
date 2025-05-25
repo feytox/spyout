@@ -9,11 +9,9 @@ public class Inventory
 
     public event Action<int, ItemStack?>? OnSlotUpdated;
     public event Action<Item, int>? OnCollectableItemChange;
-
-    public IEnumerable<(Item item, int count)> Collectables => _collectableItems.Select(pair => (pair.Key, pair.Value));
     
+    public Dictionary<Item, int> CollectableItems { get; } = new();
     private ItemStack?[] Items { get; }
-    private readonly Dictionary<Item, int> _collectableItems = new();
     
     public Inventory(int capacity)
     {
@@ -76,8 +74,8 @@ public class Inventory
         if (stack.Item.ItemType != ItemType.Collectable) 
             return false;
 
-        var count = stack.Count + _collectableItems.GetValueOrDefault(stack.Item);
-        _collectableItems[stack.Item] = count;
+        var count = stack.Count + CollectableItems.GetValueOrDefault(stack.Item);
+        CollectableItems[stack.Item] = count;
         OnCollectableItemChange?.Invoke(stack.Item, count);
         return true;
     }

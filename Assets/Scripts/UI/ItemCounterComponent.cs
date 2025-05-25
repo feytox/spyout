@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,14 +12,16 @@ public class ItemCounterComponent : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private ItemRenderer _itemRenderer;
     
-    private int _count;
+    public int _count;
 
     void Start()
     {
         Debug.Assert(_targetItem.ItemType == ItemType.Collectable, "Предмет для счётчика должен быть Collectable");
-        
+
+        var inventory = PlayerController.GetInstance().Inventory.Inventory;
         _itemRenderer.UpdateItem(new ItemStack(_targetItem));
-        PlayerController.GetInstance().Inventory.Inventory.OnCollectableItemChange += OnItemCountChange;
+        inventory.OnCollectableItemChange += OnItemCountChange;
+        InitCount(inventory);
         OnCountUpdate();
     }
 
@@ -31,6 +34,11 @@ public class ItemCounterComponent : MonoBehaviour
 
         _count = newCount;
         OnCountUpdate();
+    }
+
+    private void InitCount(Inventory inventory)
+    {
+        _count = inventory.CollectableItems.GetValueOrDefault(_targetItem);
     }
 
     private void OnCountUpdate()
