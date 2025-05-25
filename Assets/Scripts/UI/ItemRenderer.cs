@@ -10,25 +10,25 @@ public class ItemRenderer : MonoBehaviour
     [SerializeField] private bool _displayCount;
     [SerializeField] private TextMeshProUGUI _text;
 
-    private Image _image;
+    public Image Image { get; private set; }
     
     void Awake()
     {
-        _image = GetComponent<Image>();
+        Image = GetComponent<Image>();
     }
 
     public void UpdateItem([CanBeNull] ItemStack stack)
     {
         if (stack is null)
         {
-            _image.sprite = null;
-            _image.enabled = false;
+            Image.sprite = null;
+            Image.enabled = false;
             _text.enabled = false;
             return;
         }
 
-        _image.sprite = stack.Item.Sprite;
-        _image.enabled = true;
+        Image.sprite = stack.Item.Sprite;
+        Image.enabled = true;
         _text.text = stack.Count.ToString();
         _text.enabled = _displayCount && stack.Count > 1;
     }

@@ -37,5 +37,7 @@ public class ItemCounterComponent : MonoBehaviour
     {
         _text.text = $"{_count}/{_targetCount}";
         _checkMark.enabled = _count >= _targetCount;
+        if (_count > 0)
+            _itemRenderer.Image.material = null;
     }
 }
