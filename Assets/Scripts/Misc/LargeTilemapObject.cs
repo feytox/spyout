@@ -5,9 +5,8 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Collider2D))]
 public class LargeTilemapObject : MonoBehaviour
 {
+    [SerializeField] // field because unity sucks in initialization priorities ((((((
     private Collider2D _collider;
-
-    void Awake() => _collider = GetComponent<Collider2D>();
 
     public IEnumerable<Vector2Int> GetTilePoses(Tilemap tilemap)
     {
