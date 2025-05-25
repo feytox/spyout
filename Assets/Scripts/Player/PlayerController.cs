@@ -7,6 +7,7 @@ using Utils;
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerInputController))]
 [RequireComponent(typeof(PlayerInventoryController))]
+[RequireComponent(typeof(PlayerDataSaverController))]
 public class PlayerController : MonoBehaviour, ICharacter
 {
     [SerializeField] private float _movementSpeed = 120f;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     public PlayerInteractionDetector InteractionDetector { get; private set; }
     public CharacterSoundController Sounds { get; private set; }
     public Collider2D Collider { get; private set; }
+    public PlayerDataSaverController DataSaver { get; private set; }
 
     public Rigidbody2D Body { get; private set; }
     public Vector2 Position => transform.position;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour, ICharacter
         InteractionDetector = GetComponentInChildren<PlayerInteractionDetector>();
         Sounds = GetComponentInChildren<CharacterSoundController>();
         Collider = GetComponent<Collider2D>();
+        DataSaver = GetComponent<PlayerDataSaverController>();
 
         if (_animController is not null)
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;
@@ -84,6 +87,11 @@ public class PlayerController : MonoBehaviour, ICharacter
 
         var target = targetCollider.gameObject.GetComponent<ICharacter>();
         return target is not null && this.TryAttack(target);
+    }
+
+    public void OnRevive()
+    {
+        _animController?.OnRevive();
     }
 
     #region ICharacter

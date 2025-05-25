@@ -10,8 +10,8 @@ public class Inventory
     public event Action<int, ItemStack?>? OnSlotUpdated;
     public event Action<Item, int>? OnCollectableItemChange;
     
-    public Dictionary<Item, int> CollectableItems { get; } = new();
-    private ItemStack?[] Items { get; }
+    public Dictionary<Item, int> CollectableItems { get; private set; } = new();
+    public ItemStack?[] Items { get; private set; }
     
     public Inventory(int capacity)
     {
@@ -78,6 +78,14 @@ public class Inventory
         CollectableItems[stack.Item] = count;
         OnCollectableItemChange?.Invoke(stack.Item, count);
         return true;
+    }
+
+    public void LoadFromSave(ItemStack[] items)
+    {
+        Items = items;
+        
+        for (var slot = 0; slot < Items.Length; slot++) 
+            OnSlotUpdated?.Invoke(slot, Items[slot]);
     }
 
     public override string ToString()

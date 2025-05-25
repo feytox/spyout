@@ -4,10 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class CharacterAnimController : MonoBehaviour
 {
+    protected static readonly int Fade = Shader.PropertyToID("_Fade");
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int Attack = Animator.StringToHash("attack");
     private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
-    private static readonly int Fade = Shader.PropertyToID("_Fade");
     private const float MovementEpsilon = 0.005f;
     
     [SerializeField] private AnimationCurve _flashCurve;
@@ -16,8 +16,8 @@ public class CharacterAnimController : MonoBehaviour
     [SerializeField] private float _dissolveTime = 1f;
 
     protected Animator Animator;
+    protected Material Material;
     private SpriteRenderer _spriteRenderer;
-    private Material _material;
     private float _currentFlashTime;
     private float _currentDissolveTime;
 
@@ -25,7 +25,7 @@ public class CharacterAnimController : MonoBehaviour
     {
         Animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _material = _spriteRenderer.material;
+        Material = _spriteRenderer.material;
     }
 
     void Update()
@@ -41,7 +41,7 @@ public class CharacterAnimController : MonoBehaviour
 
         _currentFlashTime = Mathf.Max(0, _currentFlashTime - Time.deltaTime);
         var progress = _flashCurve.Evaluate(_flashTime - _currentFlashTime);
-        _material.SetFloat(FlashAmount, progress);
+        Material.SetFloat(FlashAmount, progress);
     }
 
     private void UpdateDissolve()
@@ -51,7 +51,7 @@ public class CharacterAnimController : MonoBehaviour
 
         _currentDissolveTime = Mathf.Max(0, _currentDissolveTime - Time.deltaTime);
         var progress = _dissolveCurve.Evaluate(_dissolveTime - _currentDissolveTime);
-        _material.SetFloat(Fade, progress);
+        Material.SetFloat(Fade, progress);
     }
 
     public void UpdateMovementAnimation(Vector2 movementInput)

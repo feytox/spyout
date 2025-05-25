@@ -1,12 +1,13 @@
 #nullable enable
 
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Стопка предметов с определённым количеством.
 /// Своего рода инстанс предмета с возможностью добавлять мета-информацию
 /// </summary>
-public class ItemStack
+public class ItemStack : ICloneable
 {
     public Item Item { get; }
     public int Count { get; set; }
@@ -56,4 +57,8 @@ public class ItemStack
     {
         return "{" + $"{Item.Name}: {Count}" + "}";
     }
+    
+    public ItemStack Copy() => (ItemStack)Clone();
+    
+    public object Clone() => new ItemStack(Item, Count);
 }
