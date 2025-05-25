@@ -8,6 +8,6 @@ public abstract class ItemHandler
     /// <summary>
     /// Использует предмет персонажем.
     /// </summary>
-    /// <returns>true, если нужно прервать следующие взаимодействия</returns>
+    /// <returns>true, если нужно проиграть звук и прервать следующие взаимодействия</returns>
     public abstract bool UseItem(ICharacter character);
 }

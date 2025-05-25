@@ -34,10 +34,12 @@ public class ItemStack
     /// <inheritdoc cref="ItemHandler.UseItem"/>
     public bool UseItem(ICharacter character)
     {
+        if (_itemHandler is not null && !_itemHandler.UseItem(character))
+            return false;
+        
         var usageSound = Item.UsageSound;
         character.Sounds.PlayRandomSound(usageSound);
-        
-        return _itemHandler is null || _itemHandler.UseItem(character);
+        return true;
     }
     
     /// <summary>
