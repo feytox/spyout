@@ -35,6 +35,15 @@ public class Inventory
         if (TryCollectItem(stack))
             return true;
         
+        // combine with same item
+        for (var i = 0; i < Items.Length; i++)
+        {
+            var slotStack = Items[i];
+            if (slotStack is not null && slotStack.CanCombine(stack) && TryPutStack(i, stack))
+                return true;
+        }
+        
+        // just put item
         for (var i = 0; i < Items.Length; i++)
             if (TryPutStack(i, stack)) 
                 return true;
