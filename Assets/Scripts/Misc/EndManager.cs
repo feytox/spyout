@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EndManager : MonoBehaviour
 {
+    private const int DeathAntiScore = 10;
     private static readonly int GameEnd = Animator.StringToHash("GameEnd");
 
     [SerializeField] private Animator _fadeAnimator;
@@ -12,9 +13,12 @@ public class EndManager : MonoBehaviour
 
     private float _startTime;
     private float? _endTime;
+    private int _deaths;
 
     void Start() => _startTime = Time.time;
-
+    
+    public void IncrementDeath() => _deaths++;
+    
     public void StopTimer()
     {
         Debug.Assert(_endTime == null);
@@ -35,13 +39,15 @@ public class EndManager : MonoBehaviour
 
         var score = CountScore();
         _endMenu.gameObject.SetActive(true);
-        _endMenu.SetResult(_endTime.Value - _startTime, score);
+        _endMenu.SetResult(_endTime.Value - _startTime, score, _deaths);
     }
 
     private int CountScore()
     {
-        return PlayerController.GetInstance().Inventory.Inventory.CollectableItems
+        var score = PlayerController.GetInstance().Inventory.Inventory.CollectableItems
             .Select(pair => pair.Key.CollectableScore * pair.Value)
             .Sum();
+
+        return Mathf.Max(0, score - _deaths * DeathAntiScore);
     }
 }

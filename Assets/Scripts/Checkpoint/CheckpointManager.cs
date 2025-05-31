@@ -3,6 +3,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CheckpointManager : MonoBehaviour
 {
+    [SerializeField] private EndManager _endManager;
+    
     private Checkpoint[] _checkpoints;
     private PlayerDataSaverController _dataSaver;
 
@@ -17,10 +19,11 @@ public class CheckpointManager : MonoBehaviour
     {
         foreach (var npcInitSaver in FindObjectsByType<NPCInitSaverController>(FindObjectsSortMode.None))
             npcInitSaver.ApplyInitData();
-
+        
         _dataSaver.Load();
         PlayerController.Inputs.Unpause();
         PlayerController.GetInstance().OnRevive();
+        _endManager.IncrementDeath();
     }
 
     private void InitCheckpoints()
