@@ -17,6 +17,7 @@ MonoBehaviour:
   MaxCount: 1
   Damage: 0
   ItemType: 0
+  CollectableScore: 0
   InteractHandler: 1
   OutlineMaterial: {fileID: 2100000, guid: dc29e6171d1eabf42bef87e1c6bda279, type: 2}
   UsageSound: []
@@ -27,3 +28,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 85a3571a99c2fa343a0be0b77ac2505c, type: 3}
   PickupSound:
   - {fileID: 8300000, guid: afa4e15f814e5aa46a893917760b0a97, type: 3}
+  DropSound:
+  - {fileID: 8300000, guid: 0020d88974ae7ab45834c8a864042a66, type: 3}

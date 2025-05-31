@@ -49,5 +49,6 @@ public class PlayerInventoryController : InventoryController
         var groundItem = Instantiate(_dropItemPrefab, transform.position, Quaternion.identity);
         groundItem.Stack = stack;
         groundItem.RefreshSprite();
+        SoundFXManager.Instance.PlayRandomSound(activeItem.Item.DropSound, groundItem.transform);
     }
 }

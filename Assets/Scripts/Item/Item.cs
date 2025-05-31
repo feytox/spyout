@@ -21,10 +21,11 @@ public class Item : ScriptableObject
     public AudioClip[] AttackSound;
     public AudioClip[] AttackMissSound;
     public AudioClip[] PickupSound;
+    public AudioClip[] DropSound;
 
     public Item(string name, Sprite sprite, int maxCount, float damage, ItemType itemType,
         ItemHandlerType interactHandler, AudioClip[] usageSound, AudioClip[] attackSound, AudioClip[] pickupSound,
-        AudioClip[] attackMissSound, Material outlineMaterial)
+        AudioClip[] attackMissSound, Material outlineMaterial, AudioClip[] dropSound)
     {
         Name = name;
         Sprite = sprite;
@@ -37,6 +38,7 @@ public class Item : ScriptableObject
         PickupSound = pickupSound;
         AttackMissSound = attackMissSound;
         OutlineMaterial = outlineMaterial;
+        DropSound = dropSound;
     }
 }
 

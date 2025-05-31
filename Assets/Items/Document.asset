@@ -25,3 +25,5 @@ MonoBehaviour:
   AttackMissSound: []
   PickupSound:
   - {fileID: 8300000, guid: 457ae2bde35075c42b5c30344443acfa, type: 3}
+  DropSound:
+  - {fileID: 8300000, guid: 0020d88974ae7ab45834c8a864042a66, type: 3}
