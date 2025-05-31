@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCHealthBarController : MonoBehaviour
@@ -59,7 +58,9 @@ public class NPCHealthBarController : MonoBehaviour
 
     private void ApplyAlpha(SpriteRenderer sprite, float alpha)
     {
-        sprite.color = sprite.color.WithAlpha(alpha);
+        var color = sprite.color;
+        color.a = alpha;
+        sprite.color = color;
     }
 
     private void ToggleSprites(bool value)
