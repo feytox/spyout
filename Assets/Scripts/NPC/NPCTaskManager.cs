@@ -23,6 +23,12 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
         LoadTasks(true);
     }
 
+    public void ResetTasks()
+    {
+        _taskStack.Clear();
+        LoadTasks(true);
+    }
+
     private void LoadTasks(bool force = false)
     {
         if (_npcBehavior is null)
