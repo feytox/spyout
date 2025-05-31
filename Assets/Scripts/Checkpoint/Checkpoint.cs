@@ -4,7 +4,7 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
     [SerializeField] private Waypoint _point;
-    [SerializeField] private CheckpointCollider _collider;
+    [SerializeField] private PlayerTriggerCollider _collider;
 
     public event Action OnActivate;
     

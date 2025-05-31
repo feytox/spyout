@@ -15,10 +15,12 @@ public class PlayerController : MonoBehaviour, ICharacter
     [SerializeField] private LayerMask _attackLayer;
     [SerializeField] private float _attackCooldownSeconds = 0.25f;
     [SerializeField] private DeathMenuController _deathMenu;
+    [SerializeField] private Camera _camera;
     
     public event Action OnDamageTaken;
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
+    public Camera Camera => _camera;
     public InventoryController Inventory => _playerInventory;
     public PlayerInteractionDetector InteractionDetector { get; private set; }
     public CharacterSoundController Sounds { get; private set; }
