@@ -6,10 +6,13 @@ public class EndMenuController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _deathsText;
+    [SerializeField] private AudioSource _endSoundSource;
     [SerializeField] private LevelLoader _levelLoader;
     
     public void Start()
     {
+        _endSoundSource.Play();
+        
         var counters = GetComponentsInChildren<ItemCounterComponent>();
         foreach (var counter in counters)
             counter.ForceShowItemIcon();

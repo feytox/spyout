@@ -426,7 +426,7 @@ MonoBehaviour:
   _sounds:
   - SoundType: 1
     Clips:
-    - {fileID: 8300000, guid: 63c9468a950374d438ddb9a380be2f31, type: 3}
+    - {fileID: 8300000, guid: 007cd88d508c8e7449462dc6cec9ae1b, type: 3}
   _idleSoundCooldown: 10
   _footstepsLength: 0.3
   _hasFootsteps: 1
