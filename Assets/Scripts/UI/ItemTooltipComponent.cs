@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class ItemTooltipComponent : MonoBehaviour
 {
-    private static readonly int Activate = Animator.StringToHash("Activate");
+    private static readonly int Active = Animator.StringToHash("Active");
 
     [SerializeField] private TooltipType _tooltipType;
 
@@ -20,21 +20,17 @@ public class ItemTooltipComponent : MonoBehaviour
     private void OnActiveItemChange(ItemStack stack)
     {
         if (stack is null || stack.IsEmpty)
-            return;
-
-        if (_tooltipType == TooltipType.Attack)
         {
-            if (stack.Item.InteractHandler == ItemHandlerType.Weapon)
-                TriggerTooltip();
+            SetActive(false);
             return;
         }
 
-        TriggerTooltip();
+        SetActive(_tooltipType != TooltipType.Attack || stack.Item.InteractHandler == ItemHandlerType.Weapon);
     }
 
-    private void TriggerTooltip()
+    private void SetActive(bool state)
     {
-        _tooltipAnimator.SetTrigger(Activate);
+        _tooltipAnimator.SetBool(Active, state);
     }
 }
 
