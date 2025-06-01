@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc3acfd584c4a14885857e2cb3ed4f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cursorTexture: {fileID: 0}
+  _cursorTexture: {fileID: 2800000, guid: a21c1da933846b848880e16711d10e1d, type: 3}
 --- !u!4 &758943861
 Transform:
   m_ObjectHideFlags: 0
