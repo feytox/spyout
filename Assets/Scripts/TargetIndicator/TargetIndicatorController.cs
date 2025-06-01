@@ -3,24 +3,29 @@ using UnityEngine;
 
 public class TargetIndicatorController : MonoBehaviour
 {
-    [SerializeField] private TargetIndicatorIcon _indicatorIcon;
+    [SerializeField] private Waypoint _targetPoint;
     [SerializeField] [CanBeNull] private PlayerTriggerCollider _disableTrigger;
+    [SerializeField] private TargetIndicatorIcon _indicatorIcon;
     [SerializeField] [CanBeNull] private TargetIndicatorController _nextTarget;
+    [SerializeField] private bool _disableOnVisible;
 
+    private Vector3 _targetPosition;
     private Transform _playerTransform;
     private Camera _camera;
 
     private void Start()
     {
+        _targetPosition = _targetPoint.Position;
+        
         var player = PlayerController.GetInstance();
         _playerTransform = player.transform;
         _camera = player.Camera;
 
         if (_disableTrigger is not null)
-            _disableTrigger.OnPlayerEnter += OnDisableTrigger;
+            _disableTrigger.OnPlayerEnter += DisableIndicator;
     }
 
-    private void OnDisableTrigger()
+    private void DisableIndicator()
     {
         _nextTarget?.gameObject.SetActive(true);
         gameObject.SetActive(false);
@@ -29,7 +34,7 @@ public class TargetIndicatorController : MonoBehaviour
     private void LateUpdate()
     {
         var playerPos = _playerTransform.position;
-        var directionVec = transform.position - playerPos;
+        var directionVec = _targetPosition - playerPos;
         var ray = new Ray(playerPos, directionVec);
 
         var planes = GeometryUtility.CalculateFrustumPlanes(_camera);
@@ -42,8 +47,12 @@ public class TargetIndicatorController : MonoBehaviour
 
         var worldPos = ray.GetPoint(minDistance);
         var screenPos = _camera.WorldToScreenPoint(worldPos);
-
-        _indicatorIcon.SetVisible(!Mathf.Approximately(minDistance, targetDistance));
+        var isTargetVisible = Mathf.Approximately(minDistance, targetDistance);
+        
+        _indicatorIcon.SetVisible(!isTargetVisible);
         _indicatorIcon.SetPosition(directionVec, screenPos);
+        
+        if (isTargetVisible && _disableOnVisible)
+            DisableIndicator();
     }
 }
