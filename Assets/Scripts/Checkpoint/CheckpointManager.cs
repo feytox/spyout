@@ -20,9 +20,12 @@ public class CheckpointManager : MonoBehaviour
         foreach (var npcInitSaver in FindObjectsByType<NpcInitSaverController>(FindObjectsSortMode.None))
             npcInitSaver.ApplyInitData();
 
+        var player = PlayerController.GetInstance();
+
+        player.InteractionDetector.ClearInteractables();
         _dataSaver.Load();
         PlayerController.Inputs.Unpause();
-        PlayerController.GetInstance().OnRevive();
+        player.OnRevive();
         _endManager.IncrementDeath();
     }
 

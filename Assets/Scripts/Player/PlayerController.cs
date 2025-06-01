@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour, ICharacter
     public CharacterSoundController Sounds { get; private set; }
     public Collider2D Collider { get; private set; }
     public PlayerDataSaverController DataSaver { get; private set; }
+    public PlayerInteractionDetector InteractionDetector { get; private set; }
 
     public Rigidbody2D Body { get; private set; }
     public Vector2 Position => transform.position;
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour, ICharacter
         _playerInventory = GetComponent<PlayerInventoryController>();
         _animController = GetComponentInChildren<PlayerAnimController>();
         _healthController = GetComponentInChildren<HealthController>();
-        GetComponentInChildren<PlayerInteractionDetector>();
+        InteractionDetector = GetComponentInChildren<PlayerInteractionDetector>();
         Sounds = GetComponentInChildren<CharacterSoundController>();
         Collider = GetComponent<Collider2D>();
         DataSaver = GetComponent<PlayerDataSaverController>();

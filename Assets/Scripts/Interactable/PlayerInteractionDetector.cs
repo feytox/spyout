@@ -11,6 +11,14 @@ public class PlayerInteractionDetector : MonoBehaviour
     private readonly HashSet<IInteractable> _interactablesInRange = new();
     private Cooldown _checkCooldown;
 
+    public void ClearInteractables()
+    {
+        foreach (var interactable in _interactablesInRange) 
+            interactable.OnInteractionExit();
+        
+        _interactablesInRange.Clear();
+    }
+    
     private void Start()
     {
         PlayerController.Inputs.Interact.Subscribe(0, _ => OnInteract());
