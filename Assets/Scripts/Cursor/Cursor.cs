@@ -4,14 +4,11 @@ public class CustomCursor : MonoBehaviour
 {
     [SerializeField] private Texture2D cursorTexture;
     [SerializeField] private Vector2 hotSpot = Vector2.zero;
+    [SerializeField] private bool visible = true;
 
-    private void Start()
+    private void Awake()
     {
         Cursor.SetCursor(cursorTexture, hotSpot, CursorMode.Auto);
-    }
-
-    private void OnDestroy()
-    {
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        Cursor.visible = visible;
     }
 }
