@@ -198,6 +198,10 @@ PrefabInstance:
       propertyPath: m_text
       value: "\u041A\u043D\u043E\u043F\u043A\u0430"
       objectReference: {fileID: 0}
+    - target: {fileID: 7994947715345482594, guid: 4e6fcbcf2a3be8d4f89e7fd3c1d654fe, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

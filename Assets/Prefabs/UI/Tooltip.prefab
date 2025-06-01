@@ -197,7 +197,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 66, y: 0}
-  m_SizeDelta: {x: 273.6073, y: 50}
+  m_SizeDelta: {x: 304.6393, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2759044102780179405
 CanvasRenderer:
@@ -229,8 +229,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f4a4694b8d629c544825f47ae6488181, type: 2}
-  m_sharedMaterial: {fileID: 6870395159481595965, guid: f4a4694b8d629c544825f47ae6488181, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d46ab83a3527b79499698f306688a07b, type: 2}
+  m_sharedMaterial: {fileID: -2415213594514775510, guid: d46ab83a3527b79499698f306688a07b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535

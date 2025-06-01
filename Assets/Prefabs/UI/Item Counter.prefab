@@ -131,6 +131,7 @@ MonoBehaviour:
   _checkMark: {fileID: 8370008101190589239}
   _text: {fileID: 4247557396226097079}
   _itemRenderer: {fileID: 6364277079001937899}
+  _count: 0
 --- !u!1 &8662425160213296021
 GameObject:
   m_ObjectHideFlags: 0
