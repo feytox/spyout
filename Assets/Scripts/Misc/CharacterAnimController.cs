@@ -17,9 +17,9 @@ public class CharacterAnimController : MonoBehaviour
 
     protected Animator Animator;
     protected Material Material;
+    protected float CurrentFlashTime;
+    protected float CurrentDissolveTime;
     private SpriteRenderer _spriteRenderer;
-    private float _currentFlashTime;
-    private float _currentDissolveTime;
 
     private void Awake()
     {
@@ -36,21 +36,21 @@ public class CharacterAnimController : MonoBehaviour
 
     private void UpdateFlash()
     {
-        if (_currentFlashTime <= 0)
+        if (CurrentFlashTime <= 0)
             return;
 
-        _currentFlashTime = Mathf.Max(0, _currentFlashTime - Time.deltaTime);
-        var progress = _flashCurve.Evaluate(_flashTime - _currentFlashTime);
+        CurrentFlashTime = Mathf.Max(0, CurrentFlashTime - Time.deltaTime);
+        var progress = _flashCurve.Evaluate(_flashTime - CurrentFlashTime);
         Material.SetFloat(FlashAmount, progress);
     }
 
     private void UpdateDissolve()
     {
-        if (_currentDissolveTime <= 0)
+        if (CurrentDissolveTime <= 0)
             return;
 
-        _currentDissolveTime = Mathf.Max(0, _currentDissolveTime - Time.deltaTime);
-        var progress = _dissolveCurve.Evaluate(_dissolveTime - _currentDissolveTime);
+        CurrentDissolveTime = Mathf.Max(0, CurrentDissolveTime - Time.deltaTime);
+        var progress = _dissolveCurve.Evaluate(_dissolveTime - CurrentDissolveTime);
         Material.SetFloat(Fade, progress);
     }
 
@@ -67,7 +67,7 @@ public class CharacterAnimController : MonoBehaviour
         Animator.SetTrigger(Attack);
     }
 
-    public void OnDamage() => _currentFlashTime = _flashTime;
+    public void OnDamage() => CurrentFlashTime = _flashTime;
 
-    public virtual void OnDeath() => _currentDissolveTime = _dissolveTime;
+    public virtual void OnDeath() => CurrentDissolveTime = _dissolveTime;
 }
