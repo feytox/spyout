@@ -9,28 +9,28 @@ public class DeprecatedPlayerController : MonoBehaviour
     public float MovementSpeed = 3f;
     public Transform BodyTransform { get; private set; }
 
-    private Vector2 movement = Vector2.zero;
-    private new Rigidbody2D rigidbody;
+    private Vector2 _movement = Vector2.zero;
+    private Rigidbody2D _rigidbody;
 
-    void Awake()
+    private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         BodyTransform = transform;
     }
 
-    void Start()
+    private void Start()
     {
         var playerManager = GetComponentInParent<DeprecatedPlayerManager>();
         Debug.Assert(playerManager != null);
 
-        playerManager.MoveAction.performed += ctx => movement = ctx.ReadValue<Vector2>(); // Already normalized
-        playerManager.MoveAction.canceled += ctx => movement = Vector2.zero;
+        playerManager.MoveAction.performed += ctx => _movement = ctx.ReadValue<Vector2>(); // Already normalized
+        playerManager.MoveAction.canceled += _ => _movement = Vector2.zero;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // it would be hell in 3D
         // rigidbody.linearDamping = 0f;
-        rigidbody.AddForce(movement * MovementSpeed, ForceMode2D.Force);
+        _rigidbody.AddForce(_movement * MovementSpeed, ForceMode2D.Force);
     }
 }

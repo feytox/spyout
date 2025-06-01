@@ -4,7 +4,7 @@ public abstract class ItemHandler
     protected readonly ItemStack Stack;
 
     protected ItemHandler(ItemStack stack) => Stack = stack;
-    
+
     /// <summary>
     /// Использует предмет персонажем.
     /// </summary>

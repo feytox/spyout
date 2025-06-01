@@ -34,7 +34,7 @@ namespace Utils
         /// <param name="data">Данные, передаваемые каждому обработчику события.</param>
         public void ExecuteEvents(T data)
         {
-            foreach (var listener in _listeners)
+             foreach (var listener in _listeners)
                 if (listener.Execute(data))
                     return;
         }

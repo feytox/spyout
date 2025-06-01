@@ -8,7 +8,7 @@ public class PauseManager : MonoBehaviour
 
     private PlayerInputController _playerInputs;
 
-    void Awake()
+    private void Awake()
     {
         Debug.Assert(
             _singleton == null,
@@ -17,7 +17,7 @@ public class PauseManager : MonoBehaviour
         _singleton = this;
     }
 
-    void Start()
+    private void Start()
     {
         _playerInputs = PlayerController.Inputs;
     }
@@ -38,7 +38,7 @@ public class PauseManager : MonoBehaviour
             _pauseMenu.SetActive(true);
             return;
         }
-        
+
         Time.timeScale = 1.0f;
         CustomCursor.Visible = false;
         _blur.SetActive(false);

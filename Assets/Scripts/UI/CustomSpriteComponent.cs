@@ -10,9 +10,9 @@ public abstract class CustomSpriteComponent : MonoBehaviour // TODO: maybe use b
 
     private SpriteRenderer? _renderer;
 
-    void OnEnable() => RefreshSprite();
+    private void OnEnable() => RefreshSprite();
 
-    void OnValidate() => RefreshSprite();
+    private void OnValidate() => RefreshSprite();
 
     protected virtual void BeforeSpriteRefresh()
     {
@@ -23,7 +23,7 @@ public abstract class CustomSpriteComponent : MonoBehaviour // TODO: maybe use b
         BeforeSpriteRefresh();
         if (Sprite == null)
             return;
-        
+
         var spriteRenderer = GetRenderer();
         spriteRenderer.sprite = Sprite;
         spriteRenderer.material = Material;

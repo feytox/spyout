@@ -31,18 +31,18 @@ public class ItemStack : ICloneable
         Count = newCount;
         stack.Count -= deltaCount;
     }
-    
+
     /// <inheritdoc cref="ItemHandler.UseItem"/>
     public bool UseItem(ICharacter character)
     {
         if (_itemHandler is not null && !_itemHandler.UseItem(character))
             return false;
-        
+
         var usageSound = Item.UsageSound;
         character.Sounds.PlayRandomSound(usageSound);
         return true;
     }
-    
+
     /// <summary>
     /// Уменьшает количество предмета в текущем стаке
     /// </summary>
@@ -57,8 +57,8 @@ public class ItemStack : ICloneable
     {
         return "{" + $"{Item.Name}: {Count}" + "}";
     }
-    
+
     public ItemStack Copy() => (ItemStack)Clone();
-    
+
     public object Clone() => new ItemStack(Item, Count);
 }

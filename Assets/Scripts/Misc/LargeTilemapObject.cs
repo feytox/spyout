@@ -13,14 +13,14 @@ public class LargeTilemapObject : MonoBehaviour
         var minPos = tilemap.WorldToCell(_collider.bounds.min);
         var maxPos = tilemap.WorldToCell(_collider.bounds.max);
         var layer = 1 << gameObject.layer;
-        
+
         for (var x = minPos.x; x <= maxPos.x; x++)
         for (var y = minPos.y; y <= maxPos.y; y++)
         {
-            var cellCenter = ((Vector2) tilemap.CellToWorld(new Vector3Int(x, y, 0))).ToCellCenter();
+            var cellCenter = ((Vector2)tilemap.CellToWorld(new Vector3Int(x, y, 0))).ToCellCenter();
             if (_collider.OverlapPoint(cellCenter))
                 yield return new Vector2Int(x, y);
-            
+
             var foundCollider = Physics2D.OverlapBox(cellCenter, Vector2.one, 0, layer);
             if (foundCollider)
                 yield return new Vector2Int(x, y);

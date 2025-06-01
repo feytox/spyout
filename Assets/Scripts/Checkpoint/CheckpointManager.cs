@@ -4,11 +4,11 @@ using UnityEngine;
 public class CheckpointManager : MonoBehaviour
 {
     [SerializeField] private EndManager _endManager;
-    
+
     private Checkpoint[] _checkpoints;
     private PlayerDataSaverController _dataSaver;
 
-    void Start()
+    private void Start()
     {
         _dataSaver = PlayerController.GetInstance().DataSaver;
         _checkpoints = GetComponentsInChildren<Checkpoint>();
@@ -17,9 +17,9 @@ public class CheckpointManager : MonoBehaviour
 
     public void ReloadGame()
     {
-        foreach (var npcInitSaver in FindObjectsByType<NPCInitSaverController>(FindObjectsSortMode.None))
+        foreach (var npcInitSaver in FindObjectsByType<NpcInitSaverController>(FindObjectsSortMode.None))
             npcInitSaver.ApplyInitData();
-        
+
         _dataSaver.Load();
         PlayerController.Inputs.Unpause();
         PlayerController.GetInstance().OnRevive();

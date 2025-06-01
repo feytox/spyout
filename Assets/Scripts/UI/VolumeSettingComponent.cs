@@ -9,7 +9,7 @@ public class VolumeSettingComponent : MonoBehaviour
 
     private Slider _volumeSlider;
 
-    void Start()
+    private void Start()
     {
         _volumeSlider = GetComponentInChildren<Slider>();
         SetCurrentVolume();

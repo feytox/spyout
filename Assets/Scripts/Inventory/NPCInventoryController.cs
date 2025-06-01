@@ -1,12 +1,11 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class NPCInventoryController : InventoryController
+public class NpcInventoryController : InventoryController
 {
-    [SerializeField] [CanBeNull] 
-    private Item _defaultItem;
+    [SerializeField] [CanBeNull] private Item _defaultItem;
 
-    void Start()
+    private void Start()
     {
         if (_defaultItem is null)
             return;

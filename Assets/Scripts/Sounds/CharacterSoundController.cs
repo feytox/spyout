@@ -16,8 +16,8 @@ public class CharacterSoundController : MonoBehaviour
     private Cooldown _idleCooldown;
     private GridController _grid;
     private AudioSource _footstepsSource;
-    
-    void Start()
+
+    private void Start()
     {
         ParseSoundStorages();
         _grid = GridController.GetInstance();
@@ -30,7 +30,7 @@ public class CharacterSoundController : MonoBehaviour
     {
         if (!_soundClips.TryGetValue(soundType, out var clips))
             return;
-        
+
         PlayRandomSound(clips);
     }
 
@@ -40,10 +40,10 @@ public class CharacterSoundController : MonoBehaviour
     {
         if (!_idleCooldown.ResetIfExpired())
             return;
-        
+
         PlaySound(CharacterSoundType.Idle);
     }
-    
+
     public void UpdateMovement(Vector3 currentPos, Vector3 moveVec)
     {
         if (_hasFootsteps && _footstepsCooldown.ResetIfExpired())
@@ -54,22 +54,22 @@ public class CharacterSoundController : MonoBehaviour
     {
         if (_footstepsSource.isPlaying || moveVec == Vector3.zero)
             return;
-        
+
         var clips = _grid.GetFootstepSound(currentPos);
         if (clips is null || clips.Length == 0)
             return;
-        
+
         var soundIndex = Random.Range(0, clips.Length);
         _footstepsSource.PlayOneShot(clips[soundIndex]);
     }
-    
+
     private void ParseSoundStorages()
     {
         foreach (var storage in _sounds)
         {
             if (_soundClips.ContainsKey(storage.SoundType))
                 Debug.LogError($"Duplicate sound type {storage.SoundType}");
-            
+
             Debug.Assert(storage.Clips.Length != 0, $"0 AudioClips of {storage.SoundType}");
             _soundClips[storage.SoundType] = storage.Clips;
         }

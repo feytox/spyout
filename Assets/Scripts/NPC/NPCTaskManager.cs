@@ -4,21 +4,21 @@ using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-[RequireComponent(typeof(NPCController))]
-public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
+[RequireComponent(typeof(NpcController))]
+public class NpcTaskManager : MonoBehaviour, INpcTaskScheduler
 {
-    private readonly Stack<NPCTask> _taskStack = new();
-    private NPCController? _npc;
-    private NPCBehavior? _npcBehavior;
+    private readonly Stack<NpcTask> _taskStack = new();
+    private NpcController? _npc;
+    private NpcBehavior? _npcBehavior;
     private TaskData? _taskData;
 
-    void Start()
+    private void Start()
     {
-        _npc = GetComponent<NPCController>();
+        _npc = GetComponent<NpcController>();
         _taskData = new TaskData(this, _npc);
-        _npcBehavior = GetComponent<NPCBehavior>();
+        _npcBehavior = GetComponent<NpcBehavior>();
         Debug.Assert(_npcBehavior != null,
-            $"You need to add {nameof(NPCBehavior)} to this NPC (at least {nameof(BasicBehavior)})");
+            $"You need to add {nameof(NpcBehavior)} to this NPC (at least {nameof(BasicBehavior)})");
 
         LoadTasks(true);
     }
@@ -62,14 +62,14 @@ public class NPCTaskManager : MonoBehaviour, INPCTaskScheduler
             _taskStack.Push(next);
     }
 
-    public void PushTask(NPCTask task) => _taskStack.Push(task);
+    public void PushTask(NpcTask task) => _taskStack.Push(task);
 }
 
-public interface INPCTaskScheduler
+public interface INpcTaskScheduler
 {
     /// <summary>
     /// Добавляет задачу в стек задач NPC.
     /// </summary>
     /// <param name="task">Задача для добавления.</param>
-    public void PushTask(NPCTask task);
+    public void PushTask(NpcTask task);
 }

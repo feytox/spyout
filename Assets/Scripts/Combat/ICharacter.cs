@@ -1,11 +1,11 @@
 using UnityEngine;
 
 public interface ICharacter : IDamageable, IPositionProvider
-{   
+{
     public Rigidbody2D Body { get; }
     public HealthController Health { get; }
     public CharacterSoundController Sounds { get; }
-    
+
     public void OnDeath<T>(T attacker) where T : IDamageable, IPositionProvider;
 
     public void OnDamage<T>(T attacker) where T : IDamageable, IPositionProvider;
@@ -17,7 +17,7 @@ public interface ICharacter : IDamageable, IPositionProvider
         if (isDead)
             OnDeath(attacker);
     }
-    
+
     bool IPositionProvider.IsDead => Health.IsDead;
     bool IDamageable.CanTakeDamage(IDamageable attacker) => !IsDead;
 }
@@ -25,12 +25,12 @@ public interface ICharacter : IDamageable, IPositionProvider
 public static class CharacterExtensions
 {
     private const float KnockbackModifier = 5f;
-    
+
     public static void ApplyKnockback<T>(this ICharacter character, T attacker) where T : IDamageable, IPositionProvider
     {
         var attackVec = character.Position - attacker.Position;
         attackVec.Normalize();
-        
+
         character.Body.AddForce(attackVec * KnockbackModifier, ForceMode2D.Impulse);
     }
 }

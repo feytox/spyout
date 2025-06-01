@@ -3,8 +3,8 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(NPCInventoryController))]
-public class NPCController : MonoBehaviour, ICharacter, IWalker
+[RequireComponent(typeof(NpcInventoryController))]
+public class NpcController : MonoBehaviour, ICharacter, IWalker
 {
     private const float TargetMinimumSqrDistance = 0.01f;
     private const float DeathTime = 0.7f;
@@ -16,7 +16,6 @@ public class NPCController : MonoBehaviour, ICharacter, IWalker
     [SerializeField] private int _maxPathLength = 50;
 
     public Rigidbody2D? Body { get; private set; }
-    public InventoryController? Inventory { get; private set; }
     public HealthController? Health { get; private set; }
     public CharacterSoundController? Sounds { get; private set; }
     public IDoorPermission? DoorPermission { get; private set; }
@@ -27,21 +26,21 @@ public class NPCController : MonoBehaviour, ICharacter, IWalker
     public float AttackCooldown => _attackCooldownSeconds;
     public int MaxPathLength => _maxPathLength;
 
-    private NPCAnimController? _animController;
+    private NpcAnimController? _animController;
     private DropOnDeathComponent? _dropOnDeath;
 
-    void Awake()
+    private void Awake()
     {
         Body = GetComponent<Rigidbody2D>();
-        _animController = GetComponentInChildren<NPCAnimController>();
+        _animController = GetComponentInChildren<NpcAnimController>();
         Health = GetComponentInChildren<HealthController>();
-        Inventory = GetComponent<InventoryController>();
+        GetComponent<InventoryController>();
         Sounds = GetComponentInChildren<CharacterSoundController>();
         DoorPermission = GetComponent<IDoorPermission>();
         _dropOnDeath = GetComponentInChildren<DropOnDeathComponent>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         _animController?.UpdateMovementAnimation(Body!.linearVelocity);
         Sounds?.UpdateIdleSound();

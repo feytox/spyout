@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SkeletonActivatorComponent : MonoBehaviour
 {
-    [SerializeField] private NPCController _skeleton;
+    [SerializeField] private NpcController _skeleton;
     [SerializeField] private AudioClip _spawnSound;
     [SerializeField] private GroundItem _trigger;
 
-    void Start()
+    private void Start()
     {
         _trigger.OnInteract += ActivateSkeleton;
     }

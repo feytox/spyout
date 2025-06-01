@@ -6,11 +6,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class SlotComponent : MonoBehaviour
 {
-    [SerializeField]
-    private Image _selectImage;
-    
-    [SerializeField]
-    private ItemRenderer _itemRenderer;
+    [SerializeField] private Image _selectImage;
+    [SerializeField] private ItemRenderer _itemRenderer;
 
     public void OnSlotUpdate([CanBeNull] ItemStack stack) => _itemRenderer.UpdateItem(stack);
 

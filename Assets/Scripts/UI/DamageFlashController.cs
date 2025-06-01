@@ -10,13 +10,13 @@ public class DamageFlashController : MonoBehaviour
     private CanvasGroup _canvasGroup;
     private float _currentFlashTime;
 
-    void Start()
+    private void Start()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
         PlayerController.GetInstance().OnDamageTaken += OnDamage;
     }
 
-    void Update()
+    private void Update()
     {
         if (_currentFlashTime <= 0)
             return;

@@ -10,15 +10,15 @@ using UnityEngine.InputSystem;
 public class DeprecatedPlayerManager : MonoBehaviour
 {
     public DeprecatedPlayerController PlayerController { get; private set; }
-    public DeprecatedCameraController CameraController { get; private set; }
+    private DeprecatedCameraController CameraController { get; set; }
 
     public InputAction MoveAction { get; private set; }
-    public InputAction InteractAction { get; private set; }
+    private InputAction InteractAction { get; set; }
 
     // default actions names should be reviewed
     // just move is enough for now
 
-    void Awake()
+    private void Awake()
     {
         PlayerController = GetComponentInChildren<DeprecatedPlayerController>();
         CameraController = GetComponentInChildren<DeprecatedCameraController>();

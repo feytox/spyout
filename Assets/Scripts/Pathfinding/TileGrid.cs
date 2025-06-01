@@ -80,13 +80,13 @@ public class TileGrid
 
     private static void ParseTilemap(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
     {
-        var canSeeThrough = tilemap.TryGetComponent<VisibleTilemapComponent>(out var component) 
+        var canSeeThrough = tilemap.TryGetComponent<VisibleTilemapComponent>(out var component)
                             && component.CanSeeThroughTiles;
-        
+
         if (tilemap.TryGetComponent(out TilemapCollider2D _))
             ParseStaticTiles(tilesData, tilemap, canSeeThrough);
 
-        ParseDynamicTiles(tilesData, tilemap, canSeeThrough);
+        ParseDynamicTiles(tilesData, tilemap);
         ParseLargeObjects(tilesData, tilemap, canSeeThrough);
     }
 
@@ -103,7 +103,7 @@ public class TileGrid
         }
     }
 
-    private static void ParseDynamicTiles(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap, bool visible)
+    private static void ParseDynamicTiles(Dictionary<Vector2Int, ITileInfo> tilesData, Tilemap tilemap)
     {
         var dynamicTiles = tilemap.GetComponentsInChildren<IWalkable>();
         foreach (var tile in dynamicTiles)

@@ -10,7 +10,7 @@ public class WaypointsController : MonoBehaviour
 
     private Vector2[]? _points;
 
-    void Awake()
+    private void Awake()
     {
         var waypoints = GetComponentsInChildren<Waypoint>(true);
         _points = waypoints.Select(waypoint => waypoint.Position).ToArray();

@@ -44,7 +44,7 @@ internal sealed class PriorityQueueDebugView<TElement, TPriority>
     }
 
     public PriorityQueueDebugView(PriorityQueue<TElement, TPriority>.UnorderedItemsCollection collection) =>
-        _queue = collection?._queue ?? throw new System.ArgumentNullException(nameof(collection));
+        _queue = collection?.Queue ?? throw new System.ArgumentNullException(nameof(collection));
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -92,7 +92,7 @@ internal static class EnumerableHelpers
     {
         if (source is ICollection<T> ic)
         {
-            int count = ic.Count;
+            var count = ic.Count;
             if (count != 0)
             {
                 // Allocate an array of the desired size, then copy the elements into it. Note that this has the same
@@ -113,10 +113,10 @@ internal static class EnumerableHelpers
             {
                 if (en.MoveNext())
                 {
-                    const int DefaultCapacity = 4;
-                    T[] arr = new T[DefaultCapacity];
+                    const int defaultCapacity = 4;
+                    T[] arr = new T[defaultCapacity];
                     arr[0] = en.Current;
-                    int count = 1;
+                    var count = 1;
 
                     while (en.MoveNext())
                     {
@@ -128,7 +128,7 @@ internal static class EnumerableHelpers
                             // 2^30, since doubling to 2^31 is 1 larger than Int32.MaxValue.  In that case, we instead
                             // constrain the length to be Array.MaxLength (this overflow check works because of the
                             // cast to uint).
-                            int newLength = count << 1;
+                            var newLength = count << 1;
                             if ((uint)newLength > ArrayEx.MaxLength)
                             {
                                 newLength = ArrayEx.MaxLength <= count ? count + 1 : ArrayEx.MaxLength;
@@ -217,7 +217,7 @@ public class PriorityQueue<TElement, TPriority>
     ///     The enumeration does not order items by priority, since that would require N * log(N) time and N space.
     ///     Items are instead enumerated following the internal array heap layout.
     /// </remarks>
-    public UnorderedItemsCollection UnorderedItems => _unorderedItems ??= new(this);
+    public UnorderedItemsCollection UnorderedItems => _unorderedItems ??= new UnorderedItemsCollection(this);
 
 #if DEBUG
     static PriorityQueue()
@@ -344,7 +344,7 @@ public class PriorityQueue<TElement, TPriority>
         // Note that the node being enqueued does not need to be physically placed
         // there at this point, as such an assignment would be redundant.
 
-        int currentSize = _size++;
+        var currentSize = _size++;
         _version++;
 
         if (_nodes.Length == currentSize)
@@ -389,7 +389,7 @@ public class PriorityQueue<TElement, TPriority>
             throw new InvalidOperationException(SR.InvalidOperation_EmptyQueue);
         }
 
-        TElement element = _nodes[0].Element;
+        var element = _nodes[0].Element;
         RemoveRootNode();
         return element;
     }
@@ -463,7 +463,7 @@ public class PriorityQueue<TElement, TPriority>
     {
         if (_size != 0)
         {
-            (TElement Element, TPriority Priority) root = _nodes[0];
+            var root = _nodes[0];
 
             if (_comparer == null)
             {
@@ -499,7 +499,7 @@ public class PriorityQueue<TElement, TPriority>
     {
         ArgumentNullException.ThrowIfNull(items);
 
-        int count = 0;
+        var count = 0;
         ICollection<(TElement Element, TPriority Priority)>? collection =
             items as ICollection<(TElement Element, TPriority Priority)>;
         if (collection is not null && (count = collection.Count) > _nodes.Length - _size)
@@ -518,9 +518,9 @@ public class PriorityQueue<TElement, TPriority>
             }
             else
             {
-                int i = 0;
+                var i = 0;
                 (TElement, TPriority)[] nodes = _nodes;
-                foreach ((TElement element, TPriority priority) in items)
+                foreach ((var element, var priority) in items)
                 {
                     if (nodes.Length == i)
                     {
@@ -543,7 +543,7 @@ public class PriorityQueue<TElement, TPriority>
         }
         else
         {
-            foreach ((TElement element, TPriority priority) in items)
+            foreach ((var element, var priority) in items)
             {
                 Enqueue(element, priority);
             }
@@ -574,9 +574,9 @@ public class PriorityQueue<TElement, TPriority>
         {
             // build using Heapify() if the queue is empty.
 
-            int i = 0;
+            var i = 0;
             (TElement, TPriority)[] nodes = _nodes;
-            foreach (TElement element in elements)
+            foreach (var element in elements)
             {
                 if (nodes.Length == i)
                 {
@@ -597,7 +597,7 @@ public class PriorityQueue<TElement, TPriority>
         }
         else
         {
-            foreach (TElement element in elements)
+            foreach (var element in elements)
             {
                 Enqueue(element, priority);
             }
@@ -654,7 +654,7 @@ public class PriorityQueue<TElement, TPriority>
     /// </remarks>
     public void TrimExcess()
     {
-        int threshold = (int)(_nodes.Length * 0.9);
+        var threshold = (int)(_nodes.Length * 0.9);
         if (_size < threshold)
         {
             Array.Resize(ref _nodes, _size);
@@ -669,10 +669,10 @@ public class PriorityQueue<TElement, TPriority>
     {
         Debug.Assert(_nodes.Length < minCapacity);
 
-        const int GrowFactor = 2;
-        const int MinimumGrow = 4;
+        const int growFactor = 2;
+        const int minimumGrow = 4;
 
-        int newcapacity = GrowFactor * _nodes.Length;
+        var newcapacity = growFactor * _nodes.Length;
 
         // Allow the queue to grow to maximum possible capacity (~2G elements) before encountering overflow.
         // Note that this check works even when _nodes.Length overflowed thanks to the (uint) cast
@@ -682,7 +682,7 @@ public class PriorityQueue<TElement, TPriority>
         }
 
         // Ensure minimum growth is respected.
-        newcapacity = Math.Max(newcapacity, _nodes.Length + MinimumGrow);
+        newcapacity = Math.Max(newcapacity, _nodes.Length + minimumGrow);
 
         // If the computed capacity is still less than specified, set to the original argument.
         // Capacities exceeding Array.MaxLength will be surfaced as OutOfMemoryException by Array.Resize.
@@ -699,7 +699,7 @@ public class PriorityQueue<TElement, TPriority>
     /// </summary>
     private void RemoveRootNode()
     {
-        int lastNodeIndex = --_size;
+        var lastNodeIndex = --_size;
         _version++;
 
         if (lastNodeIndex > 0)
@@ -741,19 +741,19 @@ public class PriorityQueue<TElement, TPriority>
         // only for higher nodes, starting from the first node that has children.
         // It is the parent of the very last element in the array.
 
-        (TElement Element, TPriority Priority)[] nodes = _nodes;
-        int lastParentWithChildren = GetParentIndex(_size - 1);
+        var nodes = _nodes;
+        var lastParentWithChildren = GetParentIndex(_size - 1);
 
         if (_comparer == null)
         {
-            for (int index = lastParentWithChildren; index >= 0; --index)
+            for (var index = lastParentWithChildren; index >= 0; --index)
             {
                 MoveDownDefaultComparer(nodes[index], index);
             }
         }
         else
         {
-            for (int index = lastParentWithChildren; index >= 0; --index)
+            for (var index = lastParentWithChildren; index >= 0; --index)
             {
                 MoveDownCustomComparer(nodes[index], index);
             }
@@ -771,11 +771,11 @@ public class PriorityQueue<TElement, TPriority>
         Debug.Assert(_comparer is null);
         Debug.Assert(0 <= nodeIndex && nodeIndex < _size);
 
-        (TElement Element, TPriority Priority)[] nodes = _nodes;
+        var nodes = _nodes;
 
         while (nodeIndex > 0)
         {
-            int parentIndex = GetParentIndex(nodeIndex);
+            var parentIndex = GetParentIndex(nodeIndex);
             (TElement Element, TPriority Priority) parent = nodes[parentIndex];
 
             if (Comparer<TPriority>.Default.Compare(node.Priority, parent.Priority) < 0)
@@ -803,12 +803,12 @@ public class PriorityQueue<TElement, TPriority>
         Debug.Assert(_comparer is not null);
         Debug.Assert(0 <= nodeIndex && nodeIndex < _size);
 
-        IComparer<TPriority> comparer = _comparer;
+        var comparer = _comparer;
         (TElement Element, TPriority Priority)[] nodes = _nodes;
 
         while (nodeIndex > 0)
         {
-            int parentIndex = GetParentIndex(nodeIndex);
+            var parentIndex = GetParentIndex(nodeIndex);
             (TElement Element, TPriority Priority) parent = nodes[parentIndex];
 
             if (comparer.Compare(node.Priority, parent.Priority) < 0)
@@ -837,17 +837,17 @@ public class PriorityQueue<TElement, TPriority>
         Debug.Assert(_comparer is null);
         Debug.Assert(0 <= nodeIndex && nodeIndex < _size);
 
-        (TElement Element, TPriority Priority)[] nodes = _nodes;
-        int size = _size;
+        var nodes = _nodes;
+        var size = _size;
 
         int i;
         while ((i = GetFirstChildIndex(nodeIndex)) < size)
         {
             // Find the child node with the minimal priority
             (TElement Element, TPriority Priority) minChild = nodes[i];
-            int minChildIndex = i;
+            var minChildIndex = i;
 
-            int childIndexUpperBound = Math.Min(i + Arity, size);
+            var childIndexUpperBound = Math.Min(i + Arity, size);
             while (++i < childIndexUpperBound)
             {
                 (TElement Element, TPriority Priority) nextChild = nodes[i];
@@ -885,18 +885,18 @@ public class PriorityQueue<TElement, TPriority>
         Debug.Assert(_comparer is not null);
         Debug.Assert(0 <= nodeIndex && nodeIndex < _size);
 
-        IComparer<TPriority> comparer = _comparer;
+        var comparer = _comparer;
         (TElement Element, TPriority Priority)[] nodes = _nodes;
-        int size = _size;
+        var size = _size;
 
         int i;
         while ((i = GetFirstChildIndex(nodeIndex)) < size)
         {
             // Find the child node with the minimal priority
             (TElement Element, TPriority Priority) minChild = nodes[i];
-            int minChildIndex = i;
+            var minChildIndex = i;
 
-            int childIndexUpperBound = Math.Min(i + Arity, size);
+            var childIndexUpperBound = Math.Min(i + Arity, size);
             while (++i < childIndexUpperBound)
             {
                 (TElement Element, TPriority Priority) nextChild = nodes[i];
@@ -937,13 +937,11 @@ public class PriorityQueue<TElement, TPriority>
 
             return comparer;
         }
-        else
-        {
-            // Currently the JIT doesn't optimize direct Comparer<T>.Default.Compare
-            // calls for reference types, so we want to cache the comparer instance instead.
-            // https://github.com/dotnet/runtime/issues/10050: Update if this changes in the future.
-            return comparer ?? Comparer<TPriority>.Default;
-        }
+
+        // Currently the JIT doesn't optimize direct Comparer<T>.Default.Compare
+        // calls for reference types, so we want to cache the comparer instance instead.
+        // https://github.com/dotnet/runtime/issues/10050: Update if this changes in the future.
+        return comparer ?? Comparer<TPriority>.Default;
     }
 
     /// <summary>
@@ -954,15 +952,15 @@ public class PriorityQueue<TElement, TPriority>
     public sealed class UnorderedItemsCollection : IReadOnlyCollection<(TElement Element, TPriority Priority)>,
         ICollection
     {
-        internal readonly PriorityQueue<TElement, TPriority> _queue;
+        internal readonly PriorityQueue<TElement, TPriority> Queue;
 
-        internal UnorderedItemsCollection(PriorityQueue<TElement, TPriority> queue) => _queue = queue;
+        internal UnorderedItemsCollection(PriorityQueue<TElement, TPriority> queue) => Queue = queue;
 
         /// <summary>
         ///     Returns an enumerator that iterates through the <see cref="UnorderedItems" />.
         /// </summary>
         /// <returns>An <see cref="Enumerator" /> for the <see cref="UnorderedItems" />.</returns>
-        public Enumerator GetEnumerator() => new(_queue);
+        public Enumerator GetEnumerator() => new(Queue);
 
         object ICollection.SyncRoot => this;
         bool ICollection.IsSynchronized => false;
@@ -987,14 +985,14 @@ public class PriorityQueue<TElement, TPriority>
                     SR.ArgumentOutOfRange_IndexMustBeLessOrEqual);
             }
 
-            if (array.Length - index < _queue._size)
+            if (array.Length - index < Queue._size)
             {
                 throw new ArgumentException(SR.Argument_InvalidOffLen);
             }
 
             try
             {
-                Array.Copy(_queue._nodes, 0, array, index, _queue._size);
+                Array.Copy(Queue._nodes, 0, array, index, Queue._size);
             }
             catch (ArrayTypeMismatchException)
             {
@@ -1002,7 +1000,7 @@ public class PriorityQueue<TElement, TPriority>
             }
         }
 
-        public int Count => _queue._size;
+        public int Count => Queue._size;
 
         IEnumerator<(TElement Element, TPriority Priority)> IEnumerable<(TElement Element, TPriority Priority)>.
             GetEnumerator() => GetEnumerator();
@@ -1043,7 +1041,7 @@ public class PriorityQueue<TElement, TPriority>
             /// </returns>
             public bool MoveNext()
             {
-                PriorityQueue<TElement, TPriority> localQueue = _queue;
+                var localQueue = _queue;
 
                 if (_version == localQueue._version && ((uint)_index < (uint)localQueue._size))
                 {

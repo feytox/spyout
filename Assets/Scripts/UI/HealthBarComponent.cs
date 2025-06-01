@@ -7,8 +7,8 @@ public abstract class HealthBarComponent : MonoBehaviour
 {
     protected abstract HealthController HealthController { get; }
     private Slider _slider;
-    
-    void Start()
+
+    private void Start()
     {
         _slider = GetComponent<Slider>();
         _slider.maxValue = HealthController.MaxHealth;

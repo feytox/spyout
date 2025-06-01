@@ -11,7 +11,7 @@ public static class PathFinder
 
         return VectorsExtensions.IterateLine(start, end).All(pos => grid.CanSeeThrough(walker, pos));
     }
-    
+
     public static IEnumerable<Vector2Int> FindAStarPath(IWalker walker, TileGrid grid,
         Vector2Int start, Vector2Int end, int maxPathLength)
     {
@@ -22,7 +22,7 @@ public static class PathFinder
             var current = ctx.Frontier.Dequeue();
             if (current == end)
                 break;
-            
+
             ctx.ProcessNeighbours(current, maxPathLength);
         }
 
@@ -36,10 +36,10 @@ public static class PathFinder
             result.Add(point.Value);
             point = ctx.Track[point.Value].CameFrom;
         }
-        
+
         return Enumerable.Reverse(result).Skip(1);
     }
-    
+
     private class AStarContext
     {
         private readonly IWalker _walker;
@@ -66,7 +66,7 @@ public static class PathFinder
                 var newCost = currentCost + 1;
                 if (newCost > maxPathLength)
                     continue;
-                
+
                 if (Track.TryGetValue(next, out var data) && newCost >= data.CostSoFar)
                     continue;
 
@@ -76,7 +76,7 @@ public static class PathFinder
             }
         }
     }
-    
+
     private struct PointData
     {
         public readonly Vector2Int? CameFrom;

@@ -9,7 +9,7 @@ public class CharacterAnimController : MonoBehaviour
     private static readonly int Attack = Animator.StringToHash("attack");
     private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
     private const float MovementEpsilon = 0.005f;
-    
+
     [SerializeField] private AnimationCurve _flashCurve;
     [SerializeField] private float _flashTime = 0.25f;
     [SerializeField] private AnimationCurve _dissolveCurve;
@@ -28,7 +28,7 @@ public class CharacterAnimController : MonoBehaviour
         Material = _spriteRenderer.material;
     }
 
-    void Update()
+    private void Update()
     {
         UpdateFlash();
         UpdateDissolve();

@@ -33,7 +33,7 @@ public class PassiveWalkTask : WaypointWalkTask
         return true;
     }
 
-    public override NPCTask CreateNextTask(TaskData taskData)
+    public override NpcTask CreateNextTask(TaskData taskData)
     {
         return new PassiveWalkTask(taskData, _waypoints);
     }

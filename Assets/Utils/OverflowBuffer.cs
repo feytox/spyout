@@ -9,12 +9,11 @@ using UnityEngine;
 /// <typeparam name="T"></typeparam>
 public class OverflowBuffer<T> where T : struct
 {
-    public int Count => _size;
-    
+    public int Count { get; private set; }
+
     private const int InitialCapacity = 4;
 
     private int _head;
-    private int _size;
     private int _capacity = InitialCapacity;
     private T[] _array = new T[InitialCapacity];
 
@@ -28,10 +27,10 @@ public class OverflowBuffer<T> where T : struct
         if (newSize < 0)
             throw new ArgumentOutOfRangeException(nameof(newSize), "Размер не может быть меньше нуля.");
         
-        if (newSize >= _size)
+        if (newSize >= Count)
             return;
 
-        _size = newSize;
+        Count = newSize;
     }
     
     /// <summary>
@@ -41,7 +40,7 @@ public class OverflowBuffer<T> where T : struct
     /// <returns><c>true</c>, если элемент был успешно удален; иначе <c>false</c>.</returns>
     public bool TryDequeue(out T result)
     {
-        if (_size == 0)
+        if (Count == 0)
         {
             result = default;
             return false;
@@ -58,12 +57,12 @@ public class OverflowBuffer<T> where T : struct
     /// <exception cref="IndexOutOfRangeException">Выбрасывается, буфер пуст.</exception>
     public T Dequeue()
     {
-        if (_size == 0)
+        if (Count == 0)
             throw new IndexOutOfRangeException();
 
         var result = _array[_head];
         _head = (_head + 1) % _capacity;
-        _size--;
+        Count--;
         return result;
     }
 
@@ -73,8 +72,8 @@ public class OverflowBuffer<T> where T : struct
     /// <param name="item">Элемент для добавления.</param>
     public void Enqueue(T item)
     {
-        ResizeIfNeeded(_size + 1);
-        var index = (_head + _size - 1) % _capacity;
+        ResizeIfNeeded(Count + 1);
+        var index = (_head + Count - 1) % _capacity;
         _array[index] = item;
     }
 
@@ -84,8 +83,8 @@ public class OverflowBuffer<T> where T : struct
     /// <param name="items">Массив элементов для добавления.</param>
     public void EnqueueRange(T[] items)
     {
-        var prevSize = _size;
-        ResizeIfNeeded(_size + items.Length);
+        var prevSize = Count;
+        ResizeIfNeeded(Count + items.Length);
 
         var index = (_head + prevSize) % _capacity;
         foreach (var item in items)
@@ -102,9 +101,9 @@ public class OverflowBuffer<T> where T : struct
     /// <returns><c>true</c>, если элемент был успешно получен; иначе <c>false</c>.</returns>
     public bool TryPeek(out T result)
     {
-        if (_size == 0)
+        if (Count == 0)
         {
-            result = default(T);
+            result = default;
             return false;
         }
 
@@ -119,7 +118,7 @@ public class OverflowBuffer<T> where T : struct
     /// <exception cref="IndexOutOfRangeException">Выбрасывается, если буфер пуст.</exception>
     public T Peek()
     {
-        if (_size == 0)
+        if (Count == 0)
             throw new IndexOutOfRangeException();
 
         return _array[_head];
@@ -132,19 +131,19 @@ public class OverflowBuffer<T> where T : struct
     /// <returns><c>true</c>, если элемент был успешно получен; иначе <c>false</c>.</returns>
     public bool TryPeekLast(out T result)
     {
-        if (_size == 0)
+        if (Count == 0)
         {
             result = default;
             return false;
         }
 
-        result = _array[(_head + _size - 1) % _capacity];
+        result = _array[(_head + Count - 1) % _capacity];
         return true;
     }
 
     public bool TryGetOrLast(int index, out T result)
     {
-        index = Mathf.Min(index, _size - 1);
+        index = Mathf.Min(index, Count - 1);
         if (index < 0)
         {
             result = default;
@@ -162,10 +161,10 @@ public class OverflowBuffer<T> where T : struct
     /// <exception cref="IndexOutOfRangeException">Выбрасывается, если буфер пуст.</exception>
     public T PeekLast()
     {
-        if (_size == 0)
+        if (Count == 0)
             throw new IndexOutOfRangeException();
 
-        return _array[(_head + _size - 1) % _capacity];
+        return _array[(_head + Count - 1) % _capacity];
     }
     
     /// <summary>
@@ -177,20 +176,20 @@ public class OverflowBuffer<T> where T : struct
     {
         if (newSize < _capacity)
         {
-            _size = newSize;
+            Count = newSize;
             return;
         }
 
         var newCapacity = Math.Max(newSize, _capacity + _capacity / 2);
         var newArray = new T[newCapacity];
-        for (var i = 0; i < _size; i++)
+        for (var i = 0; i < Count; i++)
         {
             var index = (_head + i) % _capacity;
             newArray[i] = _array[index];
         }
 
         _head = 0;
-        _size = newSize;
+        Count = newSize;
         _capacity = newArray.Length;
         _array = newArray;
     }

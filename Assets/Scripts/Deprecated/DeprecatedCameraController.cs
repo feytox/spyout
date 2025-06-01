@@ -5,8 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class DeprecatedCameraController : MonoBehaviour
 {
-    
-    void Start()
+    private void Start()
     {
         var playerManager = GetComponentInParent<DeprecatedPlayerManager>();
         Debug.Assert(playerManager != null);

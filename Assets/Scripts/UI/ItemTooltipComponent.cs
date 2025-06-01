@@ -9,7 +9,7 @@ public class ItemTooltipComponent : MonoBehaviour
 
     private Animator _tooltipAnimator;
 
-    void Start()
+    private void Start()
     {
         var playerInventory = PlayerController.GetInstance().Inventory;
         playerInventory.OnActiveItemChange += OnActiveItemChange;

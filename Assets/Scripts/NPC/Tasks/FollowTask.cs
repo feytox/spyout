@@ -8,7 +8,7 @@ using Utils;
 /// <summary>
 /// Задача следования за целью с поиском пути
 /// </summary>
-public class FollowTask<T> : NPCTask where T : IPositionProvider
+public class FollowTask<T> : NpcTask where T : IPositionProvider
 {
     // TODO: move const to somewhere else
     private const int LockedPathPoints = 1;
@@ -62,7 +62,7 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
         else if (!_targetUpdateCooldown.ResetIfExpired())
             return false;
 
-        if (NPC.IsTargetReached(Target))
+        if (Npc.IsTargetReached(Target))
             return true;
 
         var newTargetPos = _grid!.WorldToCell(Target.Position);
@@ -73,7 +73,7 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
             return false;
 
         _targetPos = newTargetPos;
-        return RefreshPath(_grid!.WorldToCell(NPC.transform.position));
+        return RefreshPath(_grid!.WorldToCell(Npc.transform.position));
     }
 
     private bool RefreshPath(Vector2Int currentPos)
@@ -85,22 +85,22 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
         _pathUpdateTask = CreatePathUpdateTask(start);
         return false;
     }
-    
+
     // ReSharper disable Unity.PerformanceAnalysis
     private Task CreatePathUpdateTask(Vector2Int start)
     {
-        return Task.Run(() => FindPath(start), NPC.destroyCancellationToken)
+        return Task.Run(() => FindPath(start), Npc.destroyCancellationToken)
             .ContinueWith(OnUpdatePathComplete, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private IEnumerable<Vector2> FindPath(Vector2Int start)
     {
         var targetPos = _targetPos!.Value;
-        if (_grid!.IsPathVisible(NPC, start, targetPos, NPC.MaxPathLength))
+        if (_grid!.IsPathVisible(Npc, start, targetPos, Npc.MaxPathLength))
             return _grid
-                .FindPathOrClosest(NPC, start, targetPos, NPC.MaxPathLength)
+                .FindPathOrClosest(Npc, start, targetPos, Npc.MaxPathLength)
                 .Select(_grid.CellToNormalWorld);
-        
+
         return Enumerable.Empty<Vector2>();
     }
 
@@ -111,10 +111,10 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
             Debug.LogException(task.Exception);
             return;
         }
-        
+
         if (!task.IsCompletedSuccessfully)
             return;
-        
+
         var path = task.Result.ToArray();
         if (path.Length == 0)
         {
@@ -126,7 +126,7 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
         _currentPath.Trim(LockedPathPoints);
         _currentPath.EnqueueRange(path);
     }
-    
+
     /// <summary>
     /// Двигает NPC по пути
     /// </summary>
@@ -138,7 +138,7 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
             if (!_currentPath.TryPeek(out var currentTarget))
                 return true;
 
-            if (!NPC.MoveToTarget(currentTarget))
+            if (!Npc.MoveToTarget(currentTarget))
                 break;
 
             _currentPath.Dequeue();
@@ -149,5 +149,5 @@ public class FollowTask<T> : NPCTask where T : IPositionProvider
 
     private bool IsUpdatingCompleted() => _pathUpdateTask is null || _pathUpdateTask.IsCompleted;
 
-    public override NPCTask? CreateNextTask(TaskData taskData) => null;
+    public override NpcTask? CreateNextTask(TaskData taskData) => null;
 }

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class NPCHealthBarController : MonoBehaviour
+public class NpcHealthBarController : MonoBehaviour
 {
-    [SerializeField] private NPCController _npc;
+    [SerializeField] private NpcController _npc;
     [SerializeField] private AnimationCurve _flashCurve;
     [SerializeField] private float _flashTime = 0.25f;
     [SerializeField] private Gradient _backGroundGradient;
@@ -16,14 +16,14 @@ public class NPCHealthBarController : MonoBehaviour
     private float _maxHealth;
     private float _currentFlashTime;
 
-    void Start()
+    private void Start()
     {
         _maxFillWidth = _fill.size.x;
         _npc.Health!.OnHealthChange += OnHealthChange;
         _maxHealth = _npc.Health.MaxHealth;
     }
 
-    void Update()
+    private void Update()
     {
         if (_currentFlashTime <= 0)
         {
@@ -50,19 +50,6 @@ public class NPCHealthBarController : MonoBehaviour
         ApplyGradient(_border, _borderGradient, progress);
     }
 
-    // TODO: move to external class
-    private void ApplyGradient(SpriteRenderer sprite, Gradient gradient, float progress)
-    {
-        sprite.color = gradient.Evaluate(progress);
-    }
-
-    private void ApplyAlpha(SpriteRenderer sprite, float alpha)
-    {
-        var color = sprite.color;
-        color.a = alpha;
-        sprite.color = color;
-    }
-
     private void ToggleSprites(bool value)
     {
         if (!value && _currentFlashTime <= -100)
@@ -73,5 +60,17 @@ public class NPCHealthBarController : MonoBehaviour
         _border.enabled = value;
         if (!value)
             _currentFlashTime = -1000;
+    }
+    
+    private static void ApplyGradient(SpriteRenderer sprite, Gradient gradient, float progress)
+    {
+        sprite.color = gradient.Evaluate(progress);
+    }
+
+    private static void ApplyAlpha(SpriteRenderer sprite, float alpha)
+    {
+        var color = sprite.color;
+        color.a = alpha;
+        sprite.color = color;
     }
 }

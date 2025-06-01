@@ -16,7 +16,7 @@ public class GroundItem : CustomSpriteComponent, IPlayerInteractable
     protected override Sprite? Sprite => Stack?.Item.Sprite;
     protected override Material? Material => Stack?.Item.OutlineMaterial;
 
-    void Awake() => _popup = GetComponentInChildren<PopupController>();
+    private void Awake() => _popup = GetComponentInChildren<PopupController>();
 
     public event Action? OnInteract;
 

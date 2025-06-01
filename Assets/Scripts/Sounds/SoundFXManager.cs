@@ -3,8 +3,8 @@ using UnityEngine;
 public class SoundFXManager : MonoBehaviour
 {
     [SerializeField] private AudioSource _soundFXObject;
-    
-    void Awake()
+
+    private void Awake()
     {
         Debug.Assert(
             _singleton == null,
@@ -17,7 +17,7 @@ public class SoundFXManager : MonoBehaviour
     {
         if (clips.Length == 0)
             return;
-        
+
         var soundIndex = Random.Range(0, clips.Length);
         PlaySound(clips[soundIndex], spawnTransform);
     }

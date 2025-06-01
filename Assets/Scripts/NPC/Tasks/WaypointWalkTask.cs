@@ -8,7 +8,7 @@ using Task = System.Threading.Tasks.Task;
 /// <summary>
 /// Задача перемещения по заданному порядку точек (waypoints) с использованием поиска пути.
 /// </summary>
-public class WaypointWalkTask : NPCTask
+public class WaypointWalkTask : NpcTask
 {
     private readonly Queue<Vector2Int> _waypoints;
     private readonly Queue<Vector2> _path = new();
@@ -35,7 +35,7 @@ public class WaypointWalkTask : NPCTask
     }
 
     protected virtual bool CanWalkNext() => true;
-    
+
     private bool UpdatePath()
     {
         if (_path.Count > 0 || !CanWalkNext())
@@ -44,21 +44,21 @@ public class WaypointWalkTask : NPCTask
         if (_pathUpdateTask is not null && !_pathUpdateTask.IsCompleted)
             return false;
 
-        var currentPos = _grid!.WorldToCell(NPC.transform.position);
+        var currentPos = _grid!.WorldToCell(Npc.transform.position);
         if (!TryGetNextWaypoint(out var target))
             return true;
-        
+
         _pathUpdateTask = CreatePathUpdateTask(currentPos, target);
         return false;
     }
-    
+
     // TODO: refactor
     // ReSharper disable Unity.PerformanceAnalysis
     private Task CreatePathUpdateTask(Vector2Int currentPos, Vector2Int target)
     {
         return Task.Run(() => _grid!
-                .FindPathOrClosest(NPC, currentPos, target, NPC.MaxPathLength)
-                .Select(_grid.CellToNormalWorld), NPC.destroyCancellationToken)
+                .FindPathOrClosest(Npc, currentPos, target, Npc.MaxPathLength)
+                .Select(_grid.CellToNormalWorld), Npc.destroyCancellationToken)
             .ContinueWith(task =>
             {
                 if (task.IsCompletedSuccessfully)
@@ -88,12 +88,12 @@ public class WaypointWalkTask : NPCTask
             if (!_path.TryPeek(out var currentTarget))
                 return;
 
-            if (!NPC.MoveToTarget(currentTarget))
+            if (!Npc.MoveToTarget(currentTarget))
                 break;
 
             _path.Dequeue();
         }
     }
 
-    public override NPCTask? CreateNextTask(TaskData taskData) => null;
+    public override NpcTask? CreateNextTask(TaskData taskData) => null;
 }

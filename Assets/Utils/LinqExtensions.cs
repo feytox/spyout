@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public static class LinqExtensions
 {
-
-    
     // from new c#
     public static TSource? MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) =>
         MaxBy(source, keySelector, null);

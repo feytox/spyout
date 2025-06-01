@@ -6,17 +6,17 @@ public class HotbarComponent : MonoBehaviour
     private InventoryController _playerInventory;
     private SlotComponent[] _slots;
 
-    void Start()
+    private void Start()
     {
         _playerInventory = PlayerController.GetInstance().Inventory;
         _slots = GetComponentsInChildren<SlotComponent>();
-        
+
         InitSlots();
         _playerInventory.Inventory!.OnSlotUpdated += OnSlotUpdate;
         _playerInventory.OnActiveSlotChange += OnActiveSlotChange;
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         _playerInventory.Inventory!.OnSlotUpdated -= OnSlotUpdate;
         _playerInventory.OnActiveSlotChange -= OnActiveSlotChange;
@@ -26,7 +26,7 @@ public class HotbarComponent : MonoBehaviour
     {
         _slots[_playerInventory.ActiveSlot].ChangeSlotStatus(true);
 
-        for (var slot = 0; slot < _playerInventory.InventorySize; slot++) 
+        for (var slot = 0; slot < _playerInventory.InventorySize; slot++)
             _slots[slot].OnSlotUpdate(_playerInventory.Inventory[slot]);
     }
 

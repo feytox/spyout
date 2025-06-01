@@ -6,7 +6,7 @@ public class AttackTask<T> : FollowTask<T> where T : IDamageable, IPositionProvi
     private readonly Cooldown _attackCooldown = new(0);
 
 
-    private AttackTask([NotNull] TaskData taskData, T target, bool endWhenNoTarget) 
+    private AttackTask([NotNull] TaskData taskData, T target, bool endWhenNoTarget)
         : base(taskData, target, endWhenNoTarget)
     {
     }
@@ -19,7 +19,7 @@ public class AttackTask<T> : FollowTask<T> where T : IDamageable, IPositionProvi
     protected override void OnTaskStart()
     {
         base.OnTaskStart();
-        _attackCooldown.SetDuration(NPC.AttackCooldown);
+        _attackCooldown.SetDuration(Npc.AttackCooldown);
         _attackCooldown.Reset();
     }
 
@@ -28,7 +28,7 @@ public class AttackTask<T> : FollowTask<T> where T : IDamageable, IPositionProvi
         var followCompleted = base.Step();
         if (NoTarget)
             return followCompleted;
-        
+
         var attackCompleted = AttackStep();
         return followCompleted && attackCompleted;
     }
@@ -38,6 +38,6 @@ public class AttackTask<T> : FollowTask<T> where T : IDamageable, IPositionProvi
         if (!_attackCooldown.ResetIfExpired())
             return false;
 
-        return Target == null || !NPC.TryAttack(Target);
+        return Target == null || !Npc.TryAttack(Target);
     }
 }

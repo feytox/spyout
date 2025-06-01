@@ -5,45 +5,45 @@ using Utils;
 
 [Obsolete]
 [RequireComponent(typeof(Rigidbody2D))]
-public class TestNPCController : MonoBehaviour, IWalker
+public class TestNpcController : MonoBehaviour, IWalker
 {
     public GameObject target;
     public float MovementSpeed = 4f;
 
-    private new Rigidbody2D rigidbody;
-    private int currentTarget;
-    private Vector2[] pathToTarget;
-    private Cooldown walkCooldown;
+    private new Rigidbody2D _rigidbody;
+    private int _currentTarget;
+    private Vector2[] _pathToTarget;
+    private Cooldown _walkCooldown;
 
-    void Start()
+    private void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        pathToTarget = GridController.FindPath(this, rigidbody.transform.position, target.transform.position)
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _pathToTarget = GridController.FindPath(this, _rigidbody.transform.position, target.transform.position)
             .Select(cellPos => cellPos.ToCellCenter())
             .ToArray();
-        walkCooldown = new Cooldown(5);
+        _walkCooldown = new Cooldown(5);
     }
 
     private void FixedUpdate()
     {
-        if (!walkCooldown.IsExpired)
+        if (!_walkCooldown.IsExpired)
             return;
-        
-        if (currentTarget >= pathToTarget.Length)
+
+        if (_currentTarget >= _pathToTarget.Length)
         {
-            rigidbody.linearVelocity = Vector2.zero;
+            _rigidbody.linearVelocity = Vector2.zero;
             return;
         }
 
-        var current = pathToTarget[currentTarget];
-        var moveVec = current - rigidbody.position;
+        var current = _pathToTarget[_currentTarget];
+        var moveVec = current - _rigidbody.position;
         if (moveVec.sqrMagnitude <= 0.1)
         {
-            currentTarget++;
+            _currentTarget++;
             return;
         }
 
-        rigidbody.linearVelocity = moveVec.normalized * MovementSpeed;
+        _rigidbody.linearVelocity = moveVec.normalized * MovementSpeed;
     }
 
     public IDoorPermission DoorPermission => null;

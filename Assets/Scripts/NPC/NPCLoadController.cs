@@ -2,27 +2,27 @@ using UnityEngine;
 using Utils;
 
 [DisallowMultipleComponent]
-[RequireComponent(typeof(NPCController))]
-[RequireComponent(typeof(NPCTaskManager))]
-public class NPCLoadController : MonoBehaviour
+[RequireComponent(typeof(NpcController))]
+[RequireComponent(typeof(NpcTaskManager))]
+public class NpcLoadController : MonoBehaviour
 {
-    private const float _distanceCooldownSeconds = 0.3f;
+    private const float DistanceCooldownSeconds = 0.3f;
 
     [SerializeField] private float _maxPlayerDistance = 25f;
 
-    private NPCController _npc;
-    private NPCTaskManager _taskManager;
+    private NpcController _npc;
+    private NpcTaskManager _taskManager;
     private Cooldown _distanceCooldown;
     private bool _isActive = true;
 
-    void Start()
+    private void Start()
     {
-        _npc = GetComponent<NPCController>();
-        _taskManager = GetComponent<NPCTaskManager>();
-        _distanceCooldown = new Cooldown(_distanceCooldownSeconds);
+        _npc = GetComponent<NpcController>();
+        _taskManager = GetComponent<NpcTaskManager>();
+        _distanceCooldown = new Cooldown(DistanceCooldownSeconds);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!_distanceCooldown.ResetIfExpired())
             return;

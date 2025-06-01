@@ -9,7 +9,7 @@ public class DefaultGroundItem : GroundItem
 
     [Range(1, Item.DefaultMaxCount)] public int Count = 1;
 
-    void Start() => UpdateItem();
+    private void Start() => UpdateItem();
 
     protected override void BeforeSpriteRefresh() => UpdateItem();
 

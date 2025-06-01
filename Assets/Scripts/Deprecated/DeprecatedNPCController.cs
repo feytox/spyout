@@ -4,38 +4,38 @@ using Utils;
 using Random = UnityEngine.Random;
 
 [Obsolete]
-public class DeprecatedNPCController : MonoBehaviour
+public class DeprecatedNpcController : MonoBehaviour
 {
     public float moveSpeed = 4;
     public float moveMaxCooldown = 5; // in seconds // TODO: remove when obsolete
     public float movementDuration = 2; // in seconds
     
-    private Rigidbody2D rb;
-    private Cooldown cooldown;
-    private Cooldown moveCooldown;
-    private Vector2 moveVec;
-    
-    void Start()
+    private Rigidbody2D _rb;
+    private Cooldown _cooldown;
+    private Cooldown _moveCooldown;
+    private Vector2 _moveVec;
+
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        cooldown = new Cooldown(Random.value * moveMaxCooldown);
-        moveCooldown = new Cooldown(movementDuration);
+        _rb = GetComponent<Rigidbody2D>();
+        _cooldown = new Cooldown(Random.value * moveMaxCooldown);
+        _moveCooldown = new Cooldown(movementDuration);
         
-        cooldown.Reset();
-        moveCooldown.Reset();
+        _cooldown.Reset();
+        _moveCooldown.Reset();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (!moveCooldown.IsExpired)
-            rb.linearVelocity = moveVec * moveSpeed;
+        if (!_moveCooldown.IsExpired)
+            _rb.linearVelocity = _moveVec * moveSpeed;
         
-        if (!cooldown.IsExpired)
+        if (!_cooldown.IsExpired)
             return;
 
-        moveVec = Random.insideUnitCircle;
-        cooldown.SetDuration(Random.value * moveMaxCooldown);
-        cooldown.Reset();
-        moveCooldown.ResetIfExpired();
+        _moveVec = Random.insideUnitCircle;
+        _cooldown.SetDuration(Random.value * moveMaxCooldown);
+        _cooldown.Reset();
+        _moveCooldown.ResetIfExpired();
     }
 }

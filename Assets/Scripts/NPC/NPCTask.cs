@@ -1,13 +1,13 @@
 #nullable enable
-public abstract class NPCTask
+public abstract class NpcTask
 {
-    protected readonly NPCController NPC;
-    private readonly INPCTaskScheduler _taskScheduler;
+    protected readonly NpcController Npc;
+    private readonly INpcTaskScheduler _taskScheduler;
     private bool _isStarted;
 
-    protected NPCTask(TaskData taskData)
+    protected NpcTask(TaskData taskData)
     {
-        NPC = taskData.NPC;
+        Npc = taskData.Npc;
         _taskScheduler = taskData.TaskScheduler;
     }
 
@@ -22,7 +22,7 @@ public abstract class NPCTask
     /// </summary>
     /// <param name="taskData">Данные, необходимые для создания следующей задачи.</param>
     /// <returns>Следующая задача или null, если последовательность завершена.</returns>
-    public abstract NPCTask? CreateNextTask(TaskData taskData);
+    public abstract NpcTask? CreateNextTask(TaskData taskData);
 
     /// <summary>
     /// Пытается запустить задачу, если она ещё не была запущена.
@@ -43,7 +43,7 @@ public abstract class NPCTask
     /// </summary>
     /// <param name="interrupter">Задача, из-за которой была прервана текущая</param>
     /// <returns>false для правильной обработки <see cref="Step"/></returns>
-    protected bool OnInterrupted(NPCTask interrupter)
+    protected bool OnInterrupted(NpcTask interrupter)
     {
         _taskScheduler.PushTask(interrupter);
         _isStarted = false;
@@ -60,12 +60,12 @@ public abstract class NPCTask
 
 public class TaskData
 {
-    public NPCController NPC { get; }
-    public INPCTaskScheduler TaskScheduler { get; }
+    public NpcController Npc { get; }
+    public INpcTaskScheduler TaskScheduler { get; }
 
-    public TaskData(INPCTaskScheduler taskScheduler, NPCController npc)
+    public TaskData(INpcTaskScheduler taskScheduler, NpcController npc)
     {
         TaskScheduler = taskScheduler;
-        NPC = npc;
+        Npc = npc;
     }
 }

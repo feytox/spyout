@@ -5,14 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class DeprecatedSpriteController : MonoBehaviour
 {
-    private DeprecatedPlayerController playerController;
+    private DeprecatedPlayerController _playerController;
 
-    void Start()
+    private void Start()
     {
         var playerManager = GetComponentInParent<DeprecatedPlayerManager>();
         Debug.Assert(playerManager != null);
 
-        playerController = playerManager.PlayerController;
-        transform.SetParent(playerController.BodyTransform, false); // i think there's even better solution
+        _playerController = playerManager.PlayerController;
+        transform.SetParent(_playerController.BodyTransform, false); // i think there's even better solution
     }
 }

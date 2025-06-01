@@ -6,10 +6,10 @@ public class DeathMenuController : MonoBehaviour
     private static readonly int Visible = Animator.StringToHash("Visible");
 
     [SerializeField] private CheckpointManager _checkpointManager;
-    
+
     private Animator _animator;
 
-    void Start() => _animator = GetComponent<Animator>();
+    private void Start() => _animator = GetComponent<Animator>();
 
     public void TriggerDeath()
     {

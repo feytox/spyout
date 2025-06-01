@@ -10,7 +10,7 @@ public class TargetIndicatorController : MonoBehaviour
     private Transform _playerTransform;
     private Camera _camera;
 
-    void Start()
+    private void Start()
     {
         var player = PlayerController.GetInstance();
         _playerTransform = player.transform;
@@ -39,10 +39,10 @@ public class TargetIndicatorController : MonoBehaviour
         foreach (var plane in planes)
             if (plane.Raycast(ray, out var distance) && distance < minDistance)
                 minDistance = distance;
-        
+
         var worldPos = ray.GetPoint(minDistance);
         var screenPos = _camera.WorldToScreenPoint(worldPos);
-        
+
         _indicatorIcon.SetVisible(!Mathf.Approximately(minDistance, targetDistance));
         _indicatorIcon.SetPosition(directionVec, screenPos);
     }

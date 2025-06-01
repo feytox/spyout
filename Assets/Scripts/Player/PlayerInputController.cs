@@ -52,7 +52,7 @@ public class PlayerInputController : MonoBehaviour
         _inputs.Player.Pause.started -= OnPause;
 
         _inputs.UI.Resume.started -= OnResume;
-        
+
         _inputs.Disable();
     }
 
@@ -91,12 +91,12 @@ public class PlayerInputController : MonoBehaviour
 
         SwitchSlot?.Invoke(ctx.ReadValue<float>() > 0);
     }
-    
+
     // копипаст для возможности отписки от ивента
     private void OnSlot1(InputAction.CallbackContext ctx) => OnSlotSelect(0);
-    
+
     private void OnSlot2(InputAction.CallbackContext ctx) => OnSlotSelect(1);
-    
+
     private void OnSlot3(InputAction.CallbackContext ctx) => OnSlotSelect(2);
 
     private void OnSlotSelect(int slot) => SelectSlot?.Invoke(slot);

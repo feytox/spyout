@@ -4,7 +4,7 @@ using UnityEngine;
 public class DoorPermission : MonoBehaviour, IDoorPermission
 {
     public bool CanOpenRestricted;
-    
+
     public bool CanOpenDoor(DoorType doorType)
     {
         return doorType switch

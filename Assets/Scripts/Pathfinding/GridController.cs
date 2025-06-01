@@ -11,15 +11,15 @@ using UnityEngine.Tilemaps;
 public class GridController : MonoBehaviour
 {
     public Tilemap[] obstacleTilemaps;
-    
+
     [SerializeField] private TileData[] _tilesSettings;
-    
+
     private readonly Dictionary<Vector3Int, TileData> _gridData = new();
     private Grid _grid;
     private TileGrid _tileGrid;
     private Tilemap[] _tilemaps;
 
-    void Awake()
+    private void Awake()
     {
         Debug.Assert(
             _singleton == null, $"{gameObject.name} tried to awake {nameof(GridController)} second time."
@@ -63,7 +63,7 @@ public class GridController : MonoBehaviour
         var end = instance.WorldToCell(endPos);
         return PathFinder.FindAStarPath(walker, instance._tileGrid, start, end, 5000);
     }
-    
+
     [CanBeNull]
     public AudioClip[] GetFootstepSound(Vector3 pos)
     {
@@ -84,9 +84,9 @@ public class GridController : MonoBehaviour
             .SelectMany(data => data.Tiles.Select(tile => (tile, data)))
             .DistinctBy(tuple => tuple.tile)
             .ToDictionary(tuple => tuple.tile, tuple => tuple.data);
-        
+
         _gridData.Clear();
-        foreach (var tilemap in _tilemaps) 
+        foreach (var tilemap in _tilemaps)
             ParseTilemapData(tilemap, tilesData);
     }
 

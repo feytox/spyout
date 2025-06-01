@@ -2,12 +2,12 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-[RequireComponent(typeof(NPCController))]
-public class NPCInitSaverController : MonoBehaviour
+[RequireComponent(typeof(NpcController))]
+public class NpcInitSaverController : MonoBehaviour
 {
-    [SerializeField] [CanBeNull] private NPCTaskManager _taskManager;
+    [SerializeField] [CanBeNull] private NpcTaskManager _taskManager;
 
-    private NPCController _npc;
+    private NpcController _npc;
     private Vector3 _position;
 
     public void ApplyInitData()
@@ -16,9 +16,9 @@ public class NPCInitSaverController : MonoBehaviour
         _taskManager?.ResetTasks();
     }
 
-    void Start()
+    private void Start()
     {
-        _npc = GetComponent<NPCController>();
+        _npc = GetComponent<NpcController>();
         SaveInitData();
     }
 

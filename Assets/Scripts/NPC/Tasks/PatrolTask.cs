@@ -24,15 +24,15 @@ public class PatrolTask<T> : WaypointWalkTask where T : IDamageable, IPositionPr
         var player = PlayerController.GetInstance();
         return new PatrolTask<PlayerController>(taskData, player, waypoints);
     }
-    
+
     // TODO: здесь есть "не баг, а фича" - нпс могут чувствовать игрока через стены. Возможно, стоит убрать
     public override bool Step()
     {
-        if (_targetCheckCooldown.ResetIfExpired() && NPC.IsTargetReached(_target, TargetSqrDistance))
+        if (_targetCheckCooldown.ResetIfExpired() && Npc.IsTargetReached(_target, TargetSqrDistance))
             return true;
 
         return base.Step();
     }
 
-    public override NPCTask? CreateNextTask(TaskData taskData) => null;
+    public override NpcTask? CreateNextTask(TaskData taskData) => null;
 }

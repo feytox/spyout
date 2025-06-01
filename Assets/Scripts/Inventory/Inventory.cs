@@ -9,10 +9,10 @@ public class Inventory
 
     public event Action<int, ItemStack?>? OnSlotUpdated;
     public event Action<Item, int>? OnCollectableItemChange;
-    
-    public Dictionary<Item, int> CollectableItems { get; private set; } = new();
-    public ItemStack?[] Items { get; private set; }
-    
+
+    public Dictionary<Item, int> CollectableItems { get; } = new();
+    private ItemStack?[] Items { get; set; }
+
     public Inventory(int capacity)
     {
         Items = new ItemStack?[capacity];
@@ -34,7 +34,7 @@ public class Inventory
     {
         if (TryCollectItem(stack))
             return true;
-        
+
         // combine with same item
         for (var i = 0; i < Items.Length; i++)
         {
@@ -42,10 +42,10 @@ public class Inventory
             if (slotStack is not null && slotStack.CanCombine(stack) && TryPutStack(i, stack))
                 return true;
         }
-        
+
         // just put item
         for (var i = 0; i < Items.Length; i++)
-            if (TryPutStack(i, stack)) 
+            if (TryPutStack(i, stack))
                 return true;
 
         return false;
@@ -54,7 +54,7 @@ public class Inventory
     public void RefreshSlot(int slot)
     {
         var stack = this[slot];
-        if (stack is not null && stack.IsEmpty) 
+        if (stack is not null && stack.IsEmpty)
             PopStack(slot);
         else
             OnSlotUpdated?.Invoke(slot, stack);
@@ -72,7 +72,7 @@ public class Inventory
 
         if (!currentStack.CanCombine(stack))
             return false;
-            
+
         currentStack.CombineWith(stack);
         OnSlotUpdated?.Invoke(slot, currentStack);
         return stack.IsEmpty;
@@ -80,7 +80,7 @@ public class Inventory
 
     private bool TryCollectItem(ItemStack stack)
     {
-        if (stack.Item.ItemType != ItemType.Collectable) 
+        if (stack.Item.ItemType != ItemType.Collectable)
             return false;
 
         var count = stack.Count + CollectableItems.GetValueOrDefault(stack.Item);
@@ -92,8 +92,8 @@ public class Inventory
     public void LoadFromSave(ItemStack[] items)
     {
         Items = items;
-        
-        for (var slot = 0; slot < Items.Length; slot++) 
+
+        for (var slot = 0; slot < Items.Length; slot++)
             OnSlotUpdated?.Invoke(slot, Items[slot]);
     }
 

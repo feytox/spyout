@@ -7,7 +7,7 @@ using UnityEngine;
 /// Контроллер, реализующий базовые шаблоны поведения NPC.
 /// Использует перечисление <see cref="BasicBehaviorType"/> для выбора конкретного поведения.
 /// </summary>
-public class BasicBehavior : NPCBehavior
+public class BasicBehavior : NpcBehavior
 {
     /// <summary>
     /// Выбранный базовый шаблон поведения для NPC.
@@ -26,16 +26,16 @@ public class BasicBehavior : NPCBehavior
     };
 
     /// <summary>
-    /// Создает задачи (<see cref="NPCTask"/>) в соответствии с выбранным <see cref="_npcBehavior"/>.
+    /// Создает задачи (<see cref="NpcTask"/>) в соответствии с выбранным <see cref="_npcBehavior"/>.
     /// </summary>
     /// <param name="taskData">Данные, необходимые для создания задач.</param>
     /// <returns>Перечисление задач для выполнения.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Выбрасывается, если значение <see cref="_npcBehavior"/> не поддерживается.</exception>
-    public override IEnumerable<NPCTask> CreateTasks(TaskData taskData)
+    public override IEnumerable<NpcTask> CreateTasks(TaskData taskData)
     {
         return _npcBehavior switch
         {
-            BasicBehaviorType.None => Array.Empty<NPCTask>(),
+            BasicBehaviorType.None => Array.Empty<NpcTask>(),
 
             BasicBehaviorType.FollowPlayer => FollowTask<PlayerController>.OfPlayer(taskData, false).Yield(),
 

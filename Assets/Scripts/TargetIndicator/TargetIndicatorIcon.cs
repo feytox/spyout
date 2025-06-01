@@ -3,11 +3,11 @@ using UnityEngine;
 public class TargetIndicatorIcon : MonoBehaviour
 {
     private static readonly int Visible = Animator.StringToHash("Visible");
-    
+
     [SerializeField] private Animator _iconAnimator;
-    
+
     private bool _visible;
-    
+
     public void SetVisible(bool state)
     {
         if (_visible == state)

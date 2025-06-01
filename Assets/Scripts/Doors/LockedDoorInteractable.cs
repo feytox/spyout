@@ -7,12 +7,12 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
 {
     [SerializeField] private Item _doorKey;
     [SerializeField] private Sprite _unlockedSprite;
-    
+
     private PopupController _popup;
     private DoorDetector _doorDetector;
     private bool _unlocked;
 
-    void Start()
+    private void Start()
     {
         _popup = GetComponentInChildren<PopupController>();
         _doorDetector = GetComponent<DoorDetector>();
@@ -25,7 +25,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
         var inventory = PlayerController.GetInstance().Inventory;
         if (inventory.ActiveItem!.Decrement())
             inventory.Inventory.RefreshSlot(inventory.ActiveSlot);
-        
+
         OnInteract?.Invoke();
         UnlockDoor();
         (this as IPlayerInteractable).OnInteractionExit();
@@ -35,7 +35,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
     {
         if (_unlocked)
             return false;
-        
+
         var activeStack = PlayerController.GetInstance().Inventory.ActiveItem;
         return _doorKey == activeStack?.Item;
     }

@@ -4,10 +4,10 @@ using UnityEngine;
 public class PopupController : MonoBehaviour
 {
     private static readonly int Visible = Animator.StringToHash("Visible");
-    
+
     private Animator _animator;
 
-    void Start() => _animator = GetComponent<Animator>();
+    private void Start() => _animator = GetComponent<Animator>();
 
     public void EnablePopup() => _animator.SetBool(Visible, true);
 

@@ -11,9 +11,9 @@ public class InventoryController : MonoBehaviour
     [CanBeNull] public ItemStack ActiveItem => Inventory?[ActiveSlot];
 
     public event Action<int, int> OnActiveSlotChange;
-    public event Action<ItemStack> OnActiveItemChange; 
+    public event Action<ItemStack> OnActiveItemChange;
 
-    void Awake()
+    private void Awake()
     {
         Inventory = new Inventory(InventorySize);
         Inventory.OnSlotUpdated += OnSlotUpdated;
@@ -33,7 +33,7 @@ public class InventoryController : MonoBehaviour
     {
         if (slot != ActiveSlot)
             return;
-        
+
         OnActiveItemChange?.Invoke(ActiveItem);
     }
 }

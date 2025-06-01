@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class PlayerInventoryController : InventoryController
 {
-    [SerializeField]
-    private GroundItem _dropItemPrefab;
-    
-    void Start()
+    [SerializeField] private GroundItem _dropItemPrefab;
+
+    private void Start()
     {
         var inputs = PlayerController.Inputs;
         var player = PlayerController.GetInstance();
@@ -20,7 +19,7 @@ public class PlayerInventoryController : InventoryController
     {
         if (ActiveItem is null)
             return true;
-        
+
         var result = ActiveItem.UseItem(player);
         Inventory.RefreshSlot(ActiveSlot);
         return result;
@@ -45,7 +44,7 @@ public class PlayerInventoryController : InventoryController
             Inventory.PopStack(ActiveSlot);
         else
             Inventory.RefreshSlot(ActiveSlot);
-        
+
         var groundItem = Instantiate(_dropItemPrefab, transform.position, Quaternion.identity);
         groundItem.Stack = stack;
         groundItem.RefreshSprite();

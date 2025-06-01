@@ -9,42 +9,42 @@ namespace DebugUI
 {
     public class DebugInfo : MonoBehaviour
     {
-        private TextMeshProUGUI informationGui;
+        private TextMeshProUGUI _informationGui;
 
         // Constants may be serialized for flexibility
-        private Dictionary<string, string> extraInfo = new();
-        private bool extraInfoChanged = false;
+        private readonly Dictionary<string, string> _extraInfo = new();
+        private bool _extraInfoChanged;
 
-        private float currentAvg;
-        private float currentP1;
-        private float currentP01;
-        private const float FPS_UPDATE_INTERVAL = 2f; // in seconds
-        private Cooldown fpsUpdateCooldown;
+        private float _currentAvg;
+        private float _currentP1;
+        private float _currentP01;
+        private const float FPSUpdateInterval = 2f; // in seconds
+        private Cooldown _fpsUpdateCooldown;
 
-        private const float BUFFER_DURATION = 10f; // in seconds
+        private const float BufferDuration = 10f; // in seconds
 
-        private LinkedList<(float, float)> frameTimeStamps = new();
+        private readonly LinkedList<(float, float)> _frameTimeStamps = new();
 
-        void Awake()
+        private void Awake()
         {
-            informationGui = GetComponent<TextMeshProUGUI>();
-            fpsUpdateCooldown = new Cooldown(FPS_UPDATE_INTERVAL);
-            fpsUpdateCooldown.Reset(); // make sure there will be data for the first update
+            _informationGui = GetComponent<TextMeshProUGUI>();
+            _fpsUpdateCooldown = new Cooldown(FPSUpdateInterval);
+            _fpsUpdateCooldown.Reset(); // make sure there will be data for the first update
 
             // Simple config check
-            Debug.Assert(BUFFER_DURATION > 0f);
+            Debug.Assert(BufferDuration > 0f);
         }
 
-        void Update()
+        private void Update()
         {
             var time = Time.unscaledTime;
-            frameTimeStamps.AddFirst((Time.unscaledDeltaTime, time));
-            var endTimeStamp = time - BUFFER_DURATION;
-            while (frameTimeStamps.Last.Value.Item2 < endTimeStamp)
-                frameTimeStamps.RemoveLast();
+            _frameTimeStamps.AddFirst((Time.unscaledDeltaTime, time));
+            var endTimeStamp = time - BufferDuration;
+            while (_frameTimeStamps.Last.Value.Item2 < endTimeStamp)
+                _frameTimeStamps.RemoveLast();
 
-            var isFpsUpdated = fpsUpdateCooldown.ResetIfExpired();
-            if (extraInfoChanged || isFpsUpdated)
+            var isFpsUpdated = _fpsUpdateCooldown.ResetIfExpired();
+            if (_extraInfoChanged || isFpsUpdated)
                 UpdateInfo(isFpsUpdated);
         }
 
@@ -52,10 +52,10 @@ namespace DebugUI
         {
             if (isFpsUpdated)
             {
-                var framesCount = frameTimeStamps.Count;
-                currentAvg =
+                var framesCount = _frameTimeStamps.Count;
+                _currentAvg =
                     framesCount
-                    / (frameTimeStamps.First.Value.Item2 - frameTimeStamps.Last.Value.Item2);
+                    / (_frameTimeStamps.First.Value.Item2 - _frameTimeStamps.Last.Value.Item2);
 
                 // Measuring 1% and 0.1% worst frames:
                 // 1% is avg of 1% except worst
@@ -65,37 +65,37 @@ namespace DebugUI
                 var worstFramesCountP1 = framesCount / 100;
                 if (worstFramesCountP1 > 1)
                 {
-                    var worstFrames = frameTimeStamps
+                    var worstFrames = _frameTimeStamps
                         .OrderByDescending(x => x.Item1)
                         .Take(worstFramesCountP1);
 
-                    currentP1 = 1f / worstFrames.Skip(1).Average(x => x.Item1);
+                    _currentP1 = 1f / worstFrames.Skip(1).Average(x => x.Item1);
 
                     var currentP01Delta =
                         worstFramesCountP1 >= 3
                             ? worstFrames.Skip(1).Take(2).Average(x => x.Item1)
                             : worstFrames.Average(x => x.Item1);
-                    currentP01 = 1f / currentP01Delta;
+                    _currentP01 = 1f / currentP01Delta;
                 }
                 else
-                    currentP1 = currentP01 = frameTimeStamps.Min(x => x.Item1);
+                    _currentP1 = _currentP01 = _frameTimeStamps.Min(x => x.Item1);
             }
 
             var text = new StringBuilder(27); // optimal size for no extra info
 
-            text.AppendLine($"FPS: {currentAvg:F0}   1% {currentP1:F0}   0.1% {currentP01:F0}");
+            text.AppendLine($"FPS: {_currentAvg:F0}   1% {_currentP1:F0}   0.1% {_currentP01:F0}");
 
-            foreach (var (key, value) in extraInfo)
+            foreach (var (key, value) in _extraInfo)
                 text.AppendLine($"{key}: {value}");
 
-            informationGui.text = text.ToString();
-            extraInfoChanged = false;
+            _informationGui.text = text.ToString();
+            _extraInfoChanged = false;
         }
 
         public void SetExtraInfo(string key, string value)
         {
-            extraInfo[key] = value;
-            extraInfoChanged = true;
+            _extraInfo[key] = value;
+            _extraInfoChanged = true;
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCAnimController : CharacterAnimController
+public class NpcAnimController : CharacterAnimController
 {
     private static readonly int IsDead = Animator.StringToHash("isDead");
 

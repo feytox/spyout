@@ -15,10 +15,10 @@ public class EndManager : MonoBehaviour
     private float? _endTime;
     private int _deaths;
 
-    void Start() => _startTime = Time.time;
-    
+    private void Start() => _startTime = Time.time;
+
     public void IncrementDeath() => _deaths++;
-    
+
     public void StopTimer()
     {
         Debug.Assert(_endTime == null);
@@ -30,8 +30,8 @@ public class EndManager : MonoBehaviour
     private async Awaitable ExecuteGameEnd()
     {
         if (_endTime is null)
-            throw new System.ArgumentNullException($"No time measured");
-        
+            throw new System.ArgumentNullException("No time measured");
+
         await Awaitable.WaitForSecondsAsync(_beforeFadeDelay);
         _fadeAnimator.SetTrigger(GameEnd);
 

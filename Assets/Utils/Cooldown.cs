@@ -4,34 +4,34 @@ namespace Utils
 {
     public class Cooldown
     {
-        private float duration;
-        private float endTime;
+        private float _duration;
+        private float _endTime;
 
         public Cooldown(float duration)
         {
-            this.duration = duration;
-            endTime = Time.time;
+            _duration = duration;
+            _endTime = Time.time;
         }
 
-        public bool IsExpired => Time.time > endTime;
+        public bool IsExpired => Time.time > _endTime;
 
         public bool ResetIfExpired()
         {
             if (IsExpired)
             {
-                endTime = Time.time + duration;
+                _endTime = Time.time + _duration;
                 return true;
             }
             return false;
         }
 
-        public void Reset() => endTime = Time.time + duration;
+        public void Reset() => _endTime = Time.time + _duration;
 
         /// <summary>
         /// Sets the duration, does not reset the cooldown
         /// </summary>
-        public void SetDuration(float duration) => this.duration = duration;
+        public void SetDuration(float duration) => _duration = duration;
 
-        public float GetRemainingTime() => endTime - Time.time;
+        public float GetRemainingTime() => _endTime - Time.time;
     }
 }

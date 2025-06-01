@@ -4,17 +4,17 @@ public interface IDamageable
     /// Текущий урон, который может нанести объект
     /// </summary>
     public float CurrentDamage { get; }
-    
+
     /// <summary>
     /// Радиус урона
     /// </summary>
     public float AttackRadius { get; }
-    
+
     /// <summary>
     /// Текущее время перезарядки атаки в секундах
     /// </summary>
     public float AttackCooldown { get; }
-    
+
     /// <summary>
     /// Наносит урон объекту.
     /// </summary>
@@ -22,12 +22,12 @@ public interface IDamageable
     /// <param name="attacker">Атакующий</param>
     /// <param name="amount">Величина урона</param>
     public void Damage<T>(T attacker, float amount) where T : IDamageable, IPositionProvider;
-    
+
     /// <summary>
     /// Вызывается после совершения атаки по цели
     /// </summary>
     public void OnTargetAttacked<T>(T target) where T : IDamageable, IPositionProvider;
-    
+
     /// <summary>
     /// Проверяет, может ли объект получить урон от указанного атакующего без учёта расстояния.
     /// </summary>
@@ -55,7 +55,7 @@ public static class DamageableExtensions
 
         if (!target.CanTakeDamage(attacker))
             return false;
-        
+
         target.Damage(attacker, attacker.CurrentDamage);
         attacker.OnTargetAttacked(target);
         return true;
@@ -69,7 +69,7 @@ public static class DamageableExtensions
     /// <param name="attacker">Атакующий объект.</param>
     /// <param name="target">Цель атаки.</param>
     /// <returns>True, если цель в радиусе атаки, иначе false.</returns>
-    public static bool IsInAttackRadius<T1, T2>(this T1 attacker, T2 target)
+    private static bool IsInAttackRadius<T1, T2>(this T1 attacker, T2 target)
         where T1 : IDamageable, IPositionProvider
         where T2 : IDamageable, IPositionProvider
     {

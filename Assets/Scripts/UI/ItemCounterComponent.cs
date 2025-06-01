@@ -11,10 +11,10 @@ public class ItemCounterComponent : MonoBehaviour
     [SerializeField] private Image _checkMark;
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private ItemRenderer _itemRenderer;
-    
+
     public int _count;
 
-    void Start()
+    private void Start()
     {
         Debug.Assert(_targetItem.ItemType == ItemType.Collectable, "Предмет для счётчика должен быть Collectable");
 

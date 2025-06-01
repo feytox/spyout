@@ -16,13 +16,12 @@ public class PlayerController : MonoBehaviour, ICharacter
     [SerializeField] private float _attackCooldownSeconds = 0.25f;
     [SerializeField] private DeathMenuController _deathMenu;
     [SerializeField] private Camera _camera;
-    
+
     public event Action OnDamageTaken;
 
     public static PlayerInputController Inputs => GetInstance()._inputs;
     public Camera Camera => _camera;
     public InventoryController Inventory => _playerInventory;
-    public PlayerInteractionDetector InteractionDetector { get; private set; }
     public CharacterSoundController Sounds { get; private set; }
     public Collider2D Collider { get; private set; }
     public PlayerDataSaverController DataSaver { get; private set; }
@@ -38,8 +37,8 @@ public class PlayerController : MonoBehaviour, ICharacter
     private PlayerInventoryController _playerInventory;
     private HealthController _healthController;
     private Cooldown _attackCooldown;
-    
-    void Awake()
+
+    private void Awake()
     {
         Debug.Assert(
             _singleton == null,
@@ -52,19 +51,19 @@ public class PlayerController : MonoBehaviour, ICharacter
         _playerInventory = GetComponent<PlayerInventoryController>();
         _animController = GetComponentInChildren<PlayerAnimController>();
         _healthController = GetComponentInChildren<HealthController>();
-        InteractionDetector = GetComponentInChildren<PlayerInteractionDetector>();
+        GetComponentInChildren<PlayerInteractionDetector>();
         Sounds = GetComponentInChildren<CharacterSoundController>();
         Collider = GetComponent<Collider2D>();
         DataSaver = GetComponent<PlayerDataSaverController>();
 
         if (_animController is not null)
             _inputs.MovementUpdate += _animController.UpdateMovementAnimation;
-        
+
         _attackCooldown = new Cooldown(_attackCooldownSeconds);
         _inputs.Attack += () => AttackInRange();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         Body.AddForce(_inputs.Movement * _movementSpeed, ForceMode2D.Force);
         Sounds?.UpdateMovement(Position, _inputs.Movement);
@@ -83,7 +82,7 @@ public class PlayerController : MonoBehaviour, ICharacter
             var missSound = Inventory.ActiveItem?.Item.AttackMissSound;
             if (missSound is not null)
                 Sounds?.PlayRandomSound(missSound);
-            
+
             return false;
         }
 

@@ -21,7 +21,7 @@ public class PlayerDataSaverController : MonoBehaviour
         (_player as ICharacter).Health.Health = _health;
     }
 
-    void Start()
+    private void Start()
     {
         _player = GetComponent<PlayerController>();
         Save(_player.Position);
