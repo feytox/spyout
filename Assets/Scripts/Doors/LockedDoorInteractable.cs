@@ -7,6 +7,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
 {
     [SerializeField] private Item _doorKey;
     [SerializeField] private Sprite _unlockedSprite;
+    [SerializeField] private AudioClip _unlockSound;
 
     private PopupController _popup;
     private DoorDetector _doorDetector;
@@ -29,6 +30,7 @@ public class LockedDoorInteractable : MonoBehaviour, IPlayerInteractable
         OnInteract?.Invoke();
         UnlockDoor();
         (this as IPlayerInteractable).OnInteractionExit();
+        SoundFXManager.Instance.PlaySound(_unlockSound, transform);
     }
 
     public bool CanInteract()

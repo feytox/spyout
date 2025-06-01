@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _doorKey: {fileID: 11400000, guid: d46c2a1e6a570214daf51ccbdc2ac561, type: 2}
   _unlockedSprite: {fileID: 6615319868462110837, guid: 2119efbfb116e0e4294b4d231d142304, type: 3}
+  _unlockSound: {fileID: 8300000, guid: 060cb75f9609ab54ea1d3c8369ecbd6c, type: 3}
 --- !u!4 &5897857381680616177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8189207122168767296, guid: 1fa27618c932e1b4f8daffe2b901bd48, type: 3}
