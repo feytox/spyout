@@ -14,11 +14,13 @@ public class DeathMenuController : MonoBehaviour
     public void TriggerDeath()
     {
         _animator.SetBool(Visible, true);
+        CustomCursor.Visible = true;
     }
 
     public void ReloadGame()
     {
         _animator.SetBool(Visible, false);
         _checkpointManager.ReloadGame();
+        CustomCursor.Visible = false;
     }
 }

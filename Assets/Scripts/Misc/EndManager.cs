@@ -38,6 +38,7 @@ public class EndManager : MonoBehaviour
         await Awaitable.WaitForSecondsAsync(_endLength);
 
         var score = CountScore();
+        CustomCursor.Visible = true;
         _endMenu.gameObject.SetActive(true);
         _endMenu.SetResult(_endTime.Value - _startTime, score, _deaths);
     }

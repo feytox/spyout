@@ -31,5 +31,6 @@ public class EndMenuController : MonoBehaviour
     public void QuitToMainMenu()
     {
         _levelLoader.LoadLevel("MainMenu", 0.3f);
+        CustomCursor.Visible = true;
     }
 }

@@ -9,6 +9,7 @@ public class PauseMenuController : MonoBehaviour
     {
         ResumeGame();
         _levelLoader.LoadLevel("MainMenu");
+        CustomCursor.Visible = true;
     }
 
     public void ResumeGame() => _pauseManager.ResumeGame();

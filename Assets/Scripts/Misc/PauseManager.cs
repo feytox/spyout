@@ -25,6 +25,7 @@ public class PauseManager : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0.0f;
+        CustomCursor.Visible = true;
         _blur.SetActive(true);
         _pauseMenu.SetActive(true);
     }
@@ -39,6 +40,7 @@ public class PauseManager : MonoBehaviour
         }
         
         Time.timeScale = 1.0f;
+        CustomCursor.Visible = false;
         _blur.SetActive(false);
         _pauseMenu.SetActive(false);
         _playerInputs.Unpause();
