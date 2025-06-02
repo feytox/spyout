@@ -21,7 +21,6 @@ MonoBehaviour:
   Sounds:
   - {fileID: 8300000, guid: fc3b8e8835d55cb4a9ed9fc0235dae9e, type: 3}
   - {fileID: 8300000, guid: aaffaa6042e120e48bc4ddaee49cb3fd, type: 3}
-  - {fileID: 8300000, guid: 9795bd7438102ab4fb08f5be5c73c944, type: 3}
   - {fileID: 8300000, guid: 7eaf898fd1d1c0d49ade184bcd5d1595, type: 3}
   - {fileID: 8300000, guid: cde6e1136dfde6b4bbf5234d49257d0a, type: 3}
   - {fileID: 8300000, guid: b69d30b21ca20f847824d13cc687bdef, type: 3}
@@ -30,14 +29,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1b317bdec44fbc04f8cf346321387b61, type: 3}
   - {fileID: 8300000, guid: 84216b8b211b28d40b748a86241fa317, type: 3}
   - {fileID: 8300000, guid: f60171538276c5c4a9ad6a819ac06d9e, type: 3}
-  - {fileID: 8300000, guid: 54830bd06cbc86b4ea6ae5397b70f0eb, type: 3}
   - {fileID: 8300000, guid: 07e763eb7bd58d64f954402b48403581, type: 3}
-  - {fileID: 8300000, guid: 0f8c8b591c4ac3642a9af3d99c6423ab, type: 3}
   - {fileID: 8300000, guid: 9bcf8c1f8441ced4fb32708a2a3a4afa, type: 3}
   - {fileID: 8300000, guid: ccf00408ebe63e3469a235837e66188e, type: 3}
   - {fileID: 8300000, guid: 2c7c397b51e1a3d42ac79be755ef68cd, type: 3}
   - {fileID: 8300000, guid: d2857e4338ce80f4c9d0291019821b95, type: 3}
   - {fileID: 8300000, guid: bfecfac9a15618542907b2bfaa91c4f2, type: 3}
-  - {fileID: 8300000, guid: 87f95c6aa0d46874e84920ca5c52155e, type: 3}
-  - {fileID: 8300000, guid: 6ce9c5f662a930a4199df5d10cceeaeb, type: 3}
-  - {fileID: 8300000, guid: 824974bb7b39e5b4299a41cb3afd7146, type: 3}
