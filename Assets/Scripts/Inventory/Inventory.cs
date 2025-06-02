@@ -82,7 +82,7 @@ public class Inventory
     {
         if (stack.Item.ItemType != ItemType.Collectable)
             return false;
-
+        
         var count = stack.Count + CollectableItems.GetValueOrDefault(stack.Item);
         CollectableItems[stack.Item] = count;
         OnCollectableItemChange?.Invoke(stack.Item, count);

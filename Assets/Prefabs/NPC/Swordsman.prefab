@@ -215,6 +215,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemPrefab: {fileID: 4659286508162796742, guid: 603e5ec90d1f6aa419ee673b34fdc37d, type: 3}
+  _emptyItemPrefab: {fileID: 1764196008961731513, guid: 6bd244cf79150d04aa565c3d1f08dc76, type: 3}
+  _item: {fileID: 11400000, guid: 85b8f9239386f4c48a5e77bb7e425730, type: 2}
   _customCount: 1
 --- !u!114 &4305610002902634496
 MonoBehaviour:

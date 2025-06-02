@@ -113,5 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 142349813e4140de9aca4ed609244653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 1772853744742817309, guid: 10b7ce5a432398840ab0a99de00ccb30, type: 3}
-  _customCount: 0
+  _itemPrefab: {fileID: 4659286508162796742, guid: 603e5ec90d1f6aa419ee673b34fdc37d, type: 3}
+  _emptyItemPrefab: {fileID: 1764196008961731513, guid: 6bd244cf79150d04aa565c3d1f08dc76, type: 3}
+  _item: {fileID: 11400000, guid: d46c2a1e6a570214daf51ccbdc2ac561, type: 2}
+  _customCount: 1

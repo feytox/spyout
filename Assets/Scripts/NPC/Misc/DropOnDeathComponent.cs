@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class DropOnDeathComponent : MonoBehaviour
 {
-    [SerializeField] private GroundItem _itemPrefab;
+    [SerializeField] private GroundItem _emptyItemPrefab;
+    [SerializeField] private Item _item;
 
-    [SerializeField, Range(0, Item.DefaultMaxCount), Tooltip("Кастомное количество. 0 = оставить из префаба")]
-    private int _customCount = -1;
+    [SerializeField, Range(1, Item.DefaultMaxCount)]
+    private int _customCount;
 
     public void OnDeath(float deathTime) => StartCoroutine(SpawnDrop(deathTime));
 
     private async Awaitable SpawnDrop(float delay)
     {
         await Awaitable.WaitForSecondsAsync(delay);
-        var item = Instantiate(_itemPrefab, transform.position, Quaternion.identity);
-        if (_customCount == 0 || item.Stack is null)
-            return;
-
-        item.Stack.Count = _customCount;
+        var item = Instantiate(_emptyItemPrefab, transform.position, Quaternion.identity);
+        item.Stack = new ItemStack(_item, _customCount);
+        item.RefreshSprite();
     }
 }
