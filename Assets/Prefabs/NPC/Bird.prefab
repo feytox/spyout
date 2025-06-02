@@ -153,6 +153,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3238780937600742191, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3479937294507892627, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -165,8 +169,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4085339307986100358, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _npcBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5079971970517440212, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5310473699487871717, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
@@ -181,6 +193,10 @@ PrefabInstance:
       propertyPath: _maxPlayerDistance
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6292119825124280697, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7217742188484459036, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: _hasFootsteps
       value: 0
@@ -189,10 +205,22 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7645133241232433413, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7772106692622700074, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 17e5294e7ef72034da85329203053b22, type: 2}
+    - target: {fileID: 8312930327407921685, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935289419651820416, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4851837932636223223, guid: c3279bc47de34e34db84d925bb676f4c, type: 3}
     m_RemovedGameObjects: []
